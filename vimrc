@@ -69,7 +69,7 @@ set nowritebackup
 setlocal noswapfile         " 不生成swap文件
 set autoread                " 当文件在外部被修改时，自动重新读取
 
-set completeopt=longest,menu    " 关掉智能补全时的预览窗口
+set completeopt=longest,menu    " 关掉智能补全时的预览窗口(new-omni-completion)
 set wildmenu                    " 命令补全
 "set wildmode=longest,list,full " tab键显示文件列表
 
@@ -246,31 +246,6 @@ let g:ctrlp_custom_ignore = {
   \ 'dir':  '\v[\/]\.(git)$',
   \ 'file': '\v\.(log|jpg|png|jpeg)$',
   \ }
-"}}}
-
-"{{{ neocomplcache.vim
-let g:acp_enableAtStartup = 0
-let g:neocomplcache_enable_at_startup=1
-let g:neoComplcache_disableautocomplete=1
-"let g:neocomplcache_enable_underbar_completion = 1
-"let g:neocomplcache_enable_camel_case_completion = 1
-let g:neocomplcache_enable_smart_case=1
-let g:neocomplcache_min_syntax_length = 3
-let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
-set completeopt-=preview
-
-" Enable omni completion.
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType c setlocal omnifunc=ccomplete#Complete
-"}}}
-
-"{{{supertab
-"let g:SuperTabDefultCompletionType='context'
-let g:SuperTabDefaultCompletionType = '<C-X><C-U>'
-let g:SuperTabRetainCompletionType=2
 "}}}
 
 "{{{ tabular.vim
