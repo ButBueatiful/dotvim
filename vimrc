@@ -5,122 +5,147 @@ filetype plugin indent on
 " }}}
 
 "{{{ General
-set nocompatible            " 关闭兼容模式
-set history=500             " 命令显示历史
-set modelines=0
+set nocompatible                " 关闭兼容模式
+set history=500                 " 命令显示历史
 
-let g:mapleader = ","       " 全局设置用,代替\
+let g:mapleader = ","           " 全局设置用,代替\
 
-set background=dark
-set t_Co=256                " 设置vim模式为256色
+set background=dark             " 设置一个黑暗的背景
 colorscheme molokai
 
-set scrolloff=3             "上下滚动隔3行
+set scrolloff=3                 " 上下滚动隔3行
 
-set backspace=indent,eol,start " 退格键和方向键可以换行
-set whichwrap+=<,>,h,l
+set linespace=0                 " 行与行之间没有多余的空格
+set backspace=indent,eol,start  " 退格键和方向键可以换行
+set whichwrap=b,s,h,l,<,>,[,]   " 允许backspace和光标键跨越行边界
 
-set nu                      " 显示行号
-set showcmd                 " 显示未完成的命令
+set nu                          " 显示行号
+set showmode                    " 显示当前模式
 
-set ignorecase              " 搜索时忽略大小写
-set smartcase               " 如果搜索模式包含大写字符，
-                            "   不使用 'ignorecase' 选项
-set gdefault
-set hlsearch                " 开启高亮显示结果
-set wrapscan                " 搜索到文件两端时重新搜索
-set incsearch               " 开启实时搜索功能
+set ignorecase                  " 搜索时忽略大小写
+set smartcase                   " 如果搜索模式包含大写字符，
+                                " 不使用 'ignorecase' 选项
+"set gdefault
+set hlsearch                    " 开启高亮显示结果
+set wrapscan                    " 搜索到文件两端时重新搜索
+set incsearch                   " 开启实时搜索功能
 map <silent> <leader><cr> :noh<cr>
 
-" set showmatch               " 显示括号配对情况
-" set matchtime=1             " 跳转到匹配括号的时间
+set showmatch                   " 显示括号配对情况
+set matchtime=1                 " 跳转到匹配括号的时间
 
-set magic                   " 增强行正则
+set magic                       " 增强行正则
 
-set cpoptions+=$            " cw显示$
-set wrap                    " 自动换行
-set textwidth=79
+set cpoptions+=$                " cw显示$
+set nowrap                      " 自动换行
+set textwidth=78
 set formatoptions+=mM
-"set colorcolumn=80
+" set colorcolumn=78              " 在第 78 列显示一条竖线
+" set cursorline                  " 突出显示当前行
 
-set laststatus=2            " 开启状态栏信息
-set cmdheight=1             " 命令行的高度，默认为1
-set ruler                   " 右下角显示光标位置的状态行
+set cmdheight=1                 " 命令行的高度，默认为1
+set ruler                       " 右下角显示光标位置的状态行
+set showcmd                     " 显示未完成的命令
 
-set vb t_vb=                " 关闭提示音
-set novisualbell
-set hidden                  " 允许在有未保存的修改时切换缓冲区
+set vb t_vb=                    " 关闭提示音
+set novisualbell                " 不要闪烁
+set noerrorbells                " 不让vim发出讨厌的滴滴声
+set hidden                      " 允许在有未保存的修改时切换缓冲区
 
-set smarttab
-set tabstop=4
-set shiftwidth=4
-set softtabstop=4
-set expandtab
+set tabstop=4                   " 编辑时一个TAB字符占4个空格的位置
+set shiftwidth=4                " 使用4个空格缩进"
+set softtabstop=4               " 每次退格将删除4个空格
+set expandtab                   " 将输入的TAB自动展开成空格
+set smarttab                    " 在行首按TAB将加入sw个空格，否则加入ts个空格
 
-set autoindent              " 继承前一行的缩进方式
-set cindent                 " c/c++样式缩进
-set smartindent             " 为c/c++程序提供自动缩进
+set autoindent                  " 继承前一行的缩进方式
+set cindent                     " c/c++样式缩进
+set smartindent                 " 为c/c++程序提供自动缩进
 
-syntax enable               " 打开语法高亮
-syntax on                   " 开启文件类型侦测
+syntax enable                   " 打开语法高亮
+syntax on                       " 开启文件类型侦测
 
-set nobackup                " 设置无备份文件
+set nobackup                    " 设置无备份文件
 set nowritebackup
-setlocal noswapfile         " 不生成swap文件
-set autoread                " 当文件在外部被修改时，自动重新读取
+setlocal noswapfile             " 不生成swap文件
+set autoread                    " 当文件在外部被修改时，自动重新读取
 
 set completeopt=longest,menu    " 关掉智能补全时的预览窗口(new-omni-completion)
 set wildmenu                    " 命令补全
-"set wildmode=longest,list,full " tab键显示文件列表
+set wildmode=longest,list,full  " tab键显示文件列表
 
 set path+=../include
 set tags=tags,~/.systags;
-"set autochdir                      " 当前目录为工作目录
+"set autochdir                  " 当前目录为工作目录
 
 set dictionary+=~/.vim/dict/simple  " For i_CTRL_X_K
-"set iskeyword+=_,$,@,%,#,-
+" set iskeyword+=_,$,@,%,#,-      " 包含这些字符时当作一个单词
 
-"set foldenable             " 开始折叠
-"set foldmethod=syntax      " 设置语法折叠
-"set foldcolumn=0           " 设置折叠区域的宽度
-"setlocal foldlevel=1       " 设置折叠层数为
-"set foldclose=all          " 设置为自动关闭折叠
-"set fo=croq                " c格式化代码
-"au BufWinLeave * silent! mkview "make vim save view (state) (folds, cursor, etc)
-"au BufWinEnter * silent! loadview "make vim load view (state) (folds, cursor, etc))
+" set foldenable                  " 开始折叠
+" set foldmethod=syntax           " 设置语法折叠
+" set foldcolumn=0                " 设置折叠区域的宽度
+" setlocal foldlevel=1            " 设置折叠层数为
+" set foldclose=all               " 设置为自动关闭折叠
+" set fo=croq                     " c格式化代码
+" au BufWinLeave * silent! mkview "make vim save view (state) (folds, cursor, etc)
+" au BufWinEnter * silent! loadview "make vim load view (state) (folds, cursor, etc))
 
-"set list                   " 显示Tab符，使用一高亮竖线代替
-" set listchars=tab:>-,trail:-
+" set list                        " 显示Tab符
+"set listchars=tab:›\ ,trail:•,extends:#,nbsp:. " Highlight problematic whitespace
+set fillchars=vert:\ ,stl:\ ,stlnc:\    " 在被分割的窗口间显示空白
 
-"set shortmess=atI          " 不显启动时的信息
-"set cursorline             " 突出显示当前行
-iab frm from
-set fillchars="|"           "在被分割的窗口间不显示
+" set shortmess=atI               " 不显启动时的信息
 
-if v:version > 702
+if has('persistent_undo')
     set undofile
-    set undodir=$HOME/.undodir
     set undolevels=1000
+    set undoreload=10000
 endif
 
-"记得上次退出时的位置
-au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
+if has('statusline')
+    set laststatus=2
 
+" Broken down into easily includeable segments
+    set statusline=%<%f\                        " Filename
+    set statusline+=%w%h%m%r                    " Options
+    set statusline+=%{fugitive#statusline()}    " Git Hotness
+    set statusline+=\ [%{&ff}/%Y] " Filetype
+    set statusline+=\ [%{getcwd()}]             " Current dir
+    set statusline+=%=%-14.(%l,%c%V%)\ %p%%     " Right aligned file nav info
+
+    " let g:airline_theme='powerlineish' " airline users use the powerline theme
+    " let g:airline_powerline_fonts=1    " and the powerline fonts
+endif
+
+
+
+" 记得上次退出时的位置
+au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
+"}}}
+
+"{{{ Encode
+set encoding=utf-8
+set fileencodings=utf-8,gb2312,gb18030,gbk,ucs-bom,cp936,latin1
+set termencoding=utf-8
+"}}}
+
+"{{{ GUI Settings
 if has("gui_running")
     if has("win32") || has("win64")
         "激活菜单栏
         noremap <M-Space> :simalt ~<CR> 
         inoremap <M-Space> <C-O>:simalt ~<CR>
         cnoremap <M-Space> <C-C>:simalt ~<CR>
-        set guifont=Courier\ New:h12
-        au GUIEnter * simalt ~x			" 窗口启动时自动最大化
+        set guifont=Microsoft\ YaHei,Courier\ New:h12
+        " au GUIEnter * simalt ~x			" 窗口启动时自动最大化
     else
-        set guifont=Courier\ 10\ Pitch\ 12
+        set guifont=Microsoft\ YaHei
     endif
 
     "解决菜单栏乱码
     source $VIMRUNTIME/delmenu.vim
     source $VIMRUNTIME/menu.vim
+    language messages zh_CN.utf-8   " 解决consle输出乱码
 
     set guioptions-=m				" 隐藏菜单栏
     set guioptions-=T				" 隐藏工具栏
@@ -130,6 +155,10 @@ if has("gui_running")
     set showtabline=0				" 隐藏Tab栏
     set cursorline
     hi cursorline guibg=#333333
+else
+    if &term == 'xterm' || &term == 'screen'
+        set t_Co=256                " 设置vim模式为256色
+    endif
 endif
 "}}}
 
@@ -158,8 +187,8 @@ nmap <leader>fef ggVG=``
 nnoremap <leader>q gqip 
 
 " 开启关闭粘贴
-map <leader>pp :setlocal paste!<CR>
-
+" map <leader>pp :setlocal paste!<CR>
+set pastetoggle=<leader>pp  " pastetoggle (sane indentation on pastes)
 " 开启关闭拼写检查
 map <leader>ss :setlocal spell!<CR>
 
@@ -210,20 +239,15 @@ nnoremap ; :
 vnoremap ; :
 "}}}
 
-"{{{ Encode
-set encoding=utf-8
-set fileencodings=utf-8,gb2312,gb18030,gbk,ucs-bom,cp936,latin1
-set termencoding=utf-8
-"}}}
-
 "{{{ TAB键的自动完成现在会忽略这些文件
 set wildignore+=*.luac              " Lua byte code
 set wildignore+=*.pyc               " Python byte code
 set wildignore+=*.spl               " compiled spelling word lists
 set wildignore+=*.sw?               " Vim swap files
 set wildignore+=*.aux,*.out,*.toc   " LaTeX intermediate files
-set wildignore+=*.jpg,*.bmp,*.gif   " binary images
-set wildignore+=*.o,*.obj,*.exe,*.dll,*.manifest " compiled object files
+set wildignore+=*.png,*.jpg,*.jpeg,*.bmp,*.gif   " binary images
+set wildignore+=*.o,*.obj,*.exe,*.dll,*.so,*.manifest " compiled object files
+set wildignore+=*.zip,*.tar,*.gz,*.7z " Zip file
 "}}}
 
 "{{{ note-taking
@@ -241,11 +265,16 @@ autocmd FileType help set noreadonly
 let g:ctrlp_map = ',,'
 let g:ctrlp_open_multiple_files = 'v'
 
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip
 let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v[\/]\.(git)$',
-  \ 'file': '\v\.(log|jpg|png|jpeg)$',
-  \ }
+    \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+    \ 'file': '\v\.(log|jpg|png|jpeg|exe|so|dll)$',
+    \ }
+"}}}
+
+"{{{ ack.vim
+if executable('ack')
+    let g:ackprg="ack -H --nocolor --nogroup --column"
+endif
 "}}}
 
 "{{{ tabular.vim
@@ -351,6 +380,7 @@ autocmd BufNewFile *.{h,hpp,c,cpp} DoxAuthor
 "r 递归刷新当前目录     R 递归刷新当前根目录  
 nmap ,n :NERDTreeToggle<CR>
 let NERDTreeShowLineNumbers=1
+let NERDTreeIgnore=['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
 let NERDTreeWinpos="left"
 let NERDTreeQuitOnOpen=1            " 打开文件后, 关闭NERDTrre窗口
 let NERDTreeWinSize=31              " 设置窗口大小
@@ -365,8 +395,11 @@ let g:vim_markdown_folding_disabled=1
 nnoremap <silent> <leader>gs :Gstatus<CR>
 nnoremap <silent> <leader>gd :Gdiff<CR>
 nnoremap <silent> <leader>gc :Gcommit<CR>
+nnoremap <silent> <leader>gb :Gblame<CR>
 nnoremap <silent> <leader>gl :Glog<CR>
 nnoremap <silent> <leader>gp :Git push<CR>
+nnoremap <silent> <leader>gw :Gwrite<CR>:GitGutter<CR>
+nnoremap <silent> <leader>gg :GitGutterToggle<CR>
 "}}}
 
 "{{{ QuickFix Window, which is borrowed from c9s
@@ -390,3 +423,5 @@ autocmd BufWinEnter quickfix let g:qfix_win = bufnr("$")
 source $VIMRUNTIME/ftplugin/man.vim
 nnoremap <silent> <S-k> :Man <c-r>=expand("<cword>")<CR><CR>
 "}}}
+
+" vim: set sw=4 ts=4 sts=4 et tw=78 foldmarker={,} foldlevel=0 foldmethod=marker:
