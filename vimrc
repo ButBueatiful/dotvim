@@ -15,6 +15,7 @@ colorscheme molokai
 
 set scrolloff=3                 " 上下滚动隔3行
 
+set modeline                    " 开启模式行支持
 set linespace=0                 " 行与行之间没有多余的空格
 set backspace=indent,eol,start  " 退格键和方向键可以换行
 set whichwrap=b,s,h,l,<,>,[,]   " 允许backspace和光标键跨越行边界
