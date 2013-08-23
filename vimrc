@@ -182,6 +182,10 @@ map <Tab> :bn<CR>
 map <s-Tab> :bp<CR>
 map <leader>bd :bd<CR>
 
+" visual shifting (does not exit Visual mode)
+vnoremap < <gv
+vnoremap > >gv 
+
 " format the entire file
 "autocmd BufWritePost *.c normal mzgg=G`z
 nmap <leader>fef ggVG=``
