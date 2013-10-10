@@ -14,12 +14,11 @@ Bundle 'gmarik/vundle'
 "------------------
 " Bundle 'Shougo/neocomplcache'
 " Bundle 'Shougo/neosnippet.vim'
-" Bundle 'ervandew/supertab'
 " Bundle 'honza/vim-snippets'
-" Bundle 'msanders/snipmate.vim'
 " Bundle 'mattn/zencoding-vim'
 Bundle 'Raimondi/delimitMate'
 " Bundle 'honza/snipmate-snippets'
+Bundle 'ervandew/supertab'
 Bundle 'garbas/vim-snipmate'
 "------ snipmate dependencies -------
 Bundle 'MarcWeber/vim-addon-mw-utils'
@@ -34,7 +33,8 @@ Bundle 'tsaleh/vim-matchit'
 "--------------
 " Fast editing
 "--------------
-Bundle 'vim-scripts/DoxygenToolkit.vim'
+Bundle 'DoxygenToolkit.vim'
+Bundle 'OmniCppComplete'
 Bundle 'scrooloose/nerdcommenter'
 Bundle 'godlygeek/tabular'
 " Bundle 'tpope/vim-surround'
@@ -172,12 +172,10 @@ set nowritebackup
 setlocal noswapfile             " 不生成swap文件
 set autoread                    " 当文件在外部被修改时，自动重新读取
 
-set completeopt=longest,menu    " 关掉智能补全时的预览窗口(new-omni-completion)
 set wildmenu                    " 命令补全
 set wildmode=longest,list,full  " tab键显示文件列表
 
-set path+=../include
-set tags=tags,~/.systags;
+set path+=../include            " gf搜索路径
 "set autochdir                  " 当前目录为工作目录
 
 set dictionary+=~/.vim/dict/simple  " For i_CTRL_X_K
@@ -423,16 +421,21 @@ au FileType * let b:delimitMate_autoclose = 1
 au FileType xml,html,xhtml let b:delimitMate_matchpairs ="(:),[:],{:}"
 "}}}
 
+"{{{ supertab
+let g:SuperTabDefaultCompletionType = "<c-n>"
+"}}}
 "{{{ nerdcommenter.vim
-"[count],cc 光标以下count行逐行添加注释(7,cc)
-"" [count],cu 光标以下count行逐行取消注释(7,cu)
-"" [count],cm 光标以下count行尝试添加块注释(7,cm)
-"" ,cA 在行尾插入 /* */,并且进入插入模式。 这个命令方便写注释。
+" [count],cc 光标以下 count 行逐行添加注释(9,cc)
+" [count],cu 光标以下 count 行逐行取消注释(9,cu)
+" [count],cm 光标以下 count 行尝试添加块注释(9,cm)
+" [count],cs 光标以下 count 行尝试添加美观的块注释(9,cm)
+" ,ca 切换注释方式
+" ,cA 在行尾插入注释符号并且进入插入模式。
 
 " 空格键添加去除注释
-"map <space> <leader>ci
-"map <space> <plug>NERDCommenterInvert
-"let NERDCreateDefaultMappings=0
+" map <space> <leader>ci
+" map <space> <plug>NERDCommenterInvert
+" let NERDCreateDefaultMappings=0
 
 let NERDSpaceDelims=1       " 让注释符与语句之间留一个空格
 let NERDCompactSexyComs=1   " 多行注释时样子更好看
@@ -443,19 +446,34 @@ nmap <silent> ,t :TagbarToggle<CR>
 let g:tagbar_ctags_bin = 'ctags'
 let g:tagbar_width = 36
 
-" nmap <leader>g :!ctags --language-force=c *.c ../include/*.h<CR>
-nmap <leader>g :!ctags -R --language-force=c++<CR>
+set tags+=~/Workspace/yunio/srcs/tags/systags;
+set tags+=~/Workspace/yunio/srcs/tags/cpp_tags;
 
 function Updatetags()
-    if &filetype == 'c'
-        exec "!ctags --language-force=c *.c ../include/*.h"
-    else
-        exec "!ctags -R --language-force=c++"
+    if &filetype == "c"
+        exec "!ctags --language-force=C *.c ../include/*.h"
+    elseif &filetype == "cpp"
+        exec "!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q *.cpp *.h"
     endif
 endfunction
 
-nmap <leader>g :call Updatetags() <CR>
+nmap <leader>g :call Updatetags()<CR>
+"}}}
 
+"{{{ OmniCppComplete 
+" C++ code completion:  http://vim.wikia.com/wiki/VimTip1608
+set completeopt=longest,menu        " 关掉智能补全时的预览窗口(new-omni-completion)
+let OmniCpp_MayCompleteDot = 1      " autocomplete with .
+let OmniCpp_MayCompleteArrow = 1    " autocomplete with ->
+let OmniCpp_MayCompleteScope = 1    " autocomplete with ::
+let OmniCpp_SelectFirstItem = 2     " select first item (but don't insert)
+let OmniCpp_NamespaceSearch = 2     " search namespaces in this and included files
+let OmniCpp_ShowPrototypeInAbbr = 1 " show function prototype in popup window
+let OmniCpp_GlobalScopeSearch=1     " enable the global scope search
+let OmniCpp_DisplayMode=1           " Class scope completion mode: always show all members
+let OmniCpp_DefaultNamespaces=["std"]
+let OmniCpp_ShowScopeInAbbr=1       " show scope in abbreviation and remove the last column
+let OmniCpp_ShowAccess=1 
 "}}}
 
 "{{{ DoxygenToolkit.vim
