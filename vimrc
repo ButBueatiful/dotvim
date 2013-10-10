@@ -98,6 +98,11 @@ set fillchars=vert:\ ,stl:\ ,stlnc:\    " 在被分割的窗口间显示空白
 " set shortmess=atI               " 不显启动时的信息
 
 if has('persistent_undo')
+    if has("win32") || has("win64")
+      set undodir=C:\Windows\Temp
+    else
+      set undodir=/tmp
+    endif
     set undofile
     set undolevels=1000
     set undoreload=10000
