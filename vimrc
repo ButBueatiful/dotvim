@@ -35,6 +35,7 @@ Bundle 'tsaleh/vim-matchit'
 "--------------
 Bundle 'DoxygenToolkit.vim'
 Bundle 'OmniCppComplete'
+Bundle 'a.vim'
 Bundle 'scrooloose/nerdcommenter'
 Bundle 'godlygeek/tabular'
 " Bundle 'tpope/vim-surround'
@@ -233,10 +234,33 @@ set encoding=utf-8
 set fileencodings=utf-8,gb2312,gb18030,gbk,ucs-bom,cp936,latin1
 set termencoding=utf-8
 "}}}
+"{{{ judge OS gui
+if has("win32") || has("win64") || has("win32unix")
+    let g:OS#name = "win"
+    let g:OS#win = 1
+    let g:OS#mac = 0
+    let g:OS#unix = 0
+elseif has("mac")
+    let g:OS#name = "mac"
+    let g:OS#mac = 1
+    let g:OS#win = 0
+    let g:OS#unix = 0
+elseif has("unix")
+    let g:OS#name = "unix"
+    let g:OS#unix = 1
+    let g:OS#win = 0
+    let g:OS#mac = 0
+endif
+if has("gui_running")
+    let g:OS#gui = 1
+else
+    let g:OS#gui = 0
+endif
+"}}}
 
 "{{{ GUI Settings
-if has("gui_running")
-    if has("win32") || has("win64")
+if g:OS#gui
+    if g:OS:win
         "激活菜单栏
         noremap <M-Space> :simalt ~<CR> 
         inoremap <M-Space> <C-O>:simalt ~<CR>
@@ -273,10 +297,6 @@ map <leader>f :q!<CR>
 map <leader>z :x<CR>
 cmap w!! %!sudo tee > /dev/null %
 
-" Quick escape
-imap jj <ESC>
-imap JJ <ESC>
-
 " Read binary
 map <leader>rb :%!xxd<CR>
 map <leader>rnb :%!xxd -r<CR>
@@ -290,33 +310,20 @@ nmap <leader>bd :bd<CR>
 vnoremap < <gv
 vnoremap > >gv 
 
-" format the entire file
-"autocmd BufWritePost *.c normal mzgg=G`z
+" Format the entire file
+" autocmd BufWritePost *.c normal mzgg=G`z
 nmap <leader>fef ggVG=``
 nnoremap <leader>q gqip 
 
-" 开启关闭粘贴
-" map <leader>pp :setlocal paste!<CR>
-set pastetoggle=<leader>pp  " pastetoggle (sane indentation on pastes)
-" 开启关闭拼写检查
+set pastetoggle=<leader>pp
 map <leader>ss :setlocal spell!<CR>
-
-" Some helpers to edit mode
-nmap <leader>ew :e <C-R>=expand('%:h').'/'<cr>
-nmap <leader>es :sp <C-R>=expand('%:h').'/'<cr>
-nmap <leader>ev :vsp <C-R>=expand('%:h').'/'<cr>
 
 " bash map
 nmap <silent> <leader>cd :lcd %:h<CR>
 nmap <silent> <leader>md :!mkdir -p %:p:h<CR>
-
 nmap<leader>m :wa<CR>:make<CR>:cw<CR><CR>
-
 map <leader>ax :!chmod a+x %<CR><CR>
-
 nmap <C-k> :!sdcv <C-R>=expand("<cword>")<CR><CR>
-
-map <leader>k :!qref <cword><ENTER>
 
 " Disable the arrow keys 
 nnoremap <UP> <Nop>
@@ -361,11 +368,16 @@ set wildignore+=*.zip,*.tar,*.gz,*.7z " Zip file
 "if has("autocmd")
     "autocmd bufwritepost .vimrc source $MYVIMRC
 "endif
-"nmap <leader>ee :tabedit $MYVIMRC<CR>
+
+" Some helpers to edit mode
+nmap <leader>ew :e <C-R>=expand('%:h').'/'<cr>
+
+" Quickly edit/reload the vimrc file
+nmap <silent> <leader>ev :e $MYVIMRC<CR>
+map <silent> <leader>sv :so $MYVIMRC<CR>
 
 autocmd FileType help set ma
 autocmd FileType help set noreadonly
-"autocmd BufWritePost ~/.vim/doc/*:helptags ~/.vim/doc
 "}}}
 
 "{{{ ctrlp.vim
@@ -422,8 +434,11 @@ au FileType xml,html,xhtml let b:delimitMate_matchpairs ="(:),[:],{:}"
 "}}}
 
 "{{{ supertab
-let g:SuperTabDefaultCompletionType = "<c-n>"
+" let g:SuperTabRetainCompletionType=2
+let g:SuperTabDefaultCompletionType = "context"
+let g:SuperTabCompletionContexts = ['s:ContextText', 's:ContextDiscover']
 "}}}
+
 "{{{ nerdcommenter.vim
 " [count],cc 光标以下 count 行逐行添加注释(9,cc)
 " [count],cu 光标以下 count 行逐行取消注释(9,cu)
@@ -446,12 +461,11 @@ nmap <silent> ,t :TagbarToggle<CR>
 let g:tagbar_ctags_bin = 'ctags'
 let g:tagbar_width = 36
 
-set tags+=~/Workspace/yunio/srcs/tags/systags;
-set tags+=~/Workspace/yunio/srcs/tags/cpp_tags;
+set tags+=~/Dropbox/src/tags/cpp_tags;
 
 function Updatetags()
     if &filetype == "c"
-        exec "!ctags --language-force=C *.c ../include/*.h"
+        exec "!ctags --fields=+iaS --extra=+q *.c *.h ../include/*.h"
     elseif &filetype == "cpp"
         exec "!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q *.cpp *.h"
     endif

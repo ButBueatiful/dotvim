@@ -1,9 +1,8 @@
 # #include <...>
 snippet incl
-	#include <${1:iostram}>${2}
+	#include <${1:iostream}>${2}
 snippet us
-	using namespace std;
-	${1}
+	using namespace ${1:std};${2}
 # Read File Into Vector
 snippet readfile
 	std::vector<char> v;

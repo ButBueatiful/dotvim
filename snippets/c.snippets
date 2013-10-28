@@ -1,12 +1,12 @@
 # main()
 snippet main
-	int main(int argc, char *argv[])
+	int main(void)
 	{
 		${1}
 		return 0;
 	}
 snippet mainn
-	int main(void)
+	int main(int argc, char *argv[])
 	{
 		${1}
 		return 0;
@@ -80,7 +80,7 @@ snippet forr
 	}
 # Function
 snippet fun
-	${1:void} ${2:function_name}(${3})
+	${1:int} ${2:function_name}(${3:void})
 	{
 		${4:/* code */}
 	}
@@ -119,3 +119,11 @@ snippet fpr
 # This is kind of convenient
 snippet .
 	[${1}]${2}
+snippet idebug
+	#define idebug(format, ...) do {\
+	fprintf(stderr, "%s (%d): ", __FILE__, __LINE__);\
+	fprintf(stderr, format, __VA_ARGS__);\
+	} while (0)
+
+snippet dbg
+	idebug("${1:%s}\n"${2});${3}
