@@ -33,11 +33,13 @@ Bundle 'tsaleh/vim-matchit'
 "--------------
 " Fast editing
 "--------------
+" Bundle 'ButBueatiful/vim-authorinfo'
 Bundle 'DoxygenToolkit.vim'
 Bundle 'OmniCppComplete'
 Bundle 'a.vim'
 Bundle 'scrooloose/nerdcommenter'
-Bundle 'godlygeek/tabular'
+Bundle 'junegunn/vim-easy-align'
+" Bundle 'godlygeek/tabular'
 " Bundle 'tpope/vim-surround'
 " Bundle 'sjl/gundo.vim'
 " Bundle 'nathanaelkane/vim-indent-guides'
@@ -155,8 +157,8 @@ set novisualbell                " 不要闪烁
 set noerrorbells                " 不让vim发出讨厌的滴滴声
 set hidden                      " 允许在有未保存的修改时切换缓冲区
 
+set shiftwidth=4                " 使用4个空格缩进
 set tabstop=4                   " 编辑时一个TAB字符占4个空格的位置
-set shiftwidth=4                " 使用4个空格缩进"
 set softtabstop=4               " 每次退格将删除4个空格
 set expandtab                   " 将输入的TAB自动展开成空格
 set smarttab                    " 在行首按TAB将加入sw个空格，否则加入ts个空格
@@ -174,13 +176,13 @@ setlocal noswapfile             " 不生成swap文件
 set autoread                    " 当文件在外部被修改时，自动重新读取
 
 set wildmenu                    " 命令补全
-set wildmode=longest,list,full  " tab键显示文件列表
+set wildmode=longest,list,full  " TAB键显示文件列表
 
 set path+=../include            " gf搜索路径
 "set autochdir                  " 当前目录为工作目录
 
+" set iskeyword+=_,$,@,%,#,-    " 包含这些字符时当作一个单词
 set dictionary+=~/.vim/dict/simple  " For i_CTRL_X_K
-" set iskeyword+=_,$,@,%,#,-      " 包含这些字符时当作一个单词
 
 " set foldenable                  " 开始折叠
 " set foldmethod=syntax           " 设置语法折叠
@@ -188,14 +190,19 @@ set dictionary+=~/.vim/dict/simple  " For i_CTRL_X_K
 " setlocal foldlevel=1            " 设置折叠层数为
 " set foldclose=all               " 设置为自动关闭折叠
 " set fo=croq                     " c格式化代码
-" au BufWinLeave * silent! mkview "make vim save view (state) (folds, cursor, etc)
-" au BufWinEnter * silent! loadview "make vim load view (state) (folds, cursor, etc))
+" au BufWinLeave * silent! mkview " 让vim保存当前的折叠
+" au BufWinEnter * silent! loadview " 打开上次保存的折叠样式
 
+" set shortmess=atI               " 不显启动时的信息
 " set list                        " 显示Tab符
 "set listchars=tab:›\ ,trail:•,extends:#,nbsp:. " Highlight problematic whitespace
 set fillchars=vert:\ ,stl:\ ,stlnc:\    " 在被分割的窗口间显示空白
 
-" set shortmess=atI               " 不显启动时的信息
+"设置标签
+" set showtabline=2
+" hi TabLineFill ctermfg=Black ctermbg=Black
+" hi TabLine cterm=none ctermfg=Gray ctermbg=Black
+" hi TabLineSel cterm=none ctermfg=Green ctermbg=Black
 
 if has('persistent_undo')
     if has("win32") || has("win64")
@@ -210,7 +217,6 @@ endif
 
 if has('statusline')
     set laststatus=2
-
 " Broken down into easily includeable segments
     set statusline=%<%f\                        " Filename
     set statusline+=%w%h%m%r                    " Options
@@ -218,12 +224,9 @@ if has('statusline')
     set statusline+=\ [%{&ff}/%Y] " Filetype
     set statusline+=\ [%{getcwd()}]             " Current dir
     set statusline+=%=%-14.(%l,%c%V%)\ %p%%     " Right aligned file nav info
-
     " let g:airline_theme='powerlineish' " airline users use the powerline theme
     " let g:airline_powerline_fonts=1    " and the powerline fonts
 endif
-
-
 
 " 记得上次退出时的位置
 au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
@@ -234,6 +237,7 @@ set encoding=utf-8
 set fileencodings=utf-8,gb2312,gb18030,gbk,ucs-bom,cp936,latin1
 set termencoding=utf-8
 "}}}
+
 "{{{ judge OS gui
 if has("win32") || has("win64") || has("win32unix")
     let g:OS#name = "win"
@@ -281,7 +285,7 @@ if g:OS#gui
     set guioptions-=L				" 隐藏左侧滚动条
     set guioptions-=r				" 隐藏右侧滚动条
     set guioptions-=b				" 隐藏底部滚动条
-    set showtabline=0				" 隐藏Tab栏
+    " set showtabline=0				" 隐藏Tab栏
     set cursorline
     hi cursorline guibg=#333333
 else
@@ -293,47 +297,47 @@ endif
 
 "{{{ Shortcuts
 " Quit quickly
-map <leader>f :q!<CR>
-map <leader>z :x<CR>
+map <silent><Leader>f :q!<CR>
+map <silent><Leader>z :x<CR>
 cmap w!! %!sudo tee > /dev/null %
 
 " Read binary
 map <leader>rb :%!xxd<CR>
 map <leader>rnb :%!xxd -r<CR>
 
-" tab
-nmap <Tab> :bn<CR>
-nmap <s-Tab> :bp<CR>
-nmap <leader>bd :bd<CR>
+" TAB
+nmap <silent> <TAB> :bn<CR>
+nmap <silent> <S-TAB> :bp<CP>
+nmap <silent> <Leader>bd :bd<CR>
 
 " visual shifting (does not exit Visual mode)
-vnoremap < <gv
-vnoremap > >gv 
+vnoremap <TAB> >gv
+vnoremap <S-TAB> <gv 
 
 " Format the entire file
 " autocmd BufWritePost *.c normal mzgg=G`z
-nmap <leader>fef ggVG=``
-nnoremap <leader>q gqip 
+nmap <silent><Leader>fef ggVG=``
+nnoremap <Leader>q gqip 
 
-set pastetoggle=<leader>pp
-map <leader>ss :setlocal spell!<CR>
+set pastetoggle=<Leader>pp
+nmap <silent><Leader>ss :setlocal spell!<CR>
 
 " bash map
 nmap <silent> <leader>cd :lcd %:h<CR>
 nmap <silent> <leader>md :!mkdir -p %:p:h<CR>
 nmap<leader>m :wa<CR>:make<CR>:cw<CR><CR>
-map <leader>ax :!chmod a+x %<CR><CR>
+nmap <leader>ax :!chmod a+x %<CR><CR>
 nmap <C-k> :!sdcv <C-R>=expand("<cword>")<CR><CR>
 
 " Disable the arrow keys 
-nnoremap <UP> <Nop>
-nnoremap <down> <nop>
-nnoremap <left> <nop>
-nnoremap <right> <nop>
-inoremap <up> <nop>
-inoremap <down> <nop>
-inoremap <left> <nop>
-inoremap <right> <nop>
+nnoremap <UP>    <NOP>
+nnoremap <DOWN>  <NOP>
+nnoremap <LEFT>  <NOP>
+nnoremap <RIGHT> <NOP>
+inoremap <UP>    <NOP>
+inoremap <DOWN>  <NOP>
+inoremap <LEFT>  <NOP>
+inoremap <RIGHT> <NOP>
 
 " nnoremap j gj
 " nnoremap k gk
@@ -341,6 +345,8 @@ inoremap <right> <nop>
 inoremap <F1> <ESC>
 nnoremap <F1> <ESC>
 vnoremap <F1> <ESC>
+nnoremap ; :
+vnoremap ; :
 " nnoremap <C-h> <C-w>h
 " nnoremap <C-j> <C-w>j
 " nnoremap <C-k> <C-w>k
@@ -349,8 +355,6 @@ vnoremap <F1> <ESC>
 " inoremap <C-j> <Esc><C-W>j
 " inoremap <C-k> <Esc><C-W>k
 " inoremap <C-l> <Esc><C-W>l
-nnoremap ; :
-vnoremap ; :
 "}}}
 
 "{{{ TAB键的自动完成现在会忽略这些文件
@@ -374,7 +378,7 @@ nmap <leader>ew :e <C-R>=expand('%:h').'/'<cr>
 
 " Quickly edit/reload the vimrc file
 nmap <silent> <leader>ev :e $MYVIMRC<CR>
-map <silent> <leader>sv :so $MYVIMRC<CR>
+nmap <silent> <leader>sv :so $MYVIMRC<CR>
 
 autocmd FileType help set ma
 autocmd FileType help set noreadonly
@@ -397,33 +401,37 @@ endif
 "}}}
 
 "{{{ tabular.vim
-nmap <Leader>a& :Tabularize /&<CR>
-vmap <Leader>a& :Tabularize /&<CR>
-nmap <Leader>a= :Tabularize /=<CR>
-vmap <Leader>a= :Tabularize /=<CR>
-nmap <Leader>a: :Tabularize /:<CR>
-vmap <Leader>a: :Tabularize /:<CR>
-nmap <Leader>a:: :Tabularize /:\zs<CR>
-vmap <Leader>a:: :Tabularize /:\zs<CR>
-nmap <Leader>a, :Tabularize /,<CR>
-vmap <Leader>a, :Tabularize /,<CR>
-nmap <Leader>a<Space> :Tabularize / /<CR>
-vmap <Leader>a<Space> :Tabularize / /<CR>
-nmap <Leader>a<Bar> :Tabularize /<Bar><CR>
-vmap <Leader>a<Bar> :Tabularize /<Bar><CR>
+" nmap <Leader>a& :Tabularize /&<CR>
+" vmap <Leader>a& :Tabularize /&<CR>
+" nmap <Leader>a= :Tabularize /=<CR>
+" vmap <Leader>a= :Tabularize /=<CR>
+" nmap <Leader>a: :Tabularize /:<CR>
+" vmap <Leader>a: :Tabularize /:<CR>
+" nmap <Leader>a:: :Tabularize /:\zs<CR>
+" vmap <Leader>a:: :Tabularize /:\zs<CR>
+" nmap <Leader>a, :Tabularize /,<CR>
+" vmap <Leader>a, :Tabularize /,<CR>
+" nmap <Leader>a<Space> :Tabularize / /<CR>
+" vmap <Leader>a<Space> :Tabularize / /<CR>
+" nmap <Leader>a<Bar> :Tabularize /<Bar><CR>
+" vmap <Leader>a<Bar> :Tabularize /<Bar><CR>
 
-inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
+" inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
 
-function! s:align()
-    let p = '^\s*|\s.*\s|\s*$'
-    if exists(':Tabularize') && getline('.') =~# '^\s*|' && (getline(line('.')-1) =~# p || getline(line('.')+1) =~# p)
-        let column = strlen(substitute(getline('.')[0:col('.')],'[^|]','','g'))
-        let position = strlen(matchstr(getline('.')[0:col('.')],'.*|\s*\zs.*'))
-        Tabularize/|/l1
-        normal! 0
-        call search(repeat('[^|]*|',column).'\s\{-\}'.repeat('.',position),'ce',line('.'))
-    endif
-endfunction
+" function! s:align()
+    " let p = '^\s*|\s.*\s|\s*$'
+    " if exists(':Tabularize') && getline('.') =~# '^\s*|' && (getline(line('.')-1) =~# p || getline(line('.')+1) =~# p)
+        " let column = strlen(substitute(getline('.')[0:col('.')],'[^|]','','g'))
+        " let position = strlen(matchstr(getline('.')[0:col('.')],'.*|\s*\zs.*'))
+        " Tabularize/|/l1
+        " normal! 0
+        " call search(repeat('[^|]*|',column).'\s\{-\}'.repeat('.',position),'ce',line('.'))
+    " endif
+" endfunction
+"}}}
+
+"{{{ vim-easy-align
+vnoremap <silent> <Leader>a :EasyAlign<Enter>
 "}}}
 
 "{{{ delimitmate.vim
@@ -439,25 +447,8 @@ let g:SuperTabDefaultCompletionType = "context"
 let g:SuperTabCompletionContexts = ['s:ContextText', 's:ContextDiscover']
 "}}}
 
-"{{{ nerdcommenter.vim
-" [count],cc 光标以下 count 行逐行添加注释(9,cc)
-" [count],cu 光标以下 count 行逐行取消注释(9,cu)
-" [count],cm 光标以下 count 行尝试添加块注释(9,cm)
-" [count],cs 光标以下 count 行尝试添加美观的块注释(9,cm)
-" ,ca 切换注释方式
-" ,cA 在行尾插入注释符号并且进入插入模式。
-
-" 空格键添加去除注释
-" map <space> <leader>ci
-" map <space> <plug>NERDCommenterInvert
-" let NERDCreateDefaultMappings=0
-
-let NERDSpaceDelims=1       " 让注释符与语句之间留一个空格
-let NERDCompactSexyComs=1   " 多行注释时样子更好看
-"}}}
-
 "{{{ tagbar.vim
-nmap <silent> ,t :TagbarToggle<CR>
+nmap <silent> <Leader>t :TagbarToggle<CR>
 let g:tagbar_ctags_bin = 'ctags'
 let g:tagbar_width = 36
 
@@ -465,7 +456,7 @@ set tags+=~/Dropbox/src/tags/cpp_tags;
 
 function Updatetags()
     if &filetype == "c"
-        exec "!ctags --fields=+iaS --extra=+q *.c *.h ../include/*.h"
+        exec "!ctags --fields=+iaS --extra=+q *.c *.h ../include/*.h ../lib/*.c"
     elseif &filetype == "cpp"
         exec "!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q *.cpp *.h"
     endif
@@ -490,6 +481,23 @@ let OmniCpp_ShowScopeInAbbr=1       " show scope in abbreviation and remove the 
 let OmniCpp_ShowAccess=1 
 "}}}
 
+"{{{ nerdcommenter.vim
+" [count],cc 光标以下 count 行逐行添加注释(9,cc)
+" [count],cu 光标以下 count 行逐行取消注释(9,cu)
+" [count],cm 光标以下 count 行尝试添加块注释(9,cm)
+" [count],cs 光标以下 count 行尝试添加美观的块注释(9,cm)
+" ,ca 切换注释方式
+" ,cA 在行尾插入注释符号并且进入插入模式。
+
+" 空格键添加去除注释
+" map <space> <leader>ci
+" map <space> <plug>NERDCommenterInvert
+" let NERDCreateDefaultMappings=0
+
+let NERDSpaceDelims=1       " 让注释符与语句之间留一个空格
+let NERDCompactSexyComs=1   " 多行注释时样子更好看
+"}}}
+
 "{{{ DoxygenToolkit.vim
 " highlight the doxygen comments
 let g:load_doxygen_syntax=1
@@ -507,8 +515,7 @@ let g:doxygen_enhanced_color=1
 nmap dx :Dox<CR>
 nmap da :DoxAut<CR>
 nmap dl :DoxLic<CR>
-
-autocmd BufNewFile *.{h,hpp,c,cpp} DoxAuthor
+autocmd BufNewFile *.{h,hpp,c,cpp,cc} DoxAuthor
 "}}}
 
 "{{{ NERDTree.vim
@@ -519,7 +526,7 @@ autocmd BufNewFile *.{h,hpp,c,cpp} DoxAuthor
 "K 到第一个节点         J 到最后一个节点  
 "u 打开上层目录         m 显示文件系统菜单（添加、删除、移动操作）  
 "r 递归刷新当前目录     R 递归刷新当前根目录  
-nmap ,n :NERDTreeToggle<CR>
+nmap <silent> <Leader>n :NERDTreeToggle<CR>
 let NERDTreeShowLineNumbers=1
 let NERDTreeIgnore=['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
 let NERDTreeWinpos="left"

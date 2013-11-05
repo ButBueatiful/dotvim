@@ -120,10 +120,13 @@ snippet fpr
 snippet .
 	[${1}]${2}
 snippet idebug
-	#define idebug(format, ...) do {\
-	fprintf(stderr, "%s (%d): ", __FILE__, __LINE__);\
-	fprintf(stderr, format, __VA_ARGS__);\
-	} while (0)
-
+	#ifdef __DEBUG__
+	#define idebug(format, ...) do { \
+	    fprintf(stderr, "[\033[31mDEBUG\033[m]%s %s(Line %d): ",__FILE__,__FUNCTION__,__LINE__); \
+	    fprintf(stderr, format, __VA_ARGS__); \
+	} while(0)
+	#else
+	#define idebug(format...)
+	#endif
 snippet dbg
-	idebug("${1:%s}\n"${2});${3}
+	IDEBUG("${1:%s}\n"${2});${3}
