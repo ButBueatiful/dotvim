@@ -111,8 +111,8 @@ set history=500                 " 命令显示历史
 
 let g:mapleader = ","           " 全局设置用,代替\
 
-set background=dark             " 设置一个黑暗的背景
-colorscheme molokai
+syntax enable                   " 打开语法高亮
+syntax on                       " 开启文件类型侦测
 
 set scrolloff=3                 " 上下滚动隔3行
 
@@ -145,13 +145,15 @@ set formatoptions+=mM
 " set colorcolumn=78              " 在第 78 列显示一条竖线
 " set cursorline                  " 突出显示当前行
 
+set showtabline=2               " 开启标签页
+
 set cmdheight=1                 " 命令行的高度，默认为1
 set ruler                       " 右下角显示光标位置的状态行
 set showcmd                     " 显示未完成的命令
 
 set vb t_vb=                    " 关闭提示音
-set novisualbell                " 不要闪烁
-set noerrorbells                " 不让vim发出讨厌的滴滴声
+set novb                        " 不要闪烁
+set noeb                        " 不让vim发出讨厌的滴滴声
 set hidden                      " 允许在有未保存的修改时切换缓冲区
 
 set shiftwidth=4                " 使用4个空格缩进
@@ -163,9 +165,6 @@ set smarttab                    " 在行首按TAB将加入sw个空格，否则�
 set autoindent                  " 继承前一行的缩进方式
 set cindent                     " c/c++样式缩进
 set smartindent                 " 为c/c++程序提供自动缩进
-
-syntax enable                   " 打开语法高亮
-syntax on                       " 开启文件类型侦测
 
 set nobackup                    " 设置无备份文件
 set nowritebackup
@@ -195,12 +194,11 @@ set dictionary+=~/.vim/dict/simple  " For i_CTRL_X_K
 "set listchars=tab:›\ ,trail:•,extends:#,nbsp:. " Highlight problematic whitespace
 set fillchars=vert:\ ,stl:\ ,stlnc:\    " 在被分割的窗口间显示空白
 
-"设置标签
-" set showtabline=2
-" hi TabLineFill ctermfg=Black ctermbg=Black
-" hi TabLine cterm=none ctermfg=Gray ctermbg=Black
-" hi TabLineSel cterm=none ctermfg=Green ctermbg=Black
+" 记得上次退出时的位置
+au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
+"}}}
 
+"{{{ persistent_undo
 if has('persistent_undo')
     if has("win32") || has("win64")
       set undodir=C:\Windows\Temp
@@ -211,22 +209,25 @@ if has('persistent_undo')
     set undolevels=1000
     set undoreload=10000
 endif
+"}}}
 
+"{{{ statusline airline
 if has('statusline')
     set laststatus=2
 " Broken down into easily includeable segments
     set statusline=%<%f\                        " Filename
-    set statusline+=%w%h%m%r                    " Options
+    set statusline+=%W%H%M%R                    " Options
     set statusline+=%{fugitive#statusline()}    " Git Hotness
-    set statusline+=\ [%{&ff}/%Y] " Filetype
+    set statusline+=\ [%{&ff}\|%Y]               " Filetype
     set statusline+=\ [%{getcwd()}]             " Current dir
     set statusline+=%=%-14.(%l,%c%V%)\ %p%%     " Right aligned file nav info
     " let g:airline_theme='powerlineish' " airline users use the powerline theme
     " let g:airline_powerline_fonts=1    " and the powerline fonts
+    let g:airline#extensions#tabline#enabled = 1
+    let g:airline#extensions#tabline#tab_nr_type = 1
+    let g:airline#extensions#tabline#left_sep = '>'
+    let g:airline#extensions#tabline#left_alt_sep = '|'
 endif
-
-" 记得上次退出时的位置
-au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
 "}}}
 
 "{{{ Encode
@@ -235,39 +236,30 @@ set fileencodings=utf-8,gb2312,gb18030,gbk,ucs-bom,cp936,latin1
 set termencoding=utf-8
 "}}}
 
-"{{{ judge OS gui
-if has("win32") || has("win64") || has("win32unix")
-    let g:OS#name = "win"
-    let g:OS#win = 1
-    let g:OS#mac = 0
-    let g:OS#unix = 0
-elseif has("mac")
-    let g:OS#name = "mac"
-    let g:OS#mac = 1
-    let g:OS#win = 0
-    let g:OS#unix = 0
-elseif has("unix")
-    let g:OS#name = "unix"
-    let g:OS#unix = 1
-    let g:OS#win = 0
-    let g:OS#mac = 0
-endif
-if has("gui_running")
-    let g:OS#gui = 1
+"{{{ Judge OS gui
+if(has("win32") || has("win64") || has("win95") || has("win16"))
+    let g:iswindows = 1
 else
-    let g:OS#gui = 0
+    let g:iswindows = 0
+endif
+
+if has("gui_running")
+    let g:isGUI = 1
+else
+    let g:isGUI = 0
 endif
 "}}}
 
-"{{{ GUI Settings
-if g:OS#gui
-    if g:OS:win
+"{{{ GUI related
+if g:isGUI
+    if g:iswindows
         "激活菜单栏
         noremap <M-Space> :simalt ~<CR> 
         inoremap <M-Space> <C-O>:simalt ~<CR>
         cnoremap <M-Space> <C-C>:simalt ~<CR>
         set guifont=Microsoft\ YaHei,Courier\ New:h12
-        " au GUIEnter * simalt ~x			" 窗口启动时自动最大化
+        au GuiEnter * set t_vb=
+        au GUIEnter * simalt ~x			" 窗口启动时自动最大化
     else
         set guifont=Microsoft\ YaHei
     endif
@@ -282,17 +274,23 @@ if g:OS#gui
     set guioptions-=L				" 隐藏左侧滚动条
     set guioptions-=r				" 隐藏右侧滚动条
     set guioptions-=b				" 隐藏底部滚动条
-    " set showtabline=0				" 隐藏Tab栏
-    set cursorline
+    " highlight current line
+    " au WinLeave * set nocursorline nocursorcolumn
+    " au WinEnter * set cursorline cursorcolumn
+    set cursorline cursorcolumn
     hi cursorline guibg=#333333
+    hi cursorcolumn guibg=#333333
+    set background=light
 else
+    set background=dark
     if &term == 'xterm' || &term == 'screen'
-        set t_Co=256                " 设置vim模式为256色
+        set t_Co=256 " 设置vim模式为256色
     endif
 endif
+colorscheme molokai
 "}}}
 
-"{{{ Shortcuts
+"{{{ Keyboard Maps
 " Quit quickly
 map <silent><Leader>f :q!<CR>
 map <silent><Leader>z :x<CR>
@@ -303,9 +301,15 @@ map <leader>rb :%!xxd<CR>
 map <leader>rnb :%!xxd -r<CR>
 
 " TAB
-nmap <silent> <TAB> :bn<CR>
-nmap <silent> <S-TAB> :bp<CR>
-nmap <silent> <Leader>bd :bd<CR>
+" Some helpers to edit mode
+nmap <leader>ew :tabnew <C-R>=expand('%:h').'/'<cr>
+" Quickly edit/reload the vimrc file
+nmap <silent> <leader>ev :tabnew $MYVIMRC<CR>
+nmap <silent> <leader>sv :so $MYVIMRC<CR>
+
+nmap <silent> <TAB> gt
+nmap <silent> <S-TAB> gT
+nmap <silent> <Leader>c :tabclose<CR>
 
 " visual shifting (does not exit Visual mode)
 vnoremap <TAB> >gv
@@ -363,22 +367,6 @@ set wildignore+=*.aux,*.out,*.toc   " LaTeX intermediate files
 set wildignore+=*.png,*.jpg,*.jpeg,*.bmp,*.gif   " binary images
 set wildignore+=*.o,*.obj,*.exe,*.dll,*.so,*.manifest " compiled object files
 set wildignore+=*.zip,*.tar,*.gz,*.7z " Zip file
-"}}}
-
-"{{{ note-taking
-"if has("autocmd")
-    "autocmd bufwritepost .vimrc source $MYVIMRC
-"endif
-
-" Some helpers to edit mode
-nmap <leader>ew :e <C-R>=expand('%:h').'/'<cr>
-
-" Quickly edit/reload the vimrc file
-nmap <silent> <leader>ev :e $MYVIMRC<CR>
-nmap <silent> <leader>sv :so $MYVIMRC<CR>
-
-autocmd FileType help set ma
-autocmd FileType help set noreadonly
 "}}}
 
 "{{{ ctrlp.vim
