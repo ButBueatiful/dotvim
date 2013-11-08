@@ -12,17 +12,14 @@ Bundle 'gmarik/vundle'
 "------------------
 " Code Completions
 "------------------
-" Bundle 'Shougo/neocomplcache'
-" Bundle 'Shougo/neosnippet.vim'
-" Bundle 'honza/vim-snippets'
 " Bundle 'mattn/zencoding-vim'
 Bundle 'Raimondi/delimitMate'
-" Bundle 'honza/snipmate-snippets'
-Bundle 'ervandew/supertab'
-Bundle 'garbas/vim-snipmate'
+" Bundle 'ervandew/supertab'
+Bundle 'SirVer/ultisnips'
+" Bundle 'garbas/vim-snipmate'
 "------ snipmate dependencies -------
-Bundle 'MarcWeber/vim-addon-mw-utils'
-Bundle 'tomtom/tlib_vim'
+" Bundle 'MarcWeber/vim-addon-mw-utils'
+" Bundle 'tomtom/tlib_vim'
 
 "-----------------
 " Fast navigation
@@ -33,7 +30,7 @@ Bundle 'tsaleh/vim-matchit'
 "--------------
 " Fast editing
 "--------------
-" Bundle 'ButBueatiful/vim-authorinfo'
+Bundle 'ButBueatiful/vim-authorinfo'
 Bundle 'DoxygenToolkit.vim'
 Bundle 'OmniCppComplete'
 Bundle 'a.vim'
@@ -307,7 +304,7 @@ map <leader>rnb :%!xxd -r<CR>
 
 " TAB
 nmap <silent> <TAB> :bn<CR>
-nmap <silent> <S-TAB> :bp<CP>
+nmap <silent> <S-TAB> :bp<CR>
 nmap <silent> <Leader>bd :bd<CR>
 
 " visual shifting (does not exit Visual mode)
@@ -443,8 +440,13 @@ au FileType xml,html,xhtml let b:delimitMate_matchpairs ="(:),[:],{:}"
 
 "{{{ supertab
 " let g:SuperTabRetainCompletionType=2
-let g:SuperTabDefaultCompletionType = "context"
-let g:SuperTabCompletionContexts = ['s:ContextText', 's:ContextDiscover']
+" let g:SuperTabDefaultCompletionType = "context"
+" let g:SuperTabCompletionContexts = ['s:ContextText', 's:ContextDiscover']
+"}}}
+
+"{{{ ultisnips
+let g:UltiSnipsSnippetDirectories = ["UltiSnips", "snippets"]
+let g:UltiSnipsSnippetsDir = '~/.vim/snippets'
 "}}}
 
 "{{{ tagbar.vim
@@ -481,6 +483,12 @@ let OmniCpp_ShowScopeInAbbr=1       " show scope in abbreviation and remove the 
 let OmniCpp_ShowAccess=1 
 "}}}
 
+"{{{ vim-authorinfo
+let g:authorinfo_author='xutao(butbueatiful)'
+let g:authorinfo_email='butbueatiful@gmail.com'
+let g:authorinfo_company='myself'
+"}}}
+
 "{{{ nerdcommenter.vim
 " [count],cc 光标以下 count 行逐行添加注释(9,cc)
 " [count],cu 光标以下 count 行逐行取消注释(9,cu)
@@ -515,7 +523,8 @@ let g:doxygen_enhanced_color=1
 nmap dx :Dox<CR>
 nmap da :DoxAut<CR>
 nmap dl :DoxLic<CR>
-autocmd BufNewFile *.{h,hpp,c,cpp,cc} DoxAuthor
+
+" autocmd BufNewFile *.{h,hpp,c,cpp,cc} DoxAuthor
 "}}}
 
 "{{{ NERDTree.vim
