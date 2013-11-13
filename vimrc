@@ -1,4 +1,4 @@
-"{{{ bundle
+" Bundle {{{
 set nocompatible               " be iMproved
 filetype off                   " required!
 
@@ -105,74 +105,58 @@ Bundle 'tpope/vim-markdown'
 filetype plugin indent on     " required!
 " }}}
 
-"{{{ General
-set nocompatible                " 关闭兼容模式
-set history=500                 " 命令显示历史
-
+" General {{{
+set history=100                 " 命令显示历史
 let g:mapleader = ","           " 全局设置用,代替\
 
-syntax enable                   " 打开语法高亮
-syntax on                       " 开启文件类型侦测
-
+set shortmess=atI               " I不显启动时的信息
+set showmode                    " 在插入、替换和可视模式里，在最后一行提供消息
+set showcmd                     " 在屏幕最后一行显示 (部分的) 命令
+set showtabline=2               " 标签页：0永远不 1至少有两个标签页时才会 2永远会
+set showmatch                   " 显示括号配对情况
+set matchtime=1                 " 跳转到匹配括号的时间
+set number                      " 显示行号
 set scrolloff=3                 " 上下滚动隔3行
+set cmdheight=1                 " 命令行的高度，默认为1
+set ruler                       " 右下角显示光标位置的状态行
+set vb t_vb=                    " 关闭响铃和闪烁
+set novb
+set noeb
+syntax on                       " 启动语法高亮，使用 'background' 来设置颜色
 
-set modeline                    " 开启模式行支持
-set linespace=0                 " 行与行之间没有多余的空格
-set backspace=indent,eol,start  " 退格键和方向键可以换行
-set whichwrap=b,s,h,l,<,>,[,]   " 允许backspace和光标键跨越行边界
-
-set nu                          " 显示行号
-set showmode                    " 显示当前模式
+set magic                       " 增强行正则
 
 set ignorecase                  " 搜索时忽略大小写
-set smartcase                   " 如果搜索模式包含大写字符，
-                                " 不使用 'ignorecase' 选项
 "set gdefault
 set hlsearch                    " 开启高亮显示结果
 set wrapscan                    " 搜索到文件两端时重新搜索
 set incsearch                   " 开启实时搜索功能
-map <silent> <leader><cr> :noh<cr>
+set smartcase                   " 如果搜索模式包含大写字符，
 
-set showmatch                   " 显示括号配对情况
-set matchtime=1                 " 跳转到匹配括号的时间
+set backspace=indent,eol,start  " 退格键和方向键可以换行
+set whichwrap=b,s,h,l,<,>,[,]   " 允许backspace和光标键跨越行边界
 
-set magic                       " 增强行正则
+set shiftwidth=4                " 使用4个空格缩进
+set tabstop=4                   " 编辑时一个Tab字符占4个空格的位置
+set softtabstop=4               " 每次退格将删除4个空格
+set expandtab                   " 将输入的Tab自动展开成空格
+set smarttab                    " 在行首按Tab将加入sw个空格，否则加入ts个空格
 
 set cpoptions+=$                " cw显示$
-set nowrap                      " 自动换行
+set wrap                        " 自动换行
 set textwidth=78
 set formatoptions+=mM
 " set colorcolumn=78              " 在第 78 列显示一条竖线
 " set cursorline                  " 突出显示当前行
 
-set showtabline=2               " 开启标签页
-
-set cmdheight=1                 " 命令行的高度，默认为1
-set ruler                       " 右下角显示光标位置的状态行
-set showcmd                     " 显示未完成的命令
-
-set vb t_vb=                    " 关闭提示音
-set novb                        " 不要闪烁
-set noeb                        " 不让vim发出讨厌的滴滴声
+" set modeline                    " 开启模式行支持
+set autoread                    " 当文件在外部被修改时，自动重新读取
 set hidden                      " 允许在有未保存的修改时切换缓冲区
-
-set shiftwidth=4                " 使用4个空格缩进
-set tabstop=4                   " 编辑时一个TAB字符占4个空格的位置
-set softtabstop=4               " 每次退格将删除4个空格
-set expandtab                   " 将输入的TAB自动展开成空格
-set smarttab                    " 在行首按TAB将加入sw个空格，否则加入ts个空格
+set ttyfast
 
 set autoindent                  " 继承前一行的缩进方式
 set cindent                     " c/c++样式缩进
 set smartindent                 " 为c/c++程序提供自动缩进
-
-set nobackup                    " 设置无备份文件
-set nowritebackup
-setlocal noswapfile             " 不生成swap文件
-set autoread                    " 当文件在外部被修改时，自动重新读取
-
-set wildmenu                    " 命令补全
-set wildmode=longest,list,full  " TAB键显示文件列表
 
 set path+=../include            " gf搜索路径
 "set autochdir                  " 当前目录为工作目录
@@ -180,63 +164,43 @@ set path+=../include            " gf搜索路径
 " set iskeyword+=_,$,@,%,#,-    " 包含这些字符时当作一个单词
 set dictionary+=~/.vim/dict/simple  " For i_CTRL_X_K
 
-" set foldenable                  " 开始折叠
-" set foldmethod=syntax           " 设置语法折叠
-" set foldcolumn=0                " 设置折叠区域的宽度
-" setlocal foldlevel=1            " 设置折叠层数为
-" set foldclose=all               " 设置为自动关闭折叠
-" set fo=croq                     " c格式化代码
-" au BufWinLeave * silent! mkview " 让vim保存当前的折叠
-" au BufWinEnter * silent! loadview " 打开上次保存的折叠样式
-
-" set shortmess=atI               " 不显启动时的信息
 " set list                        " 显示Tab符
-"set listchars=tab:›\ ,trail:•,extends:#,nbsp:. " Highlight problematic whitespace
+set listchars=tab:›\ ,trail:•,extends:#,nbsp:.
 set fillchars=vert:\ ,stl:\ ,stlnc:\    " 在被分割的窗口间显示空白
 
-" 记得上次退出时的位置
-au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
 "}}}
 
-"{{{ persistent_undo
+" Backups {{{
+set nobackup   " 设置无备份文件
+set noswapfile " 不生成swap文件
+
 if has('persistent_undo')
     if has("win32") || has("win64")
-      set undodir=C:\Windows\Temp
+        set undodir=C:\Windows\Temp
     else
-      set undodir=/tmp
+        set undodir=/tmp
     endif
     set undofile
     set undolevels=1000
     set undoreload=10000
 endif
-"}}}
+" }}}
 
-"{{{ statusline airline
-if has('statusline')
-    set laststatus=2
-" Broken down into easily includeable segments
-    set statusline=%<%f\                        " Filename
-    set statusline+=%W%H%M%R                    " Options
-    set statusline+=%{fugitive#statusline()}    " Git Hotness
-    set statusline+=\ [%{&ff}\|%Y]               " Filetype
-    set statusline+=\ [%{getcwd()}]             " Current dir
-    set statusline+=%=%-14.(%l,%c%V%)\ %p%%     " Right aligned file nav info
-    " let g:airline_theme='powerlineish' " airline users use the powerline theme
-    " let g:airline_powerline_fonts=1    " and the powerline fonts
-    let g:airline#extensions#tabline#enabled = 1
-    let g:airline#extensions#tabline#tab_nr_type = 1
-    let g:airline#extensions#tabline#left_sep = '>'
-    let g:airline#extensions#tabline#left_alt_sep = '|'
-endif
-"}}}
-
-"{{{ Encode
+" Encode {{{
 set encoding=utf-8
 set fileencodings=utf-8,gb2312,gb18030,gbk,ucs-bom,cp936,latin1
 set termencoding=utf-8
-"}}}
+" }}}
 
-"{{{ Judge OS gui
+" Record exit position {{{
+" au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
+au BufReadPost *
+    \ if line("'\"") > 0 && line("'\"") <= line("$") |
+    \ execute 'normal! g`"zvzz' |
+    \ endif
+" }}}
+
+" Judge OS gui {{{
 if(has("win32") || has("win64") || has("win95") || has("win16"))
     let g:iswindows = 1
 else
@@ -248,106 +212,178 @@ if has("gui_running")
 else
     let g:isGUI = 0
 endif
-"}}}
+" }}}
 
-"{{{ GUI related
+" {{{ UI
+if has('statusline')
+    set laststatus=2
+    " Broken down into easily includeable segments
+    " set statusline=%<%f\                        " Filename
+    " set statusline+=%W%H%M%R                    " Options
+    " set statusline+=%{fugitive#statusline()}    " Git Hotness
+    " set statusline+=\ [%{&ff}\|%Y]              " Filetype
+    " set statusline+=\ [%{getcwd()}]             " Current dir
+    " set statusline+=%=%-14.(%l,%c%V%)\ %p%%     " Right aligned file nav info
+endif
+
 if g:isGUI
-    if g:iswindows
-        "激活菜单栏
-        noremap <M-Space> :simalt ~<CR> 
-        inoremap <M-Space> <C-O>:simalt ~<CR>
-        cnoremap <M-Space> <C-C>:simalt ~<CR>
-        set guifont=Microsoft\ YaHei,Courier\ New:h12
-        au GuiEnter * set t_vb=
-        au GUIEnter * simalt ~x			" 窗口启动时自动最大化
-    else
-        set guifont=Microsoft\ YaHei
-    endif
-
     "解决菜单栏乱码
     source $VIMRUNTIME/delmenu.vim
     source $VIMRUNTIME/menu.vim
-    language messages zh_CN.utf-8   " 解决consle输出乱码
+    " 解决consle输出乱码
+    language messages zh_CN.utf-8
 
-    set guioptions-=m				" 隐藏菜单栏
-    set guioptions-=T				" 隐藏工具栏
-    set guioptions-=L				" 隐藏左侧滚动条
-    set guioptions-=r				" 隐藏右侧滚动条
-    set guioptions-=b				" 隐藏底部滚动条
-    " highlight current line
+    set guioptions-=m   " 隐藏菜单栏
+    set guioptions-=T   " 隐藏工具栏
+    set guioptions-=L   " 隐藏左侧滚动条
+    set guioptions-=r   " 隐藏右侧滚动条
+
+    set background=light
+    colorscheme solarized
+
+    set linespace=0     " 行与行之间没有多余的空格
+
     " au WinLeave * set nocursorline nocursorcolumn
     " au WinEnter * set cursorline cursorcolumn
     set cursorline cursorcolumn
     hi cursorline guibg=#333333
     hi cursorcolumn guibg=#333333
-    set background=light
-else
-    set background=dark
-    if &term == 'xterm' || &term == 'screen'
-        set t_Co=256 " 设置vim模式为256色
-    endif
-endif
-colorscheme molokai
-"}}}
 
-"{{{ Keyboard Maps
-" Quit quickly
-map <silent><Leader>f :q!<CR>
-map <silent><Leader>z :x<CR>
+    if g:iswindows
+        "激活菜单栏
+        noremap <M-Space> :simalt ~<CR>
+        inoremap <M-Space> <C-O>:simalt ~<CR>
+        cnoremap <M-Space> <C-C>:simalt ~<CR>
+        set guifont=Microsoft\ YaHei,Courier\ New:h12
+        au GuiEnter * set t_vb=
+        " au GUIEnter * simalt ~x   " 窗口启动时自动最大化
+    else
+        set guifont=Microsoft\ YaHei
+    endif
+else
+    if &term == 'xterm' || &term == 'screen'
+        set t_Co=256    " 颜色数目为256
+    endif
+    set background=dark
+    colorscheme molokai " 设置主题
+endif
+" }}}
+
+" Folding {{{
+" au BufWinLeave * silent! mkview   " 让vim保存当前的折叠
+" au BufWinEnter * silent! loadview " 打开上次保存的折叠样式
+set foldlevelstart=0
+
+" Space to toggle folds.
+nnoremap <Space> za
+vnoremap <Space> za
+
+" "Refocus" folds
+nnoremap ,z zMzvzz
+
+" Make zO recursively open whatever top level fold we're in, no matter where the
+" cursor happens to be.
+nnoremap zO zCzO
+
+function! MyFoldText()
+    let line = getline(v:foldstart)
+
+    let nucolwidth = &fdc + &number * &numberwidth
+    let windowwidth = winwidth(0) - nucolwidth - 3
+    let foldedlinecount = v:foldend - v:foldstart
+
+" expand tabs into spaces
+    let onetab = strpart(' ', 0, &tabstop)
+    let line = substitute(line, '\t', onetab, 'g')
+
+    let line = strpart(line, 0, windowwidth - 2 -len(foldedlinecount))
+    let fillcharcount = windowwidth - len(line) - len(foldedlinecount)
+    return line . '…' . repeat(" ",fillcharcount) . foldedlinecount . '…' . ' '
+endfunction
+set foldtext=MyFoldText()
+" }}}
+
+" Convenience mappings {{{
+nnoremap <silent> <Leader>fq :q!<CR>
+nnoremap <silent> <Leader>z :x<CR>
 cmap w!! %!sudo tee > /dev/null %
 
-" Read binary
-map <leader>rb :%!xxd<CR>
-map <leader>rnb :%!xxd -r<CR>
+nmap <silent> <Leader>ev :e $MYVIMRC<CR>
+nmap <silent> <Leader>sv :so $MYVIMRC<CR>
 
-" TAB
-" Some helpers to edit mode
-nmap <leader>ew :tabnew <C-R>=expand('%:h').'/'<cr>
-" Quickly edit/reload the vimrc file
-nmap <silent> <leader>ev :tabnew $MYVIMRC<CR>
-nmap <silent> <leader>sv :so $MYVIMRC<CR>
+nmap <silent> <Tab> :bn<CR>
+nmap <silent> <S-Tab> :bp<CR>
+vnoremap <Tab> >gv
+vnoremap <S-Tab> <gv
 
-nmap <silent> <TAB> gt
-nmap <silent> <S-TAB> gT
-nmap <silent> <Leader>c :tabclose<CR>
-
-" visual shifting (does not exit Visual mode)
-vnoremap <TAB> >gv
-vnoremap <S-TAB> <gv 
-
-" Format the entire file
 " autocmd BufWritePost *.c normal mzgg=G`z
-nmap <silent><Leader>fef ggVG=``
-nnoremap <Leader>q gqip 
+nmap <silent> <Leader>fef ggVG=``
+" 格式化段落
+nnoremap <Leader>q gqip
+
+" * #搜索时不移动当前词
+nnoremap * *<c-o>
+nnoremap # #<c-o>
+" 搜索词处于窗口中间
+nnoremap n nzzzv
+nnoremap N Nzzzv"
+nnoremap <silent> <Leader><CR> :noh<CR>
 
 set pastetoggle=<Leader>pp
-nmap <silent><Leader>ss :setlocal spell!<CR>
+nmap <silent> <Leader>ss :setlocal spell!<CR>
 
-" bash map
-nmap <silent> <leader>cd :lcd %:h<CR>
-nmap <silent> <leader>md :!mkdir -p %:p:h<CR>
-nmap<leader>m :wa<CR>:make<CR>:cw<CR><CR>
-nmap <leader>ax :!chmod a+x %<CR><CR>
+" 删除所有行尾的空格
+nnoremap <Leader>W :%s/\s\+$//<CR>:let @/=''<CR>
+
+" BASH Maps
+nmap <silent> <Leader>cd :lcd %:h<CR>
+nmap <silent> <Leader>md :!mkdir -p %:p:h<CR>
+nmap <Leader>m :wa<CR>:make<CR>:cw<CR><CR>
+nmap <Leader>ax :!chmod a+x %<CR>:!./%<CR>
 nmap <C-k> :!sdcv <C-R>=expand("<cword>")<CR><CR>
 
-" Disable the arrow keys 
-nnoremap <UP>    <NOP>
-nnoremap <DOWN>  <NOP>
-nnoremap <LEFT>  <NOP>
-nnoremap <RIGHT> <NOP>
-inoremap <UP>    <NOP>
-inoremap <DOWN>  <NOP>
-inoremap <LEFT>  <NOP>
-inoremap <RIGHT> <NOP>
+" Read binary
+nmap <Leader>rb :%!xxd<CR>
+nmap <Leader>nrb :%!xxd -r<CR>
+
+" 禁用方向键
+nnoremap <Up>    <Nop>
+nnoremap <Down>  <Nop>
+nnoremap <Left>  <Nop>
+nnoremap <Right> <Nop>
+inoremap <Up>    <Nop>
+inoremap <Down>  <Nop>
+inoremap <Left>  <Nop>
+inoremap <Right> <Nop>
+vnoremap <Up>    <Nop>
+vnoremap <Down>  <Nop>
+vnoremap <Left>  <Nop>
+vnoremap <Right> <Nop>
+
+nnoremap <C-E> <End>
+inoremap <C-E> <End>
+vnoremap <C-E> <End>
 
 " nnoremap j gj
 " nnoremap k gk
 
-inoremap <F1> <ESC>
 nnoremap <F1> <ESC>
+inoremap <F1> <ESC>
 vnoremap <F1> <ESC>
+
+cmap <C-A> <Home>
+cmap <C-A> <End>
+cnoremap <C-B> <Left>
+cnoremap <C-D> <Del>
+cnoremap <C-F> <Right>
+cnoremap <C-N> <Down>
+cnoremap <C-P> <Up>
+cnoremap <Esc> <C-B> <S-Left>
+cnoremap <Esc> <C-F> <S-Right>
+
 nnoremap ; :
 vnoremap ; :
+
 " nnoremap <C-h> <C-w>h
 " nnoremap <C-j> <C-w>j
 " nnoremap <C-k> <C-w>k
@@ -356,36 +392,57 @@ vnoremap ; :
 " inoremap <C-j> <Esc><C-W>j
 " inoremap <C-k> <Esc><C-W>k
 " inoremap <C-l> <Esc><C-W>l
-"}}}
+" }}}
 
-"{{{ TAB键的自动完成现在会忽略这些文件
+" Wildmenu completion {{{
+set wildmenu                    " 命令补全
+set wildmode=longest,list,full  " 命令模式Tab补全顺序
+
 set wildignore+=*.luac              " Lua byte code
 set wildignore+=*.pyc               " Python byte code
 set wildignore+=*.spl               " compiled spelling word lists
 set wildignore+=*.sw?               " Vim swap files
 set wildignore+=*.aux,*.out,*.toc   " LaTeX intermediate files
+set wildignore+=*.mp3,*.mp4,*.avi,*.mkv " media format"
 set wildignore+=*.png,*.jpg,*.jpeg,*.bmp,*.gif   " binary images
-set wildignore+=*.o,*.obj,*.exe,*.dll,*.so,*.manifest " compiled object files
 set wildignore+=*.zip,*.tar,*.gz,*.7z " Zip file
-"}}}
+set wildignore+=*.o,*.obj,*.exe,*.dll,*.so,*.a " compiled object files
+set wildignore+=*.git*,*.hg*,*.svn* " version control system
+" }}}
 
-"{{{ ctrlp.vim
+" ctrlp.vim {{{
 let g:ctrlp_map = ',,'
 let g:ctrlp_open_multiple_files = 'v'
-
 let g:ctrlp_custom_ignore = {
     \ 'dir':  '\v[\/]\.(git|hg|svn)$',
     \ 'file': '\v\.(log|jpg|png|jpeg|exe|so|dll)$',
     \ }
-"}}}
+" }}}
 
-"{{{ ack.vim
+" vim-airline {{{
+if has('statusline')
+    let g:airline_theme='powerlineish' " airline users use the powerline theme
+    " let g:airline_powerline_fonts=1    " and the powerline fonts
+    " let g:airline_section_c = '%f%m'
+    let g:airline#extensions#tabline#fnamemod     = ':t' "显示短路径文件名
+    let g:airline#extensions#tabline#enabled      = 1
+    let g:airline#extensions#tabline#tab_nr_type  = 1
+    let g:airline#extensions#tabline#left_sep     = '>'
+    let g:airline#extensions#tabline#left_alt_sep = '|'
+endif
+" }}}
+
+" ack.vim {{{
 if executable('ack')
     let g:ackprg="ack -H --nocolor --nogroup --column"
 endif
-"}}}
+" }}}
 
-"{{{ tabular.vim
+" vim-markdown.vim {{{
+let g:vim_markdown_folding_disabled=1
+" }}}
+
+" tabular.vim {{{
 " nmap <Leader>a& :Tabularize /&<CR>
 " vmap <Leader>a& :Tabularize /&<CR>
 " nmap <Leader>a= :Tabularize /=<CR>
@@ -413,31 +470,35 @@ endif
         " call search(repeat('[^|]*|',column).'\s\{-\}'.repeat('.',position),'ce',line('.'))
     " endif
 " endfunction
-"}}}
+" }}}
 
-"{{{ vim-easy-align
+" vim-easy-align {{{
 vnoremap <silent> <Leader>a :EasyAlign<Enter>
-"}}}
+" }}}
 
-"{{{ delimitmate.vim
+" delimitmate.vim {{{
 au FileType * let b:delimitMate_autoclose = 1
-
 " If using html auto complete (complete closing tag)
 au FileType xml,html,xhtml let b:delimitMate_matchpairs ="(:),[:],{:}"
-"}}}
+" }}}
 
-"{{{ supertab
+" supertab {{{
 " let g:SuperTabRetainCompletionType=2
 " let g:SuperTabDefaultCompletionType = "context"
 " let g:SuperTabCompletionContexts = ['s:ContextText', 's:ContextDiscover']
-"}}}
+" }}}
 
-"{{{ ultisnips
-let g:UltiSnipsSnippetDirectories = ["UltiSnips", "snippets"]
-let g:UltiSnipsSnippetsDir = '~/.vim/snippets'
-"}}}
+" ultisnips {{{
+let g:UltiSnipsExpandTrigger       = '<Tab>'
+let g:UltiSnipsJumpForwardTrigger  = '<Tab>'
+let g:UltiSnipsJumpBackwardTrigger = '<S-Tab>'
+let g:UltiSnipsListSnippets        = '<c-tab>'
+let g:UltiSnipsEditSplit           = 'horizontal'
+let g:UltiSnipsSnippetDirectories  = ["UltiSnips", "snippets"]
+let g:UltiSnipsSnippetsDir         = '~/.vim/snippets'
+" }}}
 
-"{{{ tagbar.vim
+" tagbar.vim {{{
 nmap <silent> <Leader>t :TagbarToggle<CR>
 let g:tagbar_ctags_bin = 'ctags'
 let g:tagbar_width = 36
@@ -453,31 +514,31 @@ function Updatetags()
 endfunction
 
 nmap <leader>g :call Updatetags()<CR>
-"}}}
+" }}}
 
-"{{{ OmniCppComplete 
+" OmniCppComplete {{{
 " C++ code completion:  http://vim.wikia.com/wiki/VimTip1608
 set completeopt=longest,menu        " 关掉智能补全时的预览窗口(new-omni-completion)
-let OmniCpp_MayCompleteDot = 1      " autocomplete with .
-let OmniCpp_MayCompleteArrow = 1    " autocomplete with ->
-let OmniCpp_MayCompleteScope = 1    " autocomplete with ::
-let OmniCpp_SelectFirstItem = 2     " select first item (but don't insert)
-let OmniCpp_NamespaceSearch = 2     " search namespaces in this and included files
+let OmniCpp_MayCompleteDot      = 1 " autocomplete with .
+let OmniCpp_MayCompleteArrow    = 1 " autocomplete with ->
+let OmniCpp_MayCompleteScope    = 1 " autocomplete with ::
+let OmniCpp_SelectFirstItem     = 2 " select first item (but don't insert)
+let OmniCpp_NamespaceSearch     = 2 " search namespaces in this and included files
 let OmniCpp_ShowPrototypeInAbbr = 1 " show function prototype in popup window
-let OmniCpp_GlobalScopeSearch=1     " enable the global scope search
-let OmniCpp_DisplayMode=1           " Class scope completion mode: always show all members
-let OmniCpp_DefaultNamespaces=["std"]
-let OmniCpp_ShowScopeInAbbr=1       " show scope in abbreviation and remove the last column
-let OmniCpp_ShowAccess=1 
-"}}}
+let OmniCpp_GlobalScopeSearch   = 1 " enable the global scope search
+let OmniCpp_DisplayMode         = 1 " Class scope completion mode: always show all members
+let OmniCpp_ShowScopeInAbbr     = 1 " show scope in abbreviation and remove the last column
+let OmniCpp_ShowAccess          = 1
+let OmniCpp_DefaultNamespaces   = ["std"]
+" }}}
 
-"{{{ vim-authorinfo
-let g:authorinfo_author='xutao(butbueatiful)'
-let g:authorinfo_email='butbueatiful@gmail.com'
-let g:authorinfo_company='myself'
-"}}}
+" vim-authorinfo {{{
+let g:authorinfo_author  = 'xutao(butbueatiful)'
+let g:authorinfo_email   = 'butbueatiful@gmail.com'
+let g:authorinfo_company = 'myself'
+" }}}
 
-"{{{ nerdcommenter.vim
+" nerdcommenter.vim {{{
 " [count],cc 光标以下 count 行逐行添加注释(9,cc)
 " [count],cu 光标以下 count 行逐行取消注释(9,cu)
 " [count],cm 光标以下 count 行尝试添加块注释(9,cm)
@@ -486,26 +547,28 @@ let g:authorinfo_company='myself'
 " ,cA 在行尾插入注释符号并且进入插入模式。
 
 " 空格键添加去除注释
-" map <space> <leader>ci
+" map <space> <Leader>ci
 " map <space> <plug>NERDCommenterInvert
 " let NERDCreateDefaultMappings=0
 
-let NERDSpaceDelims=1       " 让注释符与语句之间留一个空格
-let NERDCompactSexyComs=1   " 多行注释时样子更好看
-"}}}
+let NERDSpaceDelims     = 1       " 让注释符与语句之间留一个空格
+let NERDCompactSexyComs = 1   " 多行注释时样子更好看
+" }}}
 
-"{{{ DoxygenToolkit.vim
+" DoxygenToolkit.vim {{{
 " highlight the doxygen comments
-let g:load_doxygen_syntax=1
 set syntax=cpp.doxygen
+let g:load_doxygen_syntax=1
 
-let g:DoxygenToolkit_authorName="xutao butbueatiful@gmail.com"
-let g:DoxygenToolkit_versionString="1.0"
 let s:licenseTag = "Copyright(C)\<enter>"
 let s:licenseTag = s:licenseTag . "For free\<enter>"
 let s:licenseTag = s:licenseTag . "All right reserved"
 let g:DoxygenToolkit_licenseTag = s:licenseTag
-let g:DoxygenToolkit_briefTag_funcName="yes"
+
+let g:DoxygenToolkit_authorName        = "xutao butbueatiful@gmail.com"
+let g:DoxygenToolkit_versionString     = "1.0"
+let g:DoxygenToolkit_briefTag_funcName = "yes"
+
 let g:doxygen_enhanced_color=1
 
 nmap dx :Dox<CR>
@@ -513,41 +576,37 @@ nmap da :DoxAut<CR>
 nmap dl :DoxLic<CR>
 
 " autocmd BufNewFile *.{h,hpp,c,cpp,cc} DoxAuthor
-"}}}
+" }}}
 
-"{{{ NERDTree.vim
-":ERDtree 打开NERD_tree :NERDtreeClose    关闭NERD_tree  
-"o 打开关闭文件或者目录 t 在标签页中打开  
-"T 在后台标签页中打开   ! 执行此文件  
-"p 到上层目录           P 到根目录  
-"K 到第一个节点         J 到最后一个节点  
-"u 打开上层目录         m 显示文件系统菜单（添加、删除、移动操作）  
-"r 递归刷新当前目录     R 递归刷新当前根目录  
+" NERDTree.vim {{{
+" :ERDtree        打开NERD_tree
+" :NERDtreeClose  关闭NERD_tree
+" o 打开关闭文件或者目录 t 在标签页中打开
+" T 在后台标签页中打开   ! 执行此文件
+" p 到上层目录           P 到根目录
+" K 到第一个节点         J 到最后一个节点
+" u 打开上层目录         m 显示文件系统菜单 添加、删除、移动操作
+" r 递归刷新当前目录     R 递归刷新当前根目录
 nmap <silent> <Leader>n :NERDTreeToggle<CR>
-let NERDTreeShowLineNumbers=1
-let NERDTreeIgnore=['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
-let NERDTreeWinpos="left"
-let NERDTreeQuitOnOpen=1            " 打开文件后, 关闭NERDTrre窗口
-let NERDTreeWinSize=31              " 设置窗口大小
+let NERDTreeShowLineNumbers = 1
+let NERDTreeIgnore          = ['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
+let NERDTreeWinpos          = "left"
+let NERDTreeQuitOnOpen      = 1            " 打开文件后, 关闭NERDTrre窗口
+let NERDTreeWinSize         = 31              " 设置窗口大小
 "let NERDTreeHighlightCursorline=1  " 高亮NERDTrre窗口的当前行
-"}}}
+" }}}
 
-"{{{ vim-markdown.vim
-let g:vim_markdown_folding_disabled=1
-"}}}
+" Fugitive.vim {{{
+nnoremap <silent> <Leader>gs :Gstatus<CR>
+nnoremap <silent> <Leader>gd :Gdiff<CR>
+nnoremap <silent> <Leader>gc :Gcommit<CR>
+nnoremap <silent> <Leader>gb :Gblame<CR>
+nnoremap <silent> <Leader>gl :Glog<CR>
+nnoremap <silent> <Leader>gp :Git push<CR>
+nnoremap <silent> <Leader>gw :Gwrite<CR>:GitGutter<CR>
+" }}}
 
-"{{{ Fugitive.vim
-nnoremap <silent> <leader>gs :Gstatus<CR>
-nnoremap <silent> <leader>gd :Gdiff<CR>
-nnoremap <silent> <leader>gc :Gcommit<CR>
-nnoremap <silent> <leader>gb :Gblame<CR>
-nnoremap <silent> <leader>gl :Glog<CR>
-nnoremap <silent> <leader>gp :Git push<CR>
-nnoremap <silent> <leader>gw :Gwrite<CR>:GitGutter<CR>
-nnoremap <silent> <leader>gg :GitGutterToggle<CR>
-"}}}
-
-"{{{ QuickFix Window, which is borrowed from c9s
+" QuickFix Window, which is borrowed from c9s {{{
 command -bang -nargs=? QFix call QFixToggle(<bang>0)
 
 function! QFixToggle(forced)
@@ -560,13 +619,15 @@ function! QFixToggle(forced)
   endif
 endfunction
 
-nnoremap <leader>qx :QFix<CR>
+nnoremap <Leader>qx :QFix<CR>
 autocmd BufWinEnter quickfix let g:qfix_win = bufnr("$")
-"}}}
+" }}}
 
-"{{{ man.vim
-source $VIMRUNTIME/ftplugin/man.vim
-nnoremap <silent> <S-k> :Man <c-r>=expand("<cword>")<CR><CR>
-"}}}
+" man.vim {{{
+if filereadable($VIMRUNTIME . "/ftplugin/man.vim")
+    source $VIMRUNTIME/ftplugin/man.vim
+    nnoremap <silent> <S-k> :Man <c-r>=expand("<cword>")<CR><CR>
+endif
+" }}}
 
 " vim: set sw=4 ts=4 sts=4 et tw=78 foldmarker={,} foldlevel=0 foldmethod=marker:
