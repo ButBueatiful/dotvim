@@ -24,7 +24,7 @@ Bundle 'SirVer/ultisnips'
 "-----------------
 " Fast navigation
 "-----------------
-Bundle 'tsaleh/vim-matchit'
+" Bundle 'tsaleh/vim-matchit'
 " Bundle 'Lokaltog/vim-easymotion'
 
 "--------------
@@ -33,7 +33,7 @@ Bundle 'tsaleh/vim-matchit'
 Bundle 'ButBueatiful/vim-authorinfo'
 Bundle 'DoxygenToolkit.vim'
 Bundle 'OmniCppComplete'
-Bundle 'a.vim'
+" Bundle 'a.vim'
 Bundle 'scrooloose/nerdcommenter'
 Bundle 'junegunn/vim-easy-align'
 " Bundle 'godlygeek/tabular'
@@ -50,8 +50,7 @@ Bundle 'mileszs/ack.vim'
 Bundle 'kien/ctrlp.vim'
 Bundle 'tpope/vim-fugitive'
 Bundle 'bling/vim-airline'
-" Bundle 'Lokaltog/vim-powerline'
-" Bundle 'scrooloose/syntastic'
+Bundle 'scrooloose/syntastic'
 " Bundle 'bronson/vim-trailing-whitespace'
 
 "-------------
@@ -78,9 +77,10 @@ Bundle 'bling/vim-airline'
 " Bundle 'groenewege/vim-less'
 " Bundle 'wavded/vim-stylus'
 " Bundle 'nono/vim-handlebars'
+" Bundle 'mattn/emmet-vim'
 
 "------- markup language -------
-Bundle 'tpope/vim-markdown'
+" Bundle 'tpope/vim-markdown'
 " Bundle 'timcharper/textile.vim'
 
 "------- Ruby --------
@@ -113,7 +113,6 @@ set shortmess=atI               " I不显启动时的信息
 set showmode                    " 在插入、替换和可视模式里，在最后一行提供消息
 set showcmd                     " 在屏幕最后一行显示 (部分的) 命令
 set showtabline=2               " 标签页：0永远不 1至少有两个标签页时才会 2永远会
-set showmatch                   " 显示括号配对情况
 set matchtime=1                 " 跳转到匹配括号的时间
 set number                      " 显示行号
 set scrolloff=3                 " 上下滚动隔3行
@@ -127,11 +126,12 @@ syntax on                       " 启动语法高亮，使用 'background' 来�
 set magic                       " 增强行正则
 
 set ignorecase                  " 搜索时忽略大小写
-"set gdefault
+set smartcase                   " 如果搜索模式包含大写字符，
+set gdefault                    " 默认开启全局匹配(在替换时不用输入g)
+set incsearch                   " 开启实时搜索功能
+set showmatch                   " 显示括号配对情况
 set hlsearch                    " 开启高亮显示结果
 set wrapscan                    " 搜索到文件两端时重新搜索
-set incsearch                   " 开启实时搜索功能
-set smartcase                   " 如果搜索模式包含大写字符，
 
 set backspace=indent,eol,start  " 退格键和方向键可以换行
 set whichwrap=b,s,h,l,<,>,[,]   " 允许backspace和光标键跨越行边界
@@ -155,8 +155,8 @@ set hidden                      " 允许在有未保存的修改时切换缓冲�
 set ttyfast
 
 set autoindent                  " 继承前一行的缩进方式
-set cindent                     " c/c++样式缩进
 set smartindent                 " 为c/c++程序提供自动缩进
+set cindent                     " c/c++样式缩进
 
 set path+=../include            " gf搜索路径
 "set autochdir                  " 当前目录为工作目录
@@ -313,6 +313,7 @@ nmap <silent> <Leader>sv :so $MYVIMRC<CR>
 
 nmap <silent> <Tab> :bn<CR>
 nmap <silent> <S-Tab> :bp<CR>
+nmap <silent> <Leader>bd :bd<CR>
 vnoremap <Tab> >gv
 vnoremap <S-Tab> <gv
 
@@ -321,12 +322,12 @@ nmap <silent> <Leader>fef ggVG=``
 " 格式化段落
 nnoremap <Leader>q gqip
 
-" * #搜索时不移动当前词
 nnoremap * *<c-o>
 nnoremap # #<c-o>
-" 搜索词处于窗口中间
 nnoremap n nzzzv
 nnoremap N Nzzzv"
+nnoremap / /\v
+vnoremap / /\v
 nnoremap <silent> <Leader><CR> :noh<CR>
 
 set pastetoggle=<Leader>pp
@@ -340,39 +341,24 @@ nmap <silent> <Leader>cd :lcd %:h<CR>
 nmap <silent> <Leader>md :!mkdir -p %:p:h<CR>
 nmap <Leader>m :wa<CR>:make<CR>:cw<CR><CR>
 nmap <Leader>ax :!chmod a+x %<CR>:!./%<CR>
-nmap <C-k> :!sdcv <C-R>=expand("<cword>")<CR><CR>
+" nmap <C-k> :!sdcv <C-R>=expand("<cword>")<CR><CR>
 
 " Read binary
 nmap <Leader>rb :%!xxd<CR>
 nmap <Leader>nrb :%!xxd -r<CR>
 
-" 禁用方向键
-nnoremap <Up>    <Nop>
-nnoremap <Down>  <Nop>
-nnoremap <Left>  <Nop>
-nnoremap <Right> <Nop>
-inoremap <Up>    <Nop>
-inoremap <Down>  <Nop>
-inoremap <Left>  <Nop>
-inoremap <Right> <Nop>
-vnoremap <Up>    <Nop>
-vnoremap <Down>  <Nop>
-vnoremap <Left>  <Nop>
-vnoremap <Right> <Nop>
+inoremap <C-A> <Esc>I
+inoremap <C-E> <Esc>A
 
-nnoremap <C-E> <End>
-inoremap <C-E> <End>
-vnoremap <C-E> <End>
-
-" nnoremap j gj
-" nnoremap k gk
+nnoremap j gj
+nnoremap k gk
 
 nnoremap <F1> <ESC>
 inoremap <F1> <ESC>
 vnoremap <F1> <ESC>
 
 cmap <C-A> <Home>
-cmap <C-A> <End>
+cmap <C-E> <End>
 cnoremap <C-B> <Left>
 cnoremap <C-D> <Del>
 cnoremap <C-F> <Right>
@@ -396,7 +382,7 @@ vnoremap ; :
 
 " Wildmenu completion {{{
 set wildmenu                    " 命令补全
-set wildmode=longest,list,full  " 命令模式Tab补全顺序
+set wildmode=longest:list:full  " 命令模式Tab补全顺序
 
 set wildignore+=*.luac              " Lua byte code
 set wildignore+=*.pyc               " Python byte code
@@ -516,6 +502,11 @@ endfunction
 nmap <leader>g :call Updatetags()<CR>
 " }}}
 
+" syntastic {{{ 
+" let g:syntastic_check_on_open = 1
+" let g:syntastic_auto_jump = 1
+" }}}
+
 " OmniCppComplete {{{
 " C++ code completion:  http://vim.wikia.com/wiki/VimTip1608
 set completeopt=longest,menu        " 关掉智能补全时的预览窗口(new-omni-completion)
@@ -581,18 +572,22 @@ nmap dl :DoxLic<CR>
 " NERDTree.vim {{{
 " :ERDtree        打开NERD_tree
 " :NERDtreeClose  关闭NERD_tree
-" o 打开关闭文件或者目录 t 在标签页中打开
-" T 在后台标签页中打开   ! 执行此文件
-" p 到上层目录           P 到根目录
-" K 到第一个节点         J 到最后一个节点
-" u 打开上层目录         m 显示文件系统菜单 添加、删除、移动操作
-" r 递归刷新当前目录     R 递归刷新当前根目录
+" o 打开关闭文件或者目录
+" t 在标签页中打开
+" T 在后台标签页中打开
+" ! 执行此文件
+" p/P 到上层目录
+" K/J 到第一个/最后一个节点
+" u 打开上层目录
+" r 刷新当前目录
+" R 递归刷新当前根目录
+" m 显示文件系统菜单 添加、删除、移动操作
 nmap <silent> <Leader>n :NERDTreeToggle<CR>
 let NERDTreeShowLineNumbers = 1
 let NERDTreeIgnore          = ['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
 let NERDTreeWinpos          = "left"
-let NERDTreeQuitOnOpen      = 1            " 打开文件后, 关闭NERDTrre窗口
-let NERDTreeWinSize         = 31              " 设置窗口大小
+let NERDTreeQuitOnOpen      = 1     " 打开文件后, 关闭NERDTrre窗口
+let NERDTreeWinSize         = 31    " 设置窗口大小
 "let NERDTreeHighlightCursorline=1  " 高亮NERDTrre窗口的当前行
 " }}}
 
@@ -607,20 +602,21 @@ nnoremap <silent> <Leader>gw :Gwrite<CR>:GitGutter<CR>
 " }}}
 
 " QuickFix Window, which is borrowed from c9s {{{
-command -bang -nargs=? QFix call QFixToggle(<bang>0)
+" command -bang -nargs=? QFix call QFixToggle(<bang>0)
 
-function! QFixToggle(forced)
-  if exists("g:qfix_win") && a:forced == 0
-    cclose
-    unlet g:qfix_win
-  else
-    copen 10
-    let g:qfix_win=bufnr("$")
-  endif
-endfunction
+" function! QFixToggle(forced)
+  " if exists("g:qfix_win") && a:forced == 0
+    " cclose
+    " unlet g:qfix_win
+  " else
+    " copen 10
+    " let g:qfix_win=bufnr("$")
+  " endif
+" endfunction
 
-nnoremap <Leader>qx :QFix<CR>
-autocmd BufWinEnter quickfix let g:qfix_win = bufnr("$")
+" nnoremap <Leader>qx :QFix<CR>
+" autocmd BufWinEnter quickfix let g:qfix_win = bufnr("$")
+autocmd QuickFixCmdPost make below cwindow
 " }}}
 
 " man.vim {{{
