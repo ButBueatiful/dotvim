@@ -30,6 +30,7 @@ Bundle 'SirVer/ultisnips'
 "--------------
 " Fast editing
 "--------------
+" Bundle 'Valloric/YouCompleteMe'
 Bundle 'ButBueatiful/vim-authorinfo'
 Bundle 'DoxygenToolkit.vim'
 Bundle 'OmniCppComplete'
@@ -490,10 +491,11 @@ let g:tagbar_ctags_bin = 'ctags'
 let g:tagbar_width = 36
 
 set tags+=~/Dropbox/src/tags/cpp_tags;
+" set tags+=../tags;
 
 function Updatetags()
     if &filetype == "c"
-        exec "!ctags --fields=+iaS --extra=+q *.c *.h ../include/*.h ../lib/*.c"
+        exec "!ctags --fields=+iaS --extra=+q `find ../ -name \"*.[ch]\"`"
     elseif &filetype == "cpp"
         exec "!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q *.cpp *.h"
     endif
@@ -502,7 +504,7 @@ endfunction
 nmap <leader>g :call Updatetags()<CR>
 " }}}
 
-" syntastic {{{ 
+" syntastic {{{
 " let g:syntastic_check_on_open = 1
 " let g:syntastic_auto_jump = 1
 " }}}
@@ -601,22 +603,10 @@ nnoremap <silent> <Leader>gp :Git push<CR>
 nnoremap <silent> <Leader>gw :Gwrite<CR>:GitGutter<CR>
 " }}}
 
-" QuickFix Window, which is borrowed from c9s {{{
-" command -bang -nargs=? QFix call QFixToggle(<bang>0)
-
-" function! QFixToggle(forced)
-  " if exists("g:qfix_win") && a:forced == 0
-    " cclose
-    " unlet g:qfix_win
-  " else
-    " copen 10
-    " let g:qfix_win=bufnr("$")
-  " endif
-" endfunction
-
-" nnoremap <Leader>qx :QFix<CR>
-" autocmd BufWinEnter quickfix let g:qfix_win = bufnr("$")
-autocmd QuickFixCmdPost make below cwindow
+" QuickFix Window {{{
+nnoremap <Leader>qx :ccl<CR>
+autocmd QuickFixCmdPost [^l]* nested cwindow
+autocmd QuickFixCmdPost    l* nested lwindow
 " }}}
 
 " man.vim {{{
