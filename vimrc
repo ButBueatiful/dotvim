@@ -24,7 +24,7 @@ Bundle 'SirVer/ultisnips'
 "-----------------
 " Fast navigation
 "-----------------
-" Bundle 'tsaleh/vim-matchit'
+Bundle 'tsaleh/vim-matchit'
 " Bundle 'Lokaltog/vim-easymotion'
 
 "--------------
@@ -34,9 +34,9 @@ Bundle 'SirVer/ultisnips'
 Bundle 'ButBueatiful/vim-authorinfo'
 Bundle 'DoxygenToolkit.vim'
 Bundle 'OmniCppComplete'
-" Bundle 'a.vim'
 Bundle 'scrooloose/nerdcommenter'
 Bundle 'junegunn/vim-easy-align'
+" Bundle 'a.vim'
 " Bundle 'godlygeek/tabular'
 " Bundle 'tpope/vim-surround'
 " Bundle 'sjl/gundo.vim'
@@ -79,6 +79,7 @@ Bundle 'scrooloose/syntastic'
 " Bundle 'wavded/vim-stylus'
 " Bundle 'nono/vim-handlebars'
 " Bundle 'mattn/emmet-vim'
+Bundle 'lilydjwg/colorizer'
 
 "------- markup language -------
 " Bundle 'tpope/vim-markdown'
@@ -305,8 +306,6 @@ set foldtext=MyFoldText()
 " }}}
 
 " Convenience mappings {{{
-nnoremap <silent> <Leader>fq :q!<CR>
-nnoremap <silent> <Leader>z :x<CR>
 cmap w!! %!sudo tee > /dev/null %
 
 nmap <silent> <Leader>ev :e $MYVIMRC<CR>
@@ -315,8 +314,8 @@ nmap <silent> <Leader>sv :so $MYVIMRC<CR>
 nmap <silent> <Tab> :bn<CR>
 nmap <silent> <S-Tab> :bp<CR>
 nmap <silent> <Leader>bd :bd<CR>
-vnoremap <Tab> >gv
-vnoremap <S-Tab> <gv
+vnoremap > >gv
+vnoremap < <gv
 
 " autocmd BufWritePost *.c normal mzgg=G`z
 nmap <silent> <Leader>fef ggVG=``
@@ -326,7 +325,7 @@ nnoremap <Leader>q gqip
 nnoremap * *<c-o>
 nnoremap # #<c-o>
 nnoremap n nzzzv
-nnoremap N Nzzzv"
+nnoremap N Nzzzv
 nnoremap / /\v
 vnoremap / /\v
 nnoremap <silent> <Leader><CR> :noh<CR>
@@ -342,7 +341,7 @@ nmap <silent> <Leader>cd :lcd %:h<CR>
 nmap <silent> <Leader>md :!mkdir -p %:p:h<CR>
 nmap <Leader>m :wa<CR>:make<CR>:cw<CR><CR>
 nmap <Leader>ax :!chmod a+x %<CR>:!./%<CR>
-" nmap <C-k> :!sdcv <C-R>=expand("<cword>")<CR><CR>
+nmap <C-\> :!sdcv <C-R>=expand("<cword>")<CR><CR>
 
 " Read binary
 nmap <Leader>rb :%!xxd<CR>
@@ -415,7 +414,7 @@ if has('statusline')
     let g:airline#extensions#tabline#enabled      = 1
     let g:airline#extensions#tabline#tab_nr_type  = 1
     let g:airline#extensions#tabline#left_sep     = '>'
-    let g:airline#extensions#tabline#left_alt_sep = '|'
+    let g:airline#extensions#tabline#left_alt_sep = '>'
 endif
 " }}}
 
@@ -491,7 +490,6 @@ let g:tagbar_ctags_bin = 'ctags'
 let g:tagbar_width = 36
 
 set tags+=~/Dropbox/src/tags/cpp_tags;
-" set tags+=../tags;
 
 function Updatetags()
     if &filetype == "c"
