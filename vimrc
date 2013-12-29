@@ -480,8 +480,9 @@ let g:UltiSnipsJumpForwardTrigger  = '<Tab>'
 let g:UltiSnipsJumpBackwardTrigger = '<S-Tab>'
 let g:UltiSnipsListSnippets        = '<c-tab>'
 let g:UltiSnipsEditSplit           = 'horizontal'
+" 自定义代码片段存放于`~/.vim/snippets`里，当与默认重名时会有提示
 let g:UltiSnipsSnippetDirectories  = ["UltiSnips", "snippets"]
-let g:UltiSnipsSnippetsDir         = '~/.vim/snippets'
+" let g:UltiSnipsSnippetsDir         = '~/.vim/snippets'
 " }}}
 
 " tagbar.vim {{{
