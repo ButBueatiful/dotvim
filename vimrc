@@ -25,7 +25,7 @@ Bundle 'SirVer/ultisnips'
 " Fast navigation
 "-----------------
 Bundle 'tsaleh/vim-matchit'
-" Bundle 'Lokaltog/vim-easymotion'
+Bundle 'Lokaltog/vim-easymotion'
 
 "--------------
 " Fast editing
@@ -357,15 +357,17 @@ nnoremap <F1> <ESC>
 inoremap <F1> <ESC>
 vnoremap <F1> <ESC>
 
-cmap <C-A> <Home>
-cmap <C-E> <End>
+cnoremap <C-A> <Home>
 cnoremap <C-B> <Left>
-cnoremap <C-D> <Del>
+cnoremap <C-E> <End>
 cnoremap <C-F> <Right>
-cnoremap <C-N> <Down>
+cnoremap <C-N> <End>
 cnoremap <C-P> <Up>
-cnoremap <Esc> <C-B> <S-Left>
-cnoremap <Esc> <C-F> <S-Right>
+cnoremap <ESC>b <S-Left>
+cnoremap <ESC><C-B> <S-Left>
+cnoremap <ESC>f <S-Right>
+cnoremap <ESC><C-F> <S-Right>
+cnoremap <ESC><C-H> <C-W>
 
 nnoremap ; :
 vnoremap ; :
@@ -397,7 +399,7 @@ set wildignore+=*.git*,*.hg*,*.svn* " version control system
 " }}}
 
 " ctrlp.vim {{{
-let g:ctrlp_map = ',,'
+" let g:ctrlp_map = ',,'
 let g:ctrlp_open_multiple_files = 'v'
 let g:ctrlp_custom_ignore = {
     \ 'dir':  '\v[\/]\.(git|hg|svn)$',

@@ -7,4 +7,4 @@
 	cd ~
 	git clone https://github.com/ButBueatiful/dotvim.git .vim
 	cd ~/.vim/
-    ./config.sh
+    ./setup.sh
