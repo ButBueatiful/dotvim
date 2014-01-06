@@ -403,7 +403,7 @@ set wildignore+=*.git*,*.hg*,*.svn* " version control system
 let g:ctrlp_open_multiple_files = 'v'
 let g:ctrlp_custom_ignore = {
     \ 'dir':  '\v[\/]\.(git|hg|svn)$',
-    \ 'file': '\v\.(log|jpg|png|jpeg|exe|so|dll)$',
+    \ 'file': '\v\.(log|jpg|png|jpeg|exe|a|so|dll)$',
     \ }
 " }}}
 
