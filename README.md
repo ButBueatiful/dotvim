@@ -1,6 +1,6 @@
 ### It's how my Vim looks now:
 
-![screenshots](https://raw.github.com/ButBueatiful/dotvim/master/screenshots/vim-screenshot.png)
+![screenshots](https://raw.github.com/ButBueatiful/dotvim/master/screenshots/vim-screenshot.jpg)
 
 ### Usage:
 
