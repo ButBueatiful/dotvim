@@ -45,7 +45,7 @@ Bundle 'junegunn/vim-easy-align'
 "--------------
 " IDE features
 "--------------
-Bundle 'scrooloose/nerdtree'
+" Bundle 'scrooloose/nerdtree'
 Bundle 'majutsushi/tagbar'
 Bundle 'mileszs/ack.vim'
 Bundle 'kien/ctrlp.vim'
@@ -202,20 +202,6 @@ au BufReadPost *
     \ endif
 " }}}
 
-" Judge OS gui {{{
-if(has("win32") || has("win64") || has("win95") || has("win16"))
-    let g:iswindows = 1
-else
-    let g:iswindows = 0
-endif
-
-if has("gui_running")
-    let g:isGUI = 1
-else
-    let g:isGUI = 0
-endif
-" }}}
-
 " {{{ UI
 if has('statusline')
     set laststatus=2
@@ -228,7 +214,7 @@ if has('statusline')
     " set statusline+=%=%-14.(%l,%c%V%)\ %p%%     " Right aligned file nav info
 endif
 
-if g:isGUI
+if has("gui_running")
     "解决菜单栏乱码
     source $VIMRUNTIME/delmenu.vim
     source $VIMRUNTIME/menu.vim
@@ -251,8 +237,8 @@ if g:isGUI
     hi cursorline guibg=#333333
     hi cursorcolumn guibg=#333333
 
-    if g:iswindows
-        "激活菜单栏
+    if(has("win32") || has("win64"))
+        " 激活菜单栏
         noremap <M-Space> :simalt ~<CR>
         inoremap <M-Space> <C-O>:simalt ~<CR>
         cnoremap <M-Space> <C-C>:simalt ~<CR>
@@ -269,6 +255,85 @@ else
     set background=dark
     colorscheme molokai " 设置主题
 endif
+" }}}
+
+" Mappings {{{
+cmap w!! %!sudo tee > /dev/null %
+
+nmap <silent> <Leader>ev :e $MYVIMRC<CR>
+nmap <silent> <Leader>sv :so $MYVIMRC<CR>
+
+nmap <silent> <Tab> :bn<CR>
+nmap <silent> <S-Tab> :bp<CR>
+nmap <silent> <Leader>bd :bd<CR>
+
+vnoremap > >gv
+vnoremap < <gv
+
+" 格式化
+nmap <silent> <Leader>fef ggVG=``
+nnoremap <Leader>q gqip
+
+" 搜索
+nnoremap * *<c-o>
+nnoremap # #<c-o>
+nnoremap n nzzzv
+nnoremap N Nzzzv
+nnoremap / /\v
+vnoremap / /\v
+nnoremap <silent> <Leader><CR> :noh<CR>
+
+set pastetoggle=<Leader>pp
+nmap <silent> <Leader>ss :setlocal spell!<CR>
+
+" 删除所有行尾的空格
+nnoremap <Leader>W :%s/\s\+$//<CR>:let @/=''<CR>
+
+" shell命令
+nmap <silent> <Leader>cd :lcd %:h<CR>
+nmap <silent> <Leader>md :!mkdir -p %:p:h<CR>
+nmap <Leader>m :wa<CR>:make<CR>:cw<CR><CR>
+nmap <Leader>ax :!chmod a+x %<CR>:!./%<CR>
+nmap <C-\> :!sdcv <C-R>=expand("<cword>")<CR><CR>
+
+" 读二进制文件
+nmap <Leader>rb :%!xxd<CR>
+nmap <Leader>nrb :%!xxd -r<CR>
+
+inoremap <C-A> <Esc>I
+inoremap <C-E> <Esc>A
+
+nnoremap j gj
+nnoremap k gk
+
+nnoremap <F1> <ESC>
+inoremap <F1> <ESC>
+vnoremap <F1> <ESC>
+
+cnoremap <C-A> <Home>
+cnoremap <C-B> <Left>
+cnoremap <C-E> <End>
+cnoremap <C-F> <Right>
+cnoremap <C-N> <End>
+cnoremap <C-P> <Up>
+cnoremap <ESC>b <S-Left>
+cnoremap <ESC><C-B> <S-Left>
+cnoremap <ESC>f <S-Right>
+cnoremap <ESC><C-F> <S-Right>
+cnoremap <ESC><C-H> <C-W>
+
+nnoremap ; :
+vnoremap ; :
+
+" 快速切换窗口
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+inoremap <C-h> <Esc><C-W>h
+inoremap <C-j> <Esc><C-W>j
+inoremap <C-k> <Esc><C-W>k
+inoremap <C-l> <Esc><C-W>l
 " }}}
 
 " Folding {{{
@@ -305,101 +370,24 @@ endfunction
 set foldtext=MyFoldText()
 " }}}
 
-" Convenience mappings {{{
-cmap w!! %!sudo tee > /dev/null %
-
-nmap <silent> <Leader>ev :e $MYVIMRC<CR>
-nmap <silent> <Leader>sv :so $MYVIMRC<CR>
-
-nmap <silent> <Tab> :bn<CR>
-nmap <silent> <S-Tab> :bp<CR>
-nmap <silent> <Leader>bd :bd<CR>
-vnoremap > >gv
-vnoremap < <gv
-
-" autocmd BufWritePost *.c normal mzgg=G`z
-nmap <silent> <Leader>fef ggVG=``
-" 格式化段落
-nnoremap <Leader>q gqip
-
-nnoremap * *<c-o>
-nnoremap # #<c-o>
-nnoremap n nzzzv
-nnoremap N Nzzzv
-nnoremap / /\v
-vnoremap / /\v
-nnoremap <silent> <Leader><CR> :noh<CR>
-
-set pastetoggle=<Leader>pp
-nmap <silent> <Leader>ss :setlocal spell!<CR>
-
-" 删除所有行尾的空格
-nnoremap <Leader>W :%s/\s\+$//<CR>:let @/=''<CR>
-
-" BASH Maps
-nmap <silent> <Leader>cd :lcd %:h<CR>
-nmap <silent> <Leader>md :!mkdir -p %:p:h<CR>
-nmap <Leader>m :wa<CR>:make<CR>:cw<CR><CR>
-nmap <Leader>ax :!chmod a+x %<CR>:!./%<CR>
-nmap <C-\> :!sdcv <C-R>=expand("<cword>")<CR><CR>
-
-" Read binary
-nmap <Leader>rb :%!xxd<CR>
-nmap <Leader>nrb :%!xxd -r<CR>
-
-inoremap <C-A> <Esc>I
-inoremap <C-E> <Esc>A
-
-nnoremap j gj
-nnoremap k gk
-
-nnoremap <F1> <ESC>
-inoremap <F1> <ESC>
-vnoremap <F1> <ESC>
-
-cnoremap <C-A> <Home>
-cnoremap <C-B> <Left>
-cnoremap <C-E> <End>
-cnoremap <C-F> <Right>
-cnoremap <C-N> <End>
-cnoremap <C-P> <Up>
-cnoremap <ESC>b <S-Left>
-cnoremap <ESC><C-B> <S-Left>
-cnoremap <ESC>f <S-Right>
-cnoremap <ESC><C-F> <S-Right>
-cnoremap <ESC><C-H> <C-W>
-
-nnoremap ; :
-vnoremap ; :
-
-" nnoremap <C-h> <C-w>h
-" nnoremap <C-j> <C-w>j
-" nnoremap <C-k> <C-w>k
-" nnoremap <C-l> <C-w>l
-" inoremap <C-h> <Esc><C-W>h
-" inoremap <C-j> <Esc><C-W>j
-" inoremap <C-k> <Esc><C-W>k
-" inoremap <C-l> <Esc><C-W>l
-" }}}
-
 " Wildmenu completion {{{
 set wildmenu                    " 命令补全
 set wildmode=longest:list:full  " 命令模式Tab补全顺序
 
-set wildignore+=*.luac              " Lua byte code
-set wildignore+=*.pyc               " Python byte code
-set wildignore+=*.spl               " compiled spelling word lists
-set wildignore+=*.sw?               " Vim swap files
-set wildignore+=*.aux,*.out,*.toc   " LaTeX intermediate files
-set wildignore+=*.mp3,*.mp4,*.avi,*.mkv " media format"
-set wildignore+=*.png,*.jpg,*.jpeg,*.bmp,*.gif   " binary images
-set wildignore+=*.zip,*.tar,*.gz,*.7z " Zip file
-set wildignore+=*.o,*.obj,*.exe,*.dll,*.so,*.a " compiled object files
-set wildignore+=*.git*,*.hg*,*.svn* " version control system
+set wildignore+=*.luac                          " Lua byte code
+set wildignore+=*.pyc                           " Python byte code
+set wildignore+=*.spl                           " compiled spelling word lists
+set wildignore+=*.sw?                           " Vim swap files
+set wildignore+=*.aux,*.out,*.toc               " LaTeX intermediate files
+set wildignore+=*.mp3,*.mp4,*.avi,*.mkv         " media format
+set wildignore+=*.png,*.jpg,*.jpeg,*.bmp,*.gif  " binary images
+set wildignore+=*.zip,*.tar,*.gz,*.7z           " Zip file
+set wildignore+=*.o,*.obj,*.exe,*.dll,*.so,*.a  " compiled object files
+set wildignore+=*.git*,*.hg*,*.svn*             " version control system
 " }}}
 
 " ctrlp.vim {{{
-" let g:ctrlp_map = ',,'
+let g:ctrlp_map = ',p'
 let g:ctrlp_open_multiple_files = 'v'
 let g:ctrlp_custom_ignore = {
     \ 'dir':  '\v[\/]\.(git|hg|svn)$',
@@ -572,7 +560,7 @@ nmap dl :DoxLic<CR>
 " autocmd BufNewFile *.{h,hpp,c,cpp,cc} DoxAuthor
 " }}}
 
-" NERDTree.vim {{{
+"  nerdtree {{{
 " :ERDtree        打开NERD_tree
 " :NERDtreeClose  关闭NERD_tree
 " o 打开关闭文件或者目录
@@ -585,13 +573,13 @@ nmap dl :DoxLic<CR>
 " r 刷新当前目录
 " R 递归刷新当前根目录
 " m 显示文件系统菜单 添加、删除、移动操作
-nmap <silent> <Leader>n :NERDTreeToggle<CR>
-let NERDTreeShowLineNumbers = 1
-let NERDTreeIgnore          = ['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
-let NERDTreeWinpos          = "left"
-let NERDTreeQuitOnOpen      = 1     " 打开文件后, 关闭NERDTrre窗口
-let NERDTreeWinSize         = 31    " 设置窗口大小
-"let NERDTreeHighlightCursorline=1  " 高亮NERDTrre窗口的当前行
+" nmap <silent> <Leader>n :NERDTreeToggle<CR>
+" let NERDTreeShowLineNumbers = 1
+" let NERDTreeIgnore          = ['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
+" let NERDTreeWinpos          = "left"
+" let NERDTreeQuitOnOpen      = 1     " 打开文件后, 关闭NERDTrre窗口
+" let NERDTreeWinSize         = 31    " 设置窗口大小
+" let NERDTreeHighlightCursorline=1  " 高亮NERDTrre窗口的当前行
 " }}}
 
 " Fugitive.vim {{{
