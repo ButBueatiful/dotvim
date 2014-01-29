@@ -24,7 +24,7 @@ Bundle 'SirVer/ultisnips'
 "-----------------
 " Fast navigation
 "-----------------
-Bundle 'tsaleh/vim-matchit'
+" Bundle 'tsaleh/vim-matchit'
 Bundle 'Lokaltog/vim-easymotion'
 
 "--------------
@@ -202,7 +202,7 @@ au BufReadPost *
     \ endif
 " }}}
 
-" {{{ UI
+" UI {{{
 if has('statusline')
     set laststatus=2
     " Broken down into easily includeable segments
@@ -257,16 +257,18 @@ else
 endif
 " }}}
 
-" Mappings {{{
+" Bindings {{{
 cmap w!! %!sudo tee > /dev/null %
 
 nmap <silent> <Leader>ev :e $MYVIMRC<CR>
 nmap <silent> <Leader>sv :so $MYVIMRC<CR>
 
+" 切换buffer
 nmap <silent> <Tab> :bn<CR>
 nmap <silent> <S-Tab> :bp<CR>
 nmap <silent> <Leader>bd :bd<CR>
 
+" 选中后增加/减少缩进
 vnoremap > >gv
 vnoremap < <gv
 
@@ -283,6 +285,10 @@ nnoremap / /\v
 vnoremap / /\v
 nnoremap <silent> <Leader><CR> :noh<CR>
 
+" 加减法
+nnoremap + <C-a>
+nnoremap - <C-x>
+
 set pastetoggle=<Leader>pp
 nmap <silent> <Leader>ss :setlocal spell!<CR>
 
@@ -291,8 +297,6 @@ nnoremap <Leader>W :%s/\s\+$//<CR>:let @/=''<CR>
 
 " shell命令
 nmap <silent> <Leader>cd :lcd %:h<CR>
-nmap <silent> <Leader>md :!mkdir -p %:p:h<CR>
-nmap <Leader>m :wa<CR>:make<CR>:cw<CR><CR>
 nmap <Leader>ax :!chmod a+x %<CR>:!./%<CR>
 nmap <C-\> :!sdcv <C-R>=expand("<cword>")<CR><CR>
 
@@ -310,6 +314,10 @@ nnoremap <F1> <ESC>
 inoremap <F1> <ESC>
 vnoremap <F1> <ESC>
 
+nnoremap ; :
+vnoremap ; :
+
+" 末行模式仿emacs的快捷键
 cnoremap <C-A> <Home>
 cnoremap <C-B> <Left>
 cnoremap <C-E> <End>
@@ -321,9 +329,6 @@ cnoremap <ESC><C-B> <S-Left>
 cnoremap <ESC>f <S-Right>
 cnoremap <ESC><C-F> <S-Right>
 cnoremap <ESC><C-H> <C-W>
-
-nnoremap ; :
-vnoremap ; :
 
 " 快速切换窗口
 nnoremap <C-h> <C-w>h
@@ -387,12 +392,16 @@ set wildignore+=*.git*,*.hg*,*.svn*             " version control system
 " }}}
 
 " ctrlp.vim {{{
-let g:ctrlp_map = ',p'
+let g:ctrlp_map = ',,'
 let g:ctrlp_open_multiple_files = 'v'
 let g:ctrlp_custom_ignore = {
     \ 'dir':  '\v[\/]\.(git|hg|svn)$',
     \ 'file': '\v\.(log|jpg|png|jpeg|exe|a|so|dll)$',
     \ }
+nmap <Leader>. :CtrlPClearCache<cr>:CtrlP<cr>
+nmap <Leader>l :CtrlPLine<cr>
+nmap <Leader>m :CtrlPBufTag<cr>
+nmap <Leader>M :CtrlPBufTagAll<cr>
 " }}}
 
 " vim-airline {{{
@@ -560,7 +569,7 @@ nmap dl :DoxLic<CR>
 " autocmd BufNewFile *.{h,hpp,c,cpp,cc} DoxAuthor
 " }}}
 
-"  nerdtree {{{
+" nerdtree {{{
 " :ERDtree        打开NERD_tree
 " :NERDtreeClose  关闭NERD_tree
 " o 打开关闭文件或者目录
@@ -592,10 +601,8 @@ nnoremap <silent> <Leader>gp :Git push<CR>
 nnoremap <silent> <Leader>gw :Gwrite<CR>:GitGutter<CR>
 " }}}
 
-" QuickFix Window {{{
-nnoremap <Leader>qx :ccl<CR>
-autocmd QuickFixCmdPost [^l]* nested cwindow
-autocmd QuickFixCmdPost    l* nested lwindow
+" matchit.vim {{{
+runtime macros/matchit.vim
 " }}}
 
 " man.vim {{{
@@ -603,6 +610,12 @@ if filereadable($VIMRUNTIME . "/ftplugin/man.vim")
     source $VIMRUNTIME/ftplugin/man.vim
     nnoremap <silent> <S-k> :Man <c-r>=expand("<cword>")<CR><CR>
 endif
+" }}}
+
+" QuickFix Window {{{
+nnoremap <Leader>qx :ccl<CR>
+autocmd QuickFixCmdPost [^l]* nested cwindow
+autocmd QuickFixCmdPost    l* nested lwindow
 " }}}
 
 " vim: set sw=4 ts=4 sts=4 et tw=78 foldmarker={,} foldlevel=0 foldmethod=marker:
