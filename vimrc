@@ -391,6 +391,10 @@ set wildignore+=*.o,*.obj,*.exe,*.dll,*.so,*.a  " compiled object files
 set wildignore+=*.git*,*.hg*,*.svn*             " version control system
 " }}}
 
+" vim-easymotion{{{
+let g:EasyMotion_leader_key = '<Leader>'
+" }}}
+
 " ctrlp.vim {{{
 " let g:ctrlp_map = ',,'
 let g:ctrlp_open_multiple_files = 'v'
@@ -489,17 +493,8 @@ nmap <silent> <Leader>t :TagbarToggle<CR>
 let g:tagbar_ctags_bin = 'ctags'
 let g:tagbar_width = 36
 
-set tags=./tags,./TAGS,tags,TAGS,./../tags,./../../tags,./../../../tags
-" function Updatetags()
-    " if &filetype == "c"
-        " exec "!ctags -R --fields=+iaS --extra=+q"
-    " elseif &filetype == "cpp"
-        " exec "!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q"
-    " endif
-" endfunction
-
-" nmap <leader>g :call Updatetags()<CR>
-nmap <leader>g :!uptags.sh<CR>
+set tags=./tags,tags,./../tags,./../../tags,./../../../tags
+nmap <Leader>g :!uptags.sh<CR>
 " }}}
 
 " syntastic {{{
@@ -524,7 +519,7 @@ let OmniCpp_DefaultNamespaces   = ["std"]
 " }}}
 
 " vim-authorinfo {{{
-let g:authorinfo_author  = 'xutao(butbueatiful)'
+let g:authorinfo_author  = 'xutao(Tony Xu)'
 let g:authorinfo_email   = 'butbueatiful@gmail.com'
 let g:authorinfo_company = 'myself'
 " }}}
