@@ -392,7 +392,7 @@ set wildignore+=*.git*,*.hg*,*.svn*             " version control system
 " }}}
 
 " vim-easymotion{{{
-let g:EasyMotion_leader_key = '<Leader>'
+" let g:EasyMotion_leader_key = '<Leader>'
 " }}}
 
 " ctrlp.vim {{{
