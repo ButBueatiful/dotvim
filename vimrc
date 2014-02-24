@@ -41,6 +41,7 @@ Bundle 'majutsushi/tagbar'
 Bundle 'mileszs/ack.vim'
 Bundle 'kien/ctrlp.vim'
 Bundle 'tpope/vim-fugitive'
+Bundle 'airblade/vim-gitgutter'
 " Bundle 'bling/vim-airline'
 Bundle 'scrooloose/syntastic'
 
@@ -539,6 +540,11 @@ let g:NERDSpaceDelims=1
 " let NERDTreeWinSize         = 31    " 设置窗口大小
 " let NERDTreeHighlightCursorline=1  " 高亮NERDTrre窗口的当前行
 " }}}
+
+" git-itGutter { "
+let g:gitgutter_enabled = 0
+nmap <leader>c :GitGutterToggle<CR>
+" } git-itGutter "
 
 " Fugitive.vim {{{
 nnoremap <silent> <Leader>gs :Gstatus<CR>
