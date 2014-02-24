@@ -1,36 +1,27 @@
 " Bundle {{{
 set nocompatible               " be iMproved
+
+syntax enable
+filetype on
 filetype off                   " required!
 
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
-" let Vundle manage Vundle
-" required!
 Bundle 'gmarik/vundle'
-
 "------------------
 " Code Completions
 "------------------
-" Bundle 'mattn/zencoding-vim'
 Bundle 'Raimondi/delimitMate'
-" Bundle 'ervandew/supertab'
 Bundle 'SirVer/ultisnips'
-" Bundle 'garbas/vim-snipmate'
-"------ snipmate dependencies -------
-" Bundle 'MarcWeber/vim-addon-mw-utils'
-" Bundle 'tomtom/tlib_vim'
-
 "-----------------
 " Fast navigation
 "-----------------
-" Bundle 'tsaleh/vim-matchit'
 Bundle 'Lokaltog/vim-easymotion'
 
 "--------------
 " Fast editing
 "--------------
-" Bundle 'Valloric/YouCompleteMe'
 Bundle 'ButBueatiful/vim-authorinfo'
 Bundle 'DoxygenToolkit.vim'
 Bundle 'OmniCppComplete'
@@ -40,25 +31,18 @@ Bundle 'junegunn/vim-easy-align'
 " Bundle 'godlygeek/tabular'
 " Bundle 'tpope/vim-surround'
 " Bundle 'sjl/gundo.vim'
-" Bundle 'nathanaelkane/vim-indent-guides'
+Bundle 'nathanaelkane/vim-indent-guides'
 
 "--------------
 " IDE features
 "--------------
-" Bundle 'scrooloose/nerdtree'
+Bundle 'scrooloose/nerdtree'
 Bundle 'majutsushi/tagbar'
 Bundle 'mileszs/ack.vim'
 Bundle 'kien/ctrlp.vim'
 Bundle 'tpope/vim-fugitive'
-Bundle 'bling/vim-airline'
+" Bundle 'bling/vim-airline'
 Bundle 'scrooloose/syntastic'
-" Bundle 'bronson/vim-trailing-whitespace'
-
-"-------------
-" Other Utils
-"-------------
-" Bundle 'humiaozuzu/fcitx-status'
-" Bundle 'nvie/vim-togglemouse'
 
 "----------------------------------------
 " Syntax/Indent for language enhancement
@@ -70,16 +54,7 @@ Bundle 'scrooloose/syntastic'
 " Bundle 'digitaltoad/vim-jade'
 
 "------- web frontend ----------
-" Bundle 'othree/html5.vim'
-" Bundle 'tpope/vim-haml'
-" Bundle 'pangloss/vim-javascript'
-" Bundle 'kchmck/vim-coffee-script'
-" Bundle 'nono/jquery.vim'
-" Bundle 'groenewege/vim-less'
-" Bundle 'wavded/vim-stylus'
-" Bundle 'nono/vim-handlebars'
-" Bundle 'mattn/emmet-vim'
-Bundle 'lilydjwg/colorizer'
+" Bundle 'lilydjwg/colorizer'
 
 "------- markup language -------
 " Bundle 'tpope/vim-markdown'
@@ -114,7 +89,7 @@ let g:mapleader = ","           " 全局设置用,代替\
 set shortmess=atI               " I不显启动时的信息
 set showmode                    " 在插入、替换和可视模式里，在最后一行提供消息
 set showcmd                     " 在屏幕最后一行显示 (部分的) 命令
-set showtabline=2               " 标签页：0永远不 1至少有两个标签页时才会 2永远会
+" set showtabline=2               " 标签页：0永远不 1至少有两个标签页时才会 2永远会
 set matchtime=1                 " 跳转到匹配括号的时间
 set number                      " 显示行号
 set scrolloff=3                 " 上下滚动隔3行
@@ -206,12 +181,19 @@ au BufReadPost *
 if has('statusline')
     set laststatus=2
     " Broken down into easily includeable segments
-    " set statusline=%<%f\                        " Filename
+    set statusline=\ %f\                        " Filename
     " set statusline+=%W%H%M%R                    " Options
-    " set statusline+=%{fugitive#statusline()}    " Git Hotness
-    " set statusline+=\ [%{&ff}\|%Y]              " Filetype
+    set statusline+=\ %(%{&fenc}\[%{&ff}]%)
+    set statusline+=%y\ "filetype
+    set statusline+=%r "read only flag
+    set statusline+=%m "modified flag
+
+    set statusline+=%{fugitive#statusline()}    " Git Hotness
+    " set statusline+=%#warningmsg#
+    " set statusline+=%{(&fenc!='utf-8'&&&fenc!='')?'['.&fenc.']':''}
+    " set statusline+=%*
     " set statusline+=\ [%{getcwd()}]             " Current dir
-    " set statusline+=%=%-14.(%l,%c%V%)\ %p%%     " Right aligned file nav info
+    set statusline+=%=%-10.(%l,%c%V\ \:\ %p%%%)\    " Right aligned file nav info
 endif
 
 if has("gui_running")
@@ -260,9 +242,6 @@ endif
 " Bindings {{{
 cmap w!! %!sudo tee > /dev/null %
 
-nmap <silent> <Leader>ev :e $MYVIMRC<CR>
-nmap <silent> <Leader>sv :so $MYVIMRC<CR>
-
 " 切换buffer
 nmap <silent> <Tab> :bn<CR>
 nmap <silent> <S-Tab> :bp<CR>
@@ -290,14 +269,12 @@ nnoremap + <C-a>
 nnoremap - <C-x>
 
 set pastetoggle=<Leader>pp
-nmap <silent> <Leader>ss :setlocal spell!<CR>
+" nmap <silent> <Leader>ss :setlocal spell!<CR>
 
 " 删除所有行尾的空格
 nnoremap <Leader>W :%s/\s\+$//<CR>:let @/=''<CR>
 
 " shell命令
-nmap <silent> <Leader>cd :lcd %:h<CR>
-nmap <Leader>ax :!chmod a+x %<CR>:!./%<CR>
 nmap <C-\> :!sdcv <C-R>=expand("<cword>")<CR><CR>
 
 " 读二进制文件
@@ -345,34 +322,14 @@ inoremap <C-l> <Esc><C-W>l
 " au BufWinLeave * silent! mkview   " 让vim保存当前的折叠
 " au BufWinEnter * silent! loadview " 打开上次保存的折叠样式
 set foldlevelstart=0
-
 " Space to toggle folds.
 nnoremap <Space> za
 vnoremap <Space> za
-
 " "Refocus" folds
 nnoremap ,z zMzvzz
-
 " Make zO recursively open whatever top level fold we're in, no matter where the
 " cursor happens to be.
 nnoremap zO zCzO
-
-function! MyFoldText()
-    let line = getline(v:foldstart)
-
-    let nucolwidth = &fdc + &number * &numberwidth
-    let windowwidth = winwidth(0) - nucolwidth - 3
-    let foldedlinecount = v:foldend - v:foldstart
-
-" expand tabs into spaces
-    let onetab = strpart(' ', 0, &tabstop)
-    let line = substitute(line, '\t', onetab, 'g')
-
-    let line = strpart(line, 0, windowwidth - 2 -len(foldedlinecount))
-    let fillcharcount = windowwidth - len(line) - len(foldedlinecount)
-    return line . '…' . repeat(" ",fillcharcount) . foldedlinecount . '…' . ' '
-endfunction
-set foldtext=MyFoldText()
 " }}}
 
 " Wildmenu completion {{{
@@ -391,33 +348,28 @@ set wildignore+=*.o,*.obj,*.exe,*.dll,*.so,*.a  " compiled object files
 set wildignore+=*.git*,*.hg*,*.svn*             " version control system
 " }}}
 
-" vim-easymotion{{{
-" let g:EasyMotion_leader_key = '<Leader>'
-" }}}
-
 " ctrlp.vim {{{
 " let g:ctrlp_map = ',,'
+nmap <leader>b :CtrlPBuffer<CR>
+" nmap <leader>t :CtrlP<CR>
+nmap <leader>T :CtrlPClearCache<CR>:CtrlP<CR>
 let g:ctrlp_open_multiple_files = 'v'
 let g:ctrlp_custom_ignore = {
     \ 'dir':  '\v[\/]\.(git|hg|svn)$',
     \ 'file': '\v\.(log|jpg|png|jpeg|exe|a|so|dll)$',
     \ }
-nmap <Leader>. :CtrlPClearCache<cr>:CtrlP<cr>
-nmap <Leader>l :CtrlPLine<cr>
-nmap <Leader>m :CtrlPBufTag<cr>
-nmap <Leader>M :CtrlPBufTagAll<cr>
 " }}}
 
 " vim-airline {{{
 if has('statusline')
-    let g:airline_theme='powerlineish' " airline users use the powerline theme
-    " let g:airline_powerline_fonts=1    " and the powerline fonts
+    let g:airline_theme='powerlineish'
+    " let g:airline_powerline_fonts=1
     " let g:airline_section_c = '%f%m'
-    let g:airline#extensions#tabline#fnamemod     = ':t' "显示短路径文件名
-    let g:airline#extensions#tabline#enabled      = 1
-    let g:airline#extensions#tabline#tab_nr_type  = 1
-    let g:airline#extensions#tabline#left_sep     = '>'
-    let g:airline#extensions#tabline#left_alt_sep = '>'
+    " let g:airline#extensions#tabline#fnamemod     = ':t' "显示短路径文件名
+    " let g:airline#extensions#tabline#enabled      = 1
+    " let g:airline#extensions#tabline#tab_nr_type  = 1
+    " let g:airline#extensions#tabline#left_sep     = '>'
+    " let g:airline#extensions#tabline#left_alt_sep = '>'
 endif
 " }}}
 
@@ -577,7 +529,9 @@ nmap dl :DoxLic<CR>
 " r 刷新当前目录
 " R 递归刷新当前根目录
 " m 显示文件系统菜单 添加、删除、移动操作
-" nmap <silent> <Leader>n :NERDTreeToggle<CR>
+nmap <silent> <Leader>d :NERDTreeToggle<CR>
+nmap <silent> <Leader>f :NERDTreeFind<CR>
+let g:NERDSpaceDelims=1
 " let NERDTreeShowLineNumbers = 1
 " let NERDTreeIgnore          = ['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
 " let NERDTreeWinpos          = "left"
