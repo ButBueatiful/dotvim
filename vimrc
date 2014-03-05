@@ -14,6 +14,7 @@ Bundle 'gmarik/vundle'
 "------------------
 Bundle 'Raimondi/delimitMate'
 Bundle 'SirVer/ultisnips'
+
 "-----------------
 " Fast navigation
 "-----------------
@@ -31,7 +32,6 @@ Bundle 'junegunn/vim-easy-align'
 " Bundle 'godlygeek/tabular'
 " Bundle 'tpope/vim-surround'
 " Bundle 'sjl/gundo.vim'
-Bundle 'nathanaelkane/vim-indent-guides'
 
 "--------------
 " IDE features
@@ -42,36 +42,13 @@ Bundle 'mileszs/ack.vim'
 Bundle 'kien/ctrlp.vim'
 Bundle 'tpope/vim-fugitive'
 Bundle 'airblade/vim-gitgutter'
-" Bundle 'bling/vim-airline'
 Bundle 'scrooloose/syntastic'
+" Bundle 'bling/vim-airline'
 
 "----------------------------------------
 " Syntax/Indent for language enhancement
 "----------------------------------------
-"------- web backend ---------
-" Bundle '2072/PHP-Indenting-for-VIm'
-" Bundle 'tpope/vim-rails'
-" Bundle 'lepture/vim-jinja'
-" Bundle 'digitaltoad/vim-jade'
-
-"------- web frontend ----------
-" Bundle 'lilydjwg/colorizer'
-
-"------- markup language -------
-" Bundle 'tpope/vim-markdown'
-" Bundle 'timcharper/textile.vim'
-
-"------- Ruby --------
-" Bundle 'tpope/vim-endwise'
-
-"------- Go ----------
-" Bundle 'jnwhiteh/vim-golang'
-
-"------- FPs ------
-" Bundle 'kien/rainbow_parentheses.vim'
-" Bundle 'wlangstroth/vim-racket'
-" Bundle 'vim-scripts/VimClojure'
-" Bundle 'rosstimson/scala-vim-support'
+Bundle 'nathanaelkane/vim-indent-guides'
 
 "--------------
 " Color Schemes
@@ -183,13 +160,17 @@ if has('statusline')
     set laststatus=2
     " Broken down into easily includeable segments
     set statusline=\ %f\                        " Filename
-    " set statusline+=%W%H%M%R                    " Options
-    set statusline+=\ %(%{&fenc}\[%{&ff}]%)
-    set statusline+=%y\ "filetype
+    set statusline+=%(%{&fenc}\[%{&ff}]%)       " Fencoding
+    set statusline+=%y                          " Filetype
+    set statusline+=%#errormsg#
     set statusline+=%r "read only flag
+    set statusline+=%*
     set statusline+=%m "modified flag
 
     set statusline+=%{fugitive#statusline()}    " Git Hotness
+    set statusline+=%#warningmsg#
+    set statusline+=%{SyntasticStatuslineFlag()}
+    set statusline+=%*
     " set statusline+=%#warningmsg#
     " set statusline+=%{(&fenc!='utf-8'&&&fenc!='')?'['.&fenc.']':''}
     " set statusline+=%*
@@ -431,14 +412,11 @@ au FileType xml,html,xhtml let b:delimitMate_matchpairs ="(:),[:],{:}"
 " }}}
 
 " ultisnips {{{
-let g:UltiSnipsExpandTrigger       = '<Tab>'
 let g:UltiSnipsJumpForwardTrigger  = '<Tab>'
 let g:UltiSnipsJumpBackwardTrigger = '<S-Tab>'
-let g:UltiSnipsListSnippets        = '<c-tab>'
-let g:UltiSnipsEditSplit           = 'horizontal'
-" 自定义代码片段存放于`~/.vim/snippets`里，当与默认重名时会有提示
-let g:UltiSnipsSnippetDirectories  = ["UltiSnips", "snippets"]
-" let g:UltiSnipsSnippetsDir         = '~/.vim/snippets'
+" 将自定义代码片段存放于`~/.vim/mysnippets`里，当与默认重名时会有提示
+" 然后做如下设置，先从`mysnippets`里找，然后从`UltiSnips`里找
+let g:UltiSnipsSnippetDirectories=["mysnippets", "UltiSnips"]
 " }}}
 
 " tagbar.vim {{{
@@ -451,6 +429,7 @@ nmap <Leader>g :!uptags.sh<CR>
 " }}}
 
 " syntastic {{{
+" let g:syntastic_auto_loc_list = 1
 " let g:syntastic_check_on_open = 1
 " let g:syntastic_auto_jump = 1
 " }}}
@@ -568,7 +547,7 @@ endif
 " }}}
 
 " QuickFix Window {{{
-nnoremap <Leader>qx :ccl<CR>
+nnoremap <silent> <Leader>qx :ccl<CR>
 autocmd QuickFixCmdPost [^l]* nested cwindow
 autocmd QuickFixCmdPost    l* nested lwindow
 " }}}
