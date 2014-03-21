@@ -43,7 +43,7 @@ Bundle 'kien/ctrlp.vim'
 Bundle 'tpope/vim-fugitive'
 Bundle 'airblade/vim-gitgutter'
 Bundle 'scrooloose/syntastic'
-" Bundle 'bling/vim-airline'
+Bundle 'bling/vim-airline'
 
 "----------------------------------------
 " Syntax/Indent for language enhancement
