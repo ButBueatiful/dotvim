@@ -112,6 +112,7 @@ set ttyfast
 set autoindent                  " 继承前一行的缩进方式
 set smartindent                 " 为c/c++程序提供自动缩进
 set cindent                     " c/c++样式缩进
+set cinoptions=:0,l1,t0,g0      " Linux kernel style
 
 set path+=../include            " gf搜索路径
 "set autochdir                  " 当前目录为工作目录
