@@ -41,7 +41,7 @@ Bundle 'DoxygenToolkit.vim'
 Bundle 'OmniCppComplete'
 Bundle 'scrooloose/nerdcommenter'
 Bundle 'junegunn/vim-easy-align'
-" Bundle 'a.vim'
+Bundle 'a.vim'
 " Bundle 'godlygeek/tabular'
 " Bundle 'tpope/vim-surround'
 " Bundle 'sjl/gundo.vim'
@@ -304,14 +304,14 @@ cnoremap <ESC><C-F> <S-Right>
 cnoremap <ESC><C-H> <C-W>
 
 " 快速切换窗口
-nnoremap <C-h> <C-w>h
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
-inoremap <C-h> <Esc><C-W>h
-inoremap <C-j> <Esc><C-W>j
-inoremap <C-k> <Esc><C-W>k
-inoremap <C-l> <Esc><C-W>l
+" nnoremap <C-h> <C-w>h
+" nnoremap <C-j> <C-w>j
+" nnoremap <C-k> <C-w>k
+" nnoremap <C-l> <C-w>l
+" inoremap <C-h> <Esc><C-W>h
+" inoremap <C-j> <Esc><C-W>j
+" inoremap <C-k> <Esc><C-W>k
+" inoremap <C-l> <Esc><C-W>l
 " }}}
 
 " Folding {{{
