@@ -1,3 +1,16 @@
+" Vim File
+"  Filename: vimrc
+"   Created: 2013-07-23 01:13:02
+"      Desc:
+"          _
+"   __   _(_)_ __ ___  _ __ ___
+"   \ \ / / | '_ ` _ \| '__/ __|
+"    \ V /| | | | | | | | | (__
+"     \_/ |_|_| |_| |_|_|  \___|
+"
+"    Author: xutao(Tony Xu), butbueatiful@gmail.com
+"   Company: myself
+
 " Bundle {{{
 set nocompatible               " be iMproved
 
