@@ -26,6 +26,7 @@ Bundle 'gmarik/vundle'
 " Code Completions
 "------------------
 Bundle 'Raimondi/delimitMate'
+Bundle 'honza/vim-snippets'
 Bundle 'SirVer/ultisnips'
 Bundle 'tpope/vim-repeat'
 
@@ -428,7 +429,7 @@ let g:UltiSnipsJumpForwardTrigger  = '<Tab>'
 let g:UltiSnipsJumpBackwardTrigger = '<S-Tab>'
 " 将自定义代码片段存放于`~/.vim/mysnippets`里，当与默认重名时会有提示
 " 然后做如下设置，先从`mysnippets`里找，然后从`UltiSnips`里找
-let g:UltiSnipsSnippetDirectories=["mysnippets", "UltiSnips"]
+let g:UltiSnipsSnippetDirectories=["UltiSnips", "msnippets"]
 " }}}
 
 " tagbar.vim {{{
