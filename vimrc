@@ -27,6 +27,7 @@ Bundle 'gmarik/vundle'
 "------------------
 Bundle 'Raimondi/delimitMate'
 Bundle 'SirVer/ultisnips'
+Bundle 'tpope/vim-repeat'
 
 "-----------------
 " Fast navigation
@@ -39,9 +40,9 @@ Bundle 'Lokaltog/vim-easymotion'
 Bundle 'ButBueatiful/vim-authorinfo'
 Bundle 'DoxygenToolkit.vim'
 Bundle 'OmniCppComplete'
+Bundle 'a.vim'
 Bundle 'scrooloose/nerdcommenter'
 Bundle 'junegunn/vim-easy-align'
-Bundle 'a.vim'
 " Bundle 'godlygeek/tabular'
 " Bundle 'tpope/vim-surround'
 " Bundle 'sjl/gundo.vim'
@@ -61,7 +62,8 @@ Bundle 'bling/vim-airline'
 "----------------------------------------
 " Syntax/Indent for language enhancement
 "----------------------------------------
-Bundle 'nathanaelkane/vim-indent-guides'
+" Bundle 'nathanaelkane/vim-indent-guides'
+Bundle 'tpope/vim-markdown'
 
 "--------------
 " Color Schemes
@@ -375,10 +377,6 @@ if executable('ack')
 endif
 " }}}
 
-" vim-markdown.vim {{{
-let g:vim_markdown_folding_disabled=1
-" }}}
-
 " tabular.vim {{{
 " nmap <Leader>a& :Tabularize /&<CR>
 " vmap <Leader>a& :Tabularize /&<CR>
@@ -531,13 +529,17 @@ let g:NERDSpaceDelims=1
 " let NERDTreeWinpos          = "left"
 " let NERDTreeQuitOnOpen      = 1     " 打开文件后, 关闭NERDTrre窗口
 " let NERDTreeWinSize         = 31    " 设置窗口大小
-" let NERDTreeHighlightCursorline=1  " 高亮NERDTrre窗口的当前行
+" let NERDTreeHighlightCursorline=1   " 高亮NERDTrre窗口的当前行
 " }}}
 
-" git-itGutter { "
+" vim-easymotion {{{
+map \ <Plug>(easymotion-prefix)
+" }}}
+
+" vim-gitgutter {{{
 let g:gitgutter_enabled = 0
 nmap <leader>c :GitGutterToggle<CR>
-" } git-itGutter "
+" }}}
 
 " Fugitive.vim {{{
 nnoremap <silent> <Leader>gs :Gstatus<CR>
