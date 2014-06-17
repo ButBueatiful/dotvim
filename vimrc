@@ -26,8 +26,9 @@ Bundle 'gmarik/vundle'
 " Code Completions
 "------------------
 Bundle 'Raimondi/delimitMate'
-Bundle 'honza/vim-snippets'
-Bundle 'SirVer/ultisnips'
+Bundle 'ButBueatiful/snipmate.vim'
+" Bundle 'honza/vim-snippets'
+" Bundle 'SirVer/ultisnips'
 Bundle 'tpope/vim-repeat'
 
 "-----------------
@@ -63,13 +64,11 @@ Bundle 'bling/vim-airline'
 "----------------------------------------
 " Syntax/Indent for language enhancement
 "----------------------------------------
-" Bundle 'nathanaelkane/vim-indent-guides'
 Bundle 'tpope/vim-markdown'
 
 "--------------
 " Color Schemes
 "--------------
-" Bundle 'rickharris/vim-blackboard'
 " Bundle 'altercation/vim-colors-solarized'
 " Bundle 'rickharris/vim-monokai'
 
@@ -425,11 +424,11 @@ au FileType xml,html,xhtml let b:delimitMate_matchpairs ="(:),[:],{:}"
 " }}}
 
 " ultisnips {{{
-let g:UltiSnipsJumpForwardTrigger  = '<Tab>'
-let g:UltiSnipsJumpBackwardTrigger = '<S-Tab>'
+" let g:UltiSnipsJumpForwardTrigger  = '<Tab>'
+" let g:UltiSnipsJumpBackwardTrigger = '<S-Tab>'
 " 将自定义代码片段存放于`~/.vim/mysnippets`里，当与默认重名时会有提示
 " 然后做如下设置，先从`mysnippets`里找，然后从`UltiSnips`里找
-let g:UltiSnipsSnippetDirectories=["UltiSnips", "msnippets"]
+" let g:UltiSnipsSnippetDirectories=["UltiSnips", "msnippets"]
 " }}}
 
 " tagbar.vim {{{
