@@ -31,11 +31,6 @@ Bundle 'ButBueatiful/snipmate.vim'
 " Bundle 'SirVer/ultisnips'
 Bundle 'tpope/vim-repeat'
 
-"-----------------
-" Fast navigation
-"-----------------
-Bundle 'Lokaltog/vim-easymotion'
-
 "--------------
 " Fast editing
 "--------------
@@ -45,9 +40,6 @@ Bundle 'OmniCppComplete'
 Bundle 'a.vim'
 Bundle 'scrooloose/nerdcommenter'
 Bundle 'junegunn/vim-easy-align'
-" Bundle 'godlygeek/tabular'
-" Bundle 'tpope/vim-surround'
-" Bundle 'sjl/gundo.vim'
 
 "--------------
 " IDE features
@@ -57,7 +49,6 @@ Bundle 'majutsushi/tagbar'
 Bundle 'mileszs/ack.vim'
 Bundle 'kien/ctrlp.vim'
 Bundle 'tpope/vim-fugitive'
-Bundle 'airblade/vim-gitgutter'
 Bundle 'scrooloose/syntastic'
 Bundle 'bling/vim-airline'
 
@@ -65,12 +56,6 @@ Bundle 'bling/vim-airline'
 " Syntax/Indent for language enhancement
 "----------------------------------------
 Bundle 'tpope/vim-markdown'
-
-"--------------
-" Color Schemes
-"--------------
-" Bundle 'altercation/vim-colors-solarized'
-" Bundle 'rickharris/vim-monokai'
 
 filetype plugin indent on     " required!
 " }}}
@@ -240,20 +225,16 @@ endif
 " Bindings {{{
 cmap w!! %!sudo tee > /dev/null %
 
-" 切换buffer
 nmap <silent> <Tab> :bn<CR>
 nmap <silent> <S-Tab> :bp<CR>
 nmap <silent> <Leader>bd :bd<CR>
 
-" 选中后增加/减少缩进
 vnoremap > >gv
 vnoremap < <gv
 
-" 格式化
 nmap <silent> <Leader>fef ggVG=``
 nnoremap <Leader>q gqip
 
-" 搜索
 nnoremap * *<c-o>
 nnoremap # #<c-o>
 nnoremap n nzzzv
@@ -262,20 +243,16 @@ nnoremap / /\v
 vnoremap / /\v
 nnoremap <silent> <Leader><CR> :noh<CR>
 
-" 加减法
 nnoremap + <C-a>
 nnoremap - <C-x>
 
 set pastetoggle=<Leader>pp
 " nmap <silent> <Leader>ss :setlocal spell!<CR>
 
-" 删除所有行尾的空格
 nnoremap <Leader>W :%s/\s\+$//<CR>:let @/=''<CR>
 
-" shell命令
 nmap <C-\> :!sdcv <C-R>=expand("<cword>")<CR><CR>
 
-" 读二进制文件
 nmap <Leader>rb :%!xxd<CR>
 nmap <Leader>nrb :%!xxd -r<CR>
 
@@ -288,9 +265,6 @@ nnoremap k gk
 nnoremap <F1> <ESC>
 inoremap <F1> <ESC>
 vnoremap <F1> <ESC>
-
-nnoremap ; :
-vnoremap ; :
 
 " 末行模式仿emacs的快捷键
 cnoremap <C-A> <Home>
@@ -530,15 +504,6 @@ let g:NERDSpaceDelims=1
 " let NERDTreeQuitOnOpen      = 1     " 打开文件后, 关闭NERDTrre窗口
 " let NERDTreeWinSize         = 31    " 设置窗口大小
 " let NERDTreeHighlightCursorline=1   " 高亮NERDTrre窗口的当前行
-" }}}
-
-" vim-easymotion {{{
-map \ <Plug>(easymotion-prefix)
-" }}}
-
-" vim-gitgutter {{{
-let g:gitgutter_enabled = 0
-nmap <leader>c :GitGutterToggle<CR>
 " }}}
 
 " Fugitive.vim {{{
