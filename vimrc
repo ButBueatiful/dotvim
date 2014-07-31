@@ -410,8 +410,15 @@ nmap <silent> <Leader>t :TagbarToggle<CR>
 let g:tagbar_ctags_bin = 'ctags'
 let g:tagbar_width = 36
 
-set tags=./tags,tags,./../tags,./../../tags,./../../../tags
+set tags=./tags
+
+" Make tags placed in .git/tags file available in all levels of a repository
+let gitroot = substitute(system('git rev-parse --show-toplevel'), '[\n\r]', '', 'g')
+if gitroot != ''
+    let &tags = &tags . ',' . gitroot . '/tags'
+endif
 nmap <Leader>g :!uptags.sh<CR>
+
 " }}}
 
 " syntastic {{{
@@ -434,6 +441,12 @@ let OmniCpp_DisplayMode         = 1 " Class scope completion mode: always show a
 let OmniCpp_ShowScopeInAbbr     = 1 " show scope in abbreviation and remove the last column
 let OmniCpp_ShowAccess          = 1
 let OmniCpp_DefaultNamespaces   = ["std"]
+inoremap <expr> <Esc>      pumvisible() ? "\<C-e>" : "\<Esc>"
+inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"
+inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
+inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
+inoremap <expr> <C-d>      pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<C-d>"
+inoremap <expr> <C-u>      pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<C-u>"
 " }}}
 
 " vim-authorinfo {{{
