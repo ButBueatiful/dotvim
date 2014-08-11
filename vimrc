@@ -22,6 +22,7 @@ set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
 Bundle 'gmarik/vundle'
+
 "------------------
 " Code Completions
 "------------------
@@ -44,6 +45,8 @@ Bundle 'junegunn/vim-easy-align'
 "--------------
 " IDE features
 "--------------
+Bundle 'L9'
+Bundle 'othree/vim-autocomplpop'
 Bundle 'scrooloose/nerdtree'
 Bundle 'majutsushi/tagbar'
 Bundle 'mileszs/ack.vim'
@@ -149,7 +152,6 @@ set termencoding=utf-8
 " }}}
 
 " Record exit position {{{
-" au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
 au BufReadPost *
     \ if line("'\"") > 0 && line("'\"") <= line("$") |
     \ execute 'normal! g`"zvzz' |
@@ -295,8 +297,8 @@ cnoremap <ESC><C-H> <C-W>
 " au BufWinEnter * silent! loadview " 打开上次保存的折叠样式
 set foldlevelstart=0
 " Space to toggle folds.
-nnoremap <Space> za
-vnoremap <Space> za
+" nnoremap <Space> za
+" vnoremap <Space> za
 " "Refocus" folds
 nnoremap ,z zMzvzz
 " Make zO recursively open whatever top level fold we're in, no matter where the
@@ -427,6 +429,14 @@ nmap <Leader>g :!uptags.sh<CR>
 " let g:syntastic_auto_jump = 1
 " }}}
 
+" vim-autocomplpop {{{
+inoremap <expr> <C-n> pumvisible() ? '<C-n>' :
+\ '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
+
+inoremap <expr> <M-,> pumvisible() ? '<C-n>' :
+\ '<C-x><C-o><C-n><C-p><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
+" }}}
+
 " OmniCppComplete {{{
 " C++ code completion:  http://vim.wikia.com/wiki/VimTip1608
 set completeopt=longest,menu        " 关掉智能补全时的预览窗口(new-omni-completion)
@@ -456,20 +466,20 @@ let g:authorinfo_company = 'myself'
 " }}}
 
 " nerdcommenter.vim {{{
-" [count],cc 光标以下 count 行逐行添加注释(9,cc)
-" [count],cu 光标以下 count 行逐行取消注释(9,cu)
-" [count],cm 光标以下 count 行尝试添加块注释(9,cm)
-" [count],cs 光标以下 count 行尝试添加美观的块注释(9,cm)
+" [n],cc n 行逐行添加注释(9,cc)
+" [n],cu n 行逐行取消注释(9,cu)
+" [n],cm n 行尝试添加块注释(9,cm)
+" [n],cs n 行尝试添加美观的块注释(9,cm)
 " ,ca 切换注释方式
 " ,cA 在行尾插入注释符号并且进入插入模式。
 
 " 空格键添加去除注释
-" map <space> <Leader>ci
-" map <space> <plug>NERDCommenterInvert
+map <space> <Leader>ci
+map <space> <plug>NERDCommenterInvert
 " let NERDCreateDefaultMappings=0
 
-let NERDSpaceDelims     = 1       " 让注释符与语句之间留一个空格
-let NERDCompactSexyComs = 1   " 多行注释时样子更好看
+let NERDSpaceDelims     = 1     " 让注释符与语句之间留一个空格
+let NERDCompactSexyComs = 1     " 多行注释时样子更好看
 " }}}
 
 " DoxygenToolkit.vim {{{
