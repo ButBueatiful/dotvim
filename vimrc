@@ -27,32 +27,32 @@ Bundle 'gmarik/vundle'
 " Code Completions
 "------------------
 Bundle 'Raimondi/delimitMate'
-Bundle 'ButBueatiful/snipmate.vim'
+" Bundle 'ButBueatiful/snipmate.vim'
+Bundle 'SirVer/ultisnips'
 " Bundle 'honza/vim-snippets'
-" Bundle 'SirVer/ultisnips'
 Bundle 'tpope/vim-repeat'
 
 "--------------
 " Fast editing
 "--------------
 Bundle 'ButBueatiful/vim-authorinfo'
-Bundle 'DoxygenToolkit.vim'
-Bundle 'OmniCppComplete'
-Bundle 'a.vim'
-Bundle 'scrooloose/nerdcommenter'
 Bundle 'junegunn/vim-easy-align'
 
 "--------------
 " IDE features
 "--------------
-Bundle 'L9'
-Bundle 'othree/vim-autocomplpop'
-Bundle 'scrooloose/nerdtree'
+Bundle 'a.vim'
+" Bundle 'L9'
+" Bundle 'othree/vim-autocomplpop'
+Bundle 'DoxygenToolkit.vim'
+Bundle 'scrooloose/nerdcommenter'
+Bundle 'Valloric/YouCompleteMe'
+Bundle 'scrooloose/syntastic'
+" Bundle 'scrooloose/nerdtree'
 Bundle 'majutsushi/tagbar'
 Bundle 'mileszs/ack.vim'
 Bundle 'kien/ctrlp.vim'
 Bundle 'tpope/vim-fugitive'
-Bundle 'scrooloose/syntastic'
 Bundle 'bling/vim-airline'
 
 "----------------------------------------
@@ -70,7 +70,7 @@ let g:mapleader = ","           " 全局设置用,代替\
 set shortmess=atI               " I不显启动时的信息
 set showmode                    " 在插入、替换和可视模式里，在最后一行提供消息
 set showcmd                     " 在屏幕最后一行显示 (部分的) 命令
-" set showtabline=2               " 标签页：0永远不 1至少有两个标签页时才会 2永远会
+" set showtabline=2               " 标签页：0不显示 1至少有两个标签页时才显示 2显示
 set matchtime=1                 " 跳转到匹配括号的时间
 set number                      " 显示行号
 set scrolloff=3                 " 上下滚动隔3行
@@ -126,7 +126,7 @@ set dictionary+=~/.vim/dict/simple  " For i_CTRL_X_K
 " set list                        " 显示Tab符
 set listchars=tab:›\ ,trail:•,extends:#,nbsp:.
 set fillchars=vert:\ ,stl:\ ,stlnc:\    " 在被分割的窗口间显示空白
-
+set completeopt=menu,menuone,longest
 "}}}
 
 " Backups {{{
@@ -269,15 +269,15 @@ inoremap <F1> <ESC>
 vnoremap <F1> <ESC>
 
 " 末行模式仿emacs的快捷键
-cnoremap <C-A> <Home>
-cnoremap <C-B> <Left>
-cnoremap <C-E> <End>
-cnoremap <C-F> <Right>
-cnoremap <C-N> <Down>
-cnoremap <C-P> <Up>
-cnoremap <ESC>b <S-Left>
+cnoremap <C-A>      <Home>
+cnoremap <C-B>      <Left>
+cnoremap <C-E>      <End>
+cnoremap <C-F>      <Right>
+cnoremap <C-N>      <Down>
+cnoremap <C-P>      <Up>
+cnoremap <ESC>b     <S-Left>
 cnoremap <ESC><C-B> <S-Left>
-cnoremap <ESC>f <S-Right>
+cnoremap <ESC>f     <S-Right>
 cnoremap <ESC><C-F> <S-Right>
 cnoremap <ESC><C-H> <C-W>
 
@@ -389,31 +389,21 @@ vnoremap <silent> <Leader>a :EasyAlign<Enter>
 
 " delimitmate.vim {{{
 au FileType * let b:delimitMate_autoclose = 1
-" If using html auto complete (complete closing tag)
 au FileType xml,html,xhtml let b:delimitMate_matchpairs ="(:),[:],{:}"
 " }}}
 
-" supertab {{{
-" let g:SuperTabRetainCompletionType=2
-" let g:SuperTabDefaultCompletionType = "context"
-" let g:SuperTabCompletionContexts = ['s:ContextText', 's:ContextDiscover']
-" }}}
-
 " ultisnips {{{
-" let g:UltiSnipsJumpForwardTrigger  = '<Tab>'
-" let g:UltiSnipsJumpBackwardTrigger = '<S-Tab>'
-" 将自定义代码片段存放于`~/.vim/mysnippets`里，当与默认重名时会有提示
-" 然后做如下设置，先从`mysnippets`里找，然后从`UltiSnips`里找
-" let g:UltiSnipsSnippetDirectories=["UltiSnips", "msnippets"]
+let g:UltiSnipsSnippetsDir = '~/.vim/UltiSnips'
+let g:UltiSnipsExpandTrigger       = '<C-j>'
+let g:UltiSnipsJumpForwardTrigger  = '<C-j>'
+let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
 " }}}
 
 " tagbar.vim {{{
 nmap <silent> <Leader>t :TagbarToggle<CR>
 let g:tagbar_ctags_bin = 'ctags'
 let g:tagbar_width = 36
-
 set tags=./tags
-
 " Make tags placed in .git/tags file available in all levels of a repository
 let gitroot = substitute(system('git rev-parse --show-toplevel'), '[\n\r]', '', 'g')
 if gitroot != ''
@@ -427,36 +417,18 @@ nmap <Leader>g :!uptags.sh<CR>
 " let g:syntastic_auto_loc_list = 1
 " let g:syntastic_check_on_open = 1
 " let g:syntastic_auto_jump = 1
+let g:syntastic_error_symbol = "✗"
+let g:syntastic_warning_symbol = "⚠"
 " }}}
 
-" vim-autocomplpop {{{
-inoremap <expr> <C-n> pumvisible() ? '<C-n>' :
-\ '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
-
-inoremap <expr> <M-,> pumvisible() ? '<C-n>' :
-\ '<C-x><C-o><C-n><C-p><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
-" }}}
-
-" OmniCppComplete {{{
-" C++ code completion:  http://vim.wikia.com/wiki/VimTip1608
-set completeopt=longest,menu        " 关掉智能补全时的预览窗口(new-omni-completion)
-let OmniCpp_MayCompleteDot      = 1 " autocomplete with .
-let OmniCpp_MayCompleteArrow    = 1 " autocomplete with ->
-let OmniCpp_MayCompleteScope    = 1 " autocomplete with ::
-let OmniCpp_SelectFirstItem     = 2 " select first item (but don't insert)
-let OmniCpp_NamespaceSearch     = 2 " search namespaces in this and included files
-let OmniCpp_ShowPrototypeInAbbr = 1 " show function prototype in popup window
-let OmniCpp_GlobalScopeSearch   = 1 " enable the global scope search
-let OmniCpp_DisplayMode         = 1 " Class scope completion mode: always show all members
-let OmniCpp_ShowScopeInAbbr     = 1 " show scope in abbreviation and remove the last column
-let OmniCpp_ShowAccess          = 1
-let OmniCpp_DefaultNamespaces   = ["std"]
-inoremap <expr> <Esc>      pumvisible() ? "\<C-e>" : "\<Esc>"
-inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"
-inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
-inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
-inoremap <expr> <C-d>      pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<C-d>"
-inoremap <expr> <C-u>      pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<C-u>"
+" YouCompleteMe {{{
+let g:ycm_autoclose_preview_window_after_completion = 1
+let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
+" let g:ycm_server_use_vim_stdout = 1
+" let g:ycm_server_log_level = 'debug'
+" let g:ycm_collect_identifiers_from_tags_files=1
+" let g:ycm_confirm_extra_conf=0
+nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
 " }}}
 
 " vim-authorinfo {{{
@@ -486,22 +458,18 @@ let NERDCompactSexyComs = 1     " 多行注释时样子更好看
 " highlight the doxygen comments
 set syntax=cpp.doxygen
 let g:load_doxygen_syntax=1
-
 let s:licenseTag = "Copyright(C)\<enter>"
 let s:licenseTag = s:licenseTag . "For free\<enter>"
 let s:licenseTag = s:licenseTag . "All right reserved"
 let g:DoxygenToolkit_licenseTag = s:licenseTag
-
 let g:DoxygenToolkit_authorName        = "xutao butbueatiful@gmail.com"
 let g:DoxygenToolkit_versionString     = "1.0"
 let g:DoxygenToolkit_briefTag_funcName = "yes"
-
 let g:doxygen_enhanced_color=1
 
 nmap dx :Dox<CR>
 nmap da :DoxAut<CR>
 nmap dl :DoxLic<CR>
-
 " autocmd BufNewFile *.{h,hpp,c,cpp,cc} DoxAuthor
 " }}}
 
@@ -518,29 +486,29 @@ nmap dl :DoxLic<CR>
 " r 刷新当前目录
 " R 递归刷新当前根目录
 " m 显示文件系统菜单 添加、删除、移动操作
-nmap <silent> <Leader>d :NERDTreeToggle<CR>
-nmap <silent> <Leader>f :NERDTreeFind<CR>
-let g:NERDSpaceDelims=1
-" let NERDTreeShowLineNumbers = 1
-" let NERDTreeIgnore          = ['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
-" let NERDTreeWinpos          = "left"
-" let NERDTreeQuitOnOpen      = 1     " 打开文件后, 关闭NERDTrre窗口
-" let NERDTreeWinSize         = 31    " 设置窗口大小
-" let NERDTreeHighlightCursorline=1   " 高亮NERDTrre窗口的当前行
+" nmap <silent> <Leader>d :NERDTreeToggle<CR>
+" nmap <silent> <Leader>f :NERDTreeFind<CR>
+" let g:NERDSpaceDelims=1
+" let NERDTreeShowLineNumbers     = 1
+" let NERDTreeIgnore              = ['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
+" let NERDTreeWinpos              = "left"
+" let NERDTreeQuitOnOpen          = 1     " 打开文件后, 关闭NERDTrre窗口
+" let NERDTreeWinSize             = 31    " 设置窗口大小
+" let NERDTreeHighlightCursorline = 1   " 高亮NERDTrre窗口的当前行
 " }}}
 
 " Fugitive.vim {{{
-nnoremap <silent> <Leader>gs :Gstatus<CR>
-nnoremap <silent> <Leader>gd :Gdiff<CR>
-nnoremap <silent> <Leader>gc :Gcommit<CR>
-nnoremap <silent> <Leader>gb :Gblame<CR>
-nnoremap <silent> <Leader>gl :Glog<CR>
-nnoremap <silent> <Leader>gp :Git push<CR>
-nnoremap <silent> <Leader>gw :Gwrite<CR>:GitGutter<CR>
+" nnoremap <silent> <Leader>gs :Gstatus<CR>
+" nnoremap <silent> <Leader>gd :Gdiff<CR>
+" nnoremap <silent> <Leader>gc :Gcommit<CR>
+" nnoremap <silent> <Leader>gb :Gblame<CR>
+" nnoremap <silent> <Leader>gl :Glog<CR>
+" nnoremap <silent> <Leader>gp :Git push<CR>
+" nnoremap <silent> <Leader>gw :Gwrite<CR>:GitGutter<CR>
 " }}}
 
 " matchit.vim {{{
-runtime macros/matchit.vim
+    runtime macros/matchit.vim
 " }}}
 
 " man.vim {{{
