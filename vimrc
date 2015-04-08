@@ -58,6 +58,7 @@ Bundle 'bling/vim-airline'
 "----------------------------------------
 " Syntax/Indent for language enhancement
 "----------------------------------------
+Bundle 'fatih/vim-go'
 Bundle 'tpope/vim-markdown'
 
 filetype plugin indent on     " required!
@@ -423,12 +424,30 @@ let g:syntastic_warning_symbol = "⚠"
 
 " YouCompleteMe {{{
 let g:ycm_autoclose_preview_window_after_completion = 1
-let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
+let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
 " let g:ycm_server_use_vim_stdout = 1
 " let g:ycm_server_log_level = 'debug'
-" let g:ycm_collect_identifiers_from_tags_files=1
-" let g:ycm_confirm_extra_conf=0
+let g:ycm_complete_in_comments = 1
+let g:ycm_confirm_extra_conf=0
+let g:ycm_collect_identifiers_from_tags_files=1
 nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
+" }}}
+
+" vim-go {{{
+let g:go_fmt_command = "goimports"
+au FileType go nmap <leader>r <Plug>(go-run)
+au FileType go nmap <leader>b <Plug>(go-build)
+au FileType go nmap <leader>t <Plug>(go-test)
+au FileType go nmap <leader>c <Plug>(go-coverage)
+au FileType go nmap <Leader>ds <Plug>(go-def-split)
+au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
+au FileType go nmap <Leader>dt <Plug>(go-def-tab)
+au FileType go nmap <Leader>gd <Plug>(go-doc)
+au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
+au FileType go nmap <Leader>gb <Plug>(go-doc-browser)
+au FileType go nmap <Leader>s <Plug>(go-implements)
+au FileType go nmap <Leader>i <Plug>(go-info)
+au FileType go nmap <Leader>e <Plug>(go-rename)
 " }}}
 
 " vim-authorinfo {{{
