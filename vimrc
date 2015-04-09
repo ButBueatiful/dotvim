@@ -424,7 +424,7 @@ let g:syntastic_warning_symbol = "⚠"
 
 " YouCompleteMe {{{
 let g:ycm_autoclose_preview_window_after_completion = 1
-let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
+let g:ycm_global_ycm_extra_conf = '~/.vim/ycm_c_conf.py'
 " let g:ycm_server_use_vim_stdout = 1
 " let g:ycm_server_log_level = 'debug'
 let g:ycm_complete_in_comments = 1
@@ -468,7 +468,6 @@ let g:authorinfo_company = 'myself'
 map <space> <Leader>ci
 map <space> <plug>NERDCommenterInvert
 " let NERDCreateDefaultMappings=0
-
 let NERDSpaceDelims     = 1     " 让注释符与语句之间留一个空格
 let NERDCompactSexyComs = 1     " 多行注释时样子更好看
 " }}}
