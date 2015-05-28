@@ -11,7 +11,7 @@
 "    Author: xutao(Tony Xu), butbueatiful@gmail.com
 "   Company: myself
 
-" Bundle {{{
+" Bundle {
 set nocompatible               " be iMproved
 
 syntax enable
@@ -62,16 +62,18 @@ Bundle 'fatih/vim-go'
 Bundle 'tpope/vim-markdown'
 
 filetype plugin indent on     " required!
-" }}}
+" }
 
-" General {{{
+" General {
 set history=100                 " 命令显示历史
 let g:mapleader = ","           " 全局设置用,代替\
 
 set shortmess=atI               " I不显启动时的信息
 set showmode                    " 在插入、替换和可视模式里，在最后一行提供消息
 set showcmd                     " 在屏幕最后一行显示 (部分的) 命令
-" set showtabline=2               " 标签页：0不显示 1至少有两个标签页时才显示 2显示
+" set showtabline=2               " 标签页：0不显示
+                                "         1至少有两个标签页时才显示
+                                "         2显示
 set matchtime=1                 " 跳转到匹配括号的时间
 set number                      " 显示行号
 set scrolloff=3                 " 上下滚动隔3行
@@ -105,8 +107,6 @@ set cpoptions+=$                " cw显示$
 set wrap                        " 自动换行
 set textwidth=78
 set formatoptions+=mM
-" set colorcolumn=78              " 在第 78 列显示一条竖线
-" set cursorline                  " 突出显示当前行
 
 " set modeline                    " 开启模式行支持
 set autoread                    " 当文件在外部被修改时，自动重新读取
@@ -128,9 +128,9 @@ set dictionary+=~/.vim/dict/simple  " For i_CTRL_X_K
 set listchars=tab:›\ ,trail:•,extends:#,nbsp:.
 set fillchars=vert:\ ,stl:\ ,stlnc:\    " 在被分割的窗口间显示空白
 set completeopt=menu,menuone,longest
-"}}}
+"}
 
-" Backups {{{
+" Backups {
 set nobackup   " 设置无备份文件
 set noswapfile " 不生成swap文件
 
@@ -144,22 +144,28 @@ if has('persistent_undo')
     set undolevels=1000
     set undoreload=10000
 endif
-" }}}
+" }
 
-" Encode {{{
+" Encode {
 set encoding=utf-8
 set fileencodings=utf-8,gb2312,gb18030,gbk,ucs-bom,cp936,latin1
 set termencoding=utf-8
-" }}}
+" }
 
-" Record exit position {{{
+" Record exit position {
 au BufReadPost *
     \ if line("'\"") > 0 && line("'\"") <= line("$") |
     \ execute 'normal! g`"zvzz' |
     \ endif
-" }}}
+" }
 
-" UI {{{
+" UI {
+if (exists('+colorcolumn'))
+    set colorcolumn=80
+    highlight ColorColumn ctermbg=9
+    " set cursorline                  " 突出显示当前行
+endif
+
 if has('statusline')
     set laststatus=2
     " Broken down into easily includeable segments
@@ -175,11 +181,7 @@ if has('statusline')
     set statusline+=%#warningmsg#
     set statusline+=%{SyntasticStatuslineFlag()}
     set statusline+=%*
-    " set statusline+=%#warningmsg#
-    " set statusline+=%{(&fenc!='utf-8'&&&fenc!='')?'['.&fenc.']':''}
-    " set statusline+=%*
-    " set statusline+=\ [%{getcwd()}]             " Current dir
-    set statusline+=%=%-10.(%l,%c%V\ \:\ %p%%%)\    " Right aligned file nav info
+    set statusline+=%=%-10.(%l,%c%V\ \:\ %p%%%)\ " Right aligned file nav info
 endif
 
 if has("gui_running")
@@ -223,9 +225,9 @@ else
     set background=dark
     colorscheme molokai " 设置主题
 endif
-" }}}
+" }
 
-" Bindings {{{
+" Bindings {
 cmap w!! %!sudo tee > /dev/null %
 
 nmap <silent> <Tab> :bn<CR>
@@ -291,9 +293,9 @@ cnoremap <ESC><C-H> <C-W>
 " inoremap <C-j> <Esc><C-W>j
 " inoremap <C-k> <Esc><C-W>k
 " inoremap <C-l> <Esc><C-W>l
-" }}}
+" }
 
-" Folding {{{
+" Folding {
 " au BufWinLeave * silent! mkview   " 让vim保存当前的折叠
 " au BufWinEnter * silent! loadview " 打开上次保存的折叠样式
 set foldlevelstart=0
@@ -302,12 +304,12 @@ set foldlevelstart=0
 " vnoremap <Space> za
 " "Refocus" folds
 nnoremap ,z zMzvzz
-" Make zO recursively open whatever top level fold we're in, no matter where the
-" cursor happens to be.
+" Make zO recursively open whatever top level fold we're in, no matter where
+" the cursor happens to be.
 nnoremap zO zCzO
-" }}}
+" }
 
-" Wildmenu completion {{{
+" Wildmenu completion {
 set wildmenu                    " 命令补全
 set wildmode=longest:list:full  " 命令模式Tab补全顺序
 
@@ -321,9 +323,9 @@ set wildignore+=*.png,*.jpg,*.jpeg,*.bmp,*.gif  " binary images
 set wildignore+=*.zip,*.tar,*.gz,*.7z           " Zip file
 set wildignore+=*.o,*.obj,*.exe,*.dll,*.so,*.a  " compiled object files
 set wildignore+=*.git*,*.hg*,*.svn*             " version control system
-" }}}
+" }
 
-" ctrlp.vim {{{
+" ctrlp.vim {
 " let g:ctrlp_map = ',,'
 nmap <leader>b :CtrlPBuffer<CR>
 " nmap <leader>t :CtrlP<CR>
@@ -333,9 +335,9 @@ let g:ctrlp_custom_ignore = {
     \ 'dir':  '\v[\/]\.(git|hg|svn)$',
     \ 'file': '\v\.(log|jpg|png|jpeg|exe|a|so|dll)$',
     \ }
-" }}}
+" }
 
-" vim-airline {{{
+" vim-airline {
 if has('statusline')
     let g:airline_theme='powerlineish'
     " let g:airline_powerline_fonts=1
@@ -346,15 +348,15 @@ if has('statusline')
     " let g:airline#extensions#tabline#left_sep     = '>'
     " let g:airline#extensions#tabline#left_alt_sep = '>'
 endif
-" }}}
+" }
 
-" ack.vim {{{
+" ack.vim {
 if executable('ack')
     let g:ackprg="ack -H --nocolor --nogroup --column"
 endif
-" }}}
+" }
 
-" tabular.vim {{{
+" tabular.vim {
 " nmap <Leader>a& :Tabularize /&<CR>
 " vmap <Leader>a& :Tabularize /&<CR>
 " nmap <Leader>a= :Tabularize /=<CR>
@@ -382,25 +384,25 @@ endif
         " call search(repeat('[^|]*|',column).'\s\{-\}'.repeat('.',position),'ce',line('.'))
     " endif
 " endfunction
-" }}}
+" }
 
-" vim-easy-align {{{
+" vim-easy-align {
 vnoremap <silent> <Leader>a :EasyAlign<Enter>
-" }}}
+" }
 
-" delimitmate.vim {{{
+" delimitmate.vim {
 au FileType * let b:delimitMate_autoclose = 1
 au FileType xml,html,xhtml let b:delimitMate_matchpairs ="(:),[:],{:}"
-" }}}
+" }
 
-" ultisnips {{{
+" ultisnips {
 let g:UltiSnipsSnippetsDir = '~/.vim/UltiSnips'
 let g:UltiSnipsExpandTrigger       = '<C-j>'
 let g:UltiSnipsJumpForwardTrigger  = '<C-j>'
 let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
-" }}}
+" }
 
-" tagbar.vim {{{
+" tagbar.vim {
 nmap <silent> <Leader>t :TagbarToggle<CR>
 let g:tagbar_ctags_bin = 'ctags'
 let g:tagbar_width = 36
@@ -412,17 +414,17 @@ if gitroot != ''
 endif
 nmap <Leader>g :!uptags.sh<CR>
 
-" }}}
+" }
 
-" syntastic {{{
+" syntastic {
 " let g:syntastic_auto_loc_list = 1
 " let g:syntastic_check_on_open = 1
 " let g:syntastic_auto_jump = 1
 let g:syntastic_error_symbol = "✗"
 let g:syntastic_warning_symbol = "⚠"
-" }}}
+" }
 
-" YouCompleteMe {{{
+" YouCompleteMe {
 let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_global_ycm_extra_conf = '~/.vim/ycm_c_conf.py'
 " let g:ycm_server_use_vim_stdout = 1
@@ -431,9 +433,9 @@ let g:ycm_complete_in_comments = 1
 let g:ycm_confirm_extra_conf=0
 let g:ycm_collect_identifiers_from_tags_files=1
 nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
-" }}}
+" }
 
-" vim-go {{{
+" vim-go {
 let g:go_fmt_command = "goimports"
 au FileType go nmap <leader>r <Plug>(go-run)
 au FileType go nmap <leader>b <Plug>(go-build)
@@ -448,15 +450,15 @@ au FileType go nmap <Leader>gb <Plug>(go-doc-browser)
 au FileType go nmap <Leader>s <Plug>(go-implements)
 au FileType go nmap <Leader>i <Plug>(go-info)
 au FileType go nmap <Leader>e <Plug>(go-rename)
-" }}}
+" }
 
-" vim-authorinfo {{{
+" vim-authorinfo {
 let g:authorinfo_author  = 'xutao(Tony Xu)'
 let g:authorinfo_email   = 'butbueatiful@gmail.com'
 let g:authorinfo_company = 'myself'
-" }}}
+" }
 
-" nerdcommenter.vim {{{
+" nerdcommenter.vim {
 " [n],cc n 行逐行添加注释(9,cc)
 " [n],cu n 行逐行取消注释(9,cu)
 " [n],cm n 行尝试添加块注释(9,cm)
@@ -470,9 +472,9 @@ map <space> <plug>NERDCommenterInvert
 " let NERDCreateDefaultMappings=0
 let NERDSpaceDelims     = 1     " 让注释符与语句之间留一个空格
 let NERDCompactSexyComs = 1     " 多行注释时样子更好看
-" }}}
+" }
 
-" DoxygenToolkit.vim {{{
+" DoxygenToolkit.vim {
 " highlight the doxygen comments
 set syntax=cpp.doxygen
 let g:load_doxygen_syntax=1
@@ -489,9 +491,9 @@ nmap dx :Dox<CR>
 nmap da :DoxAut<CR>
 nmap dl :DoxLic<CR>
 " autocmd BufNewFile *.{h,hpp,c,cpp,cc} DoxAuthor
-" }}}
+" }
 
-" nerdtree {{{
+" nerdtree {
 " :ERDtree        打开NERD_tree
 " :NERDtreeClose  关闭NERD_tree
 " o 打开关闭文件或者目录
@@ -513,9 +515,9 @@ nmap dl :DoxLic<CR>
 " let NERDTreeQuitOnOpen          = 1     " 打开文件后, 关闭NERDTrre窗口
 " let NERDTreeWinSize             = 31    " 设置窗口大小
 " let NERDTreeHighlightCursorline = 1   " 高亮NERDTrre窗口的当前行
-" }}}
+" }
 
-" Fugitive.vim {{{
+" Fugitive.vim {
 " nnoremap <silent> <Leader>gs :Gstatus<CR>
 " nnoremap <silent> <Leader>gd :Gdiff<CR>
 " nnoremap <silent> <Leader>gc :Gcommit<CR>
@@ -523,23 +525,23 @@ nmap dl :DoxLic<CR>
 " nnoremap <silent> <Leader>gl :Glog<CR>
 " nnoremap <silent> <Leader>gp :Git push<CR>
 " nnoremap <silent> <Leader>gw :Gwrite<CR>:GitGutter<CR>
-" }}}
+" }
 
-" matchit.vim {{{
+" matchit.vim {
     runtime macros/matchit.vim
-" }}}
+" }
 
-" man.vim {{{
+" man.vim {
 if filereadable($VIMRUNTIME . "/ftplugin/man.vim")
     source $VIMRUNTIME/ftplugin/man.vim
     nnoremap <silent> <S-k> :Man <c-r>=expand("<cword>")<CR><CR>
 endif
-" }}}
+" }
 
-" QuickFix Window {{{
+" QuickFix Window {
 nnoremap <silent> <Leader>qx :ccl<CR>
 autocmd QuickFixCmdPost [^l]* nested cwindow
 autocmd QuickFixCmdPost    l* nested lwindow
-" }}}
+" }
 
 " vim: set sw=4 ts=4 sts=4 et tw=78 foldmarker={,} foldlevel=0 foldmethod=marker:
