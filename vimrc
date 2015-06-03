@@ -8,7 +8,7 @@
 "    \ V /| | | | | | | | | (__
 "     \_/ |_|_| |_| |_|_|  \___|
 "
-"    Author: xutao(Tony Xu), butbueatiful@gmail.com
+"    Author: xutao(Tony Xu), hhktony@gmail.com
 "   Company: myself
 
 " Bundle {
@@ -27,7 +27,7 @@ Bundle 'gmarik/vundle'
 " Code Completions
 "------------------
 Bundle 'Raimondi/delimitMate'
-" Bundle 'ButBueatiful/snipmate.vim'
+" Bundle 'hhktony/snipmate.vim'
 Bundle 'SirVer/ultisnips'
 " Bundle 'honza/vim-snippets'
 Bundle 'tpope/vim-repeat'
@@ -35,7 +35,7 @@ Bundle 'tpope/vim-repeat'
 "--------------
 " Fast editing
 "--------------
-Bundle 'ButBueatiful/vim-authorinfo'
+Bundle 'hhktony/vim-authorinfo'
 Bundle 'junegunn/vim-easy-align'
 
 "--------------
@@ -454,7 +454,7 @@ au FileType go nmap <Leader>e <Plug>(go-rename)
 
 " vim-authorinfo {
 let g:authorinfo_author  = 'xutao(Tony Xu)'
-let g:authorinfo_email   = 'butbueatiful@gmail.com'
+let g:authorinfo_email   = 'hhktony@gmail.com'
 let g:authorinfo_company = 'myself'
 " }
 
@@ -482,7 +482,7 @@ let s:licenseTag = "Copyright(C)\<enter>"
 let s:licenseTag = s:licenseTag . "For free\<enter>"
 let s:licenseTag = s:licenseTag . "All right reserved"
 let g:DoxygenToolkit_licenseTag = s:licenseTag
-let g:DoxygenToolkit_authorName        = "xutao butbueatiful@gmail.com"
+let g:DoxygenToolkit_authorName        = "xutao hhktony@gmail.com"
 let g:DoxygenToolkit_versionString     = "1.0"
 let g:DoxygenToolkit_briefTag_funcName = "yes"
 let g:doxygen_enhanced_color=1

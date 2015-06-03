@@ -19,3 +19,4 @@ Session.vim
 
 # bundles installed should be ignored
 bundle
+*.pyc
