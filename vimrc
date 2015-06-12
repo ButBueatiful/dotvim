@@ -59,6 +59,8 @@ Bundle 'bling/vim-airline'
 " Syntax/Indent for language enhancement
 "----------------------------------------
 Bundle 'fatih/vim-go'
+Bundle 'vim-ruby/vim-ruby'
+Bundle 'tpope/vim-rails'
 Bundle 'tpope/vim-markdown'
 
 filetype plugin indent on     " required!
@@ -97,9 +99,9 @@ set wrapscan                    " 搜索到文件两端时重新搜索
 set backspace=indent,eol,start  " 退格键和方向键可以换行
 set whichwrap=b,s,h,l,<,>,[,]   " 允许backspace和光标键跨越行边界
 
-set shiftwidth=4                " 使用4个空格缩进
-set tabstop=4                   " 编辑时一个Tab字符占4个空格的位置
-set softtabstop=4               " 每次退格将删除4个空格
+" set shiftwidth=4                " 使用4个空格缩进
+" set tabstop=4                   " 编辑时一个Tab字符占4个空格的位置
+" set softtabstop=4               " 每次退格将删除4个空格
 set expandtab                   " 将输入的Tab自动展开成空格
 set smarttab                    " 在行首按Tab将加入sw个空格，否则加入ts个空格
 
@@ -108,7 +110,7 @@ set wrap                        " 自动换行
 set textwidth=78
 set formatoptions+=mM
 
-" set modeline                    " 开启模式行支持
+set modeline                    " 开启模式行支持
 set autoread                    " 当文件在外部被修改时，自动重新读取
 set hidden                      " 允许在有未保存的修改时切换缓冲区
 set ttyfast
@@ -146,6 +148,15 @@ if has('persistent_undo')
 endif
 " }
 
+" codeing style {
+set tabstop=4 softtabstop=4 shiftwidth=4
+autocmd Filetype c,cpp      setlocal ts=4 sts=4 sw=4
+autocmd Filetype css        setlocal ts=2 sts=2 sw=2
+autocmd Filetype html       setlocal ts=2 sts=2 sw=2
+autocmd Filetype ruby       setlocal ts=2 sts=2 sw=2
+autocmd Filetype php        setlocal ts=2 sts=2 sw=2
+autocmd Filetype javascript setlocal ts=2 sts=2 sw=2
+" }
 " Encode {
 set encoding=utf-8
 set fileencodings=utf-8,gb2312,gb18030,gbk,ucs-bom,cp936,latin1
@@ -229,6 +240,10 @@ endif
 
 " Bindings {
 cmap w!! %!sudo tee > /dev/null %
+
+" Splits ,v and ,h to open new splits (vertical and horizontal)
+nnoremap <leader>v <C-w>v<C-w>l
+nnoremap <leader>h <C-w>s<C-w>j
 
 nmap <silent> <Tab> :bn<CR>
 nmap <silent> <S-Tab> :bp<CR>
@@ -430,8 +445,18 @@ let g:ycm_global_ycm_extra_conf = '~/.vim/ycm_c_conf.py'
 " let g:ycm_server_use_vim_stdout = 1
 " let g:ycm_server_log_level = 'debug'
 let g:ycm_complete_in_comments = 1
-let g:ycm_confirm_extra_conf=0
-let g:ycm_collect_identifiers_from_tags_files=1
+let g:ycm_confirm_extra_conf = 0
+let g:ycm_collect_identifiers_from_tags_files = 1
+
+" Enable omni completion.
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
+autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
+
 nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
 " }
 
@@ -452,6 +477,11 @@ au FileType go nmap <Leader>i <Plug>(go-info)
 au FileType go nmap <Leader>e <Plug>(go-rename)
 " }
 
+" RoR {
+let g:rubycomplete_buffer_loading = 1
+let g:rubycomplete_classes_in_global = 1
+" }
+
 " vim-authorinfo {
 let g:authorinfo_author  = 'xutao(Tony Xu)'
 let g:authorinfo_email   = 'hhktony@gmail.com'
@@ -467,7 +497,7 @@ let g:authorinfo_company = 'myself'
 " ,cA 在行尾插入注释符号并且进入插入模式。
 
 " 空格键添加去除注释
-map <space> <Leader>ci
+" map <space> <Leader>ci
 map <space> <plug>NERDCommenterInvert
 " let NERDCreateDefaultMappings=0
 let NERDSpaceDelims     = 1     " 让注释符与语句之间留一个空格
