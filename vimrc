@@ -234,7 +234,7 @@ else
         set t_Co=256    " 颜色数目为256
     endif
     set background=dark
-    colorscheme molokai " 设置主题
+    colorscheme molokai
 endif
 " }
 
