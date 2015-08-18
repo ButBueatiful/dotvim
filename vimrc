@@ -48,7 +48,7 @@ Bundle 'DoxygenToolkit.vim'
 Bundle 'scrooloose/nerdcommenter'
 Bundle 'Valloric/YouCompleteMe'
 Bundle 'scrooloose/syntastic'
-" Bundle 'scrooloose/nerdtree'
+Bundle 'scrooloose/nerdtree'
 Bundle 'majutsushi/tagbar'
 Bundle 'mileszs/ack.vim'
 Bundle 'kien/ctrlp.vim'
@@ -56,11 +56,23 @@ Bundle 'tpope/vim-fugitive'
 Bundle 'bling/vim-airline'
 
 "----------------------------------------
-" Syntax/Indent for language enhancement
+" ruby
 "----------------------------------------
-Bundle 'fatih/vim-go'
 Bundle 'vim-ruby/vim-ruby'
 Bundle 'tpope/vim-rails'
+
+"----------------------------------------
+" python
+"----------------------------------------
+Bundle 'nvie/vim-flake8'
+"----------------------------------------
+" golang
+"----------------------------------------
+Bundle 'fatih/vim-go'
+
+"----------------------------------------
+" Syntax/Indent for language enhancement
+"----------------------------------------
 Bundle 'tpope/vim-markdown'
 
 filetype plugin indent on     " required!
@@ -99,11 +111,17 @@ set wrapscan                    " 搜索到文件两端时重新搜索
 set backspace=indent,eol,start  " 退格键和方向键可以换行
 set whichwrap=b,s,h,l,<,>,[,]   " 允许backspace和光标键跨越行边界
 
-" set shiftwidth=4                " 使用4个空格缩进
-" set tabstop=4                   " 编辑时一个Tab字符占4个空格的位置
-" set softtabstop=4               " 每次退格将删除4个空格
+set shiftwidth=4                " 使用4个空格缩进
+set tabstop=4                   " 编辑时一个Tab字符占4个空格的位置
+set softtabstop=4               " 每次退格将删除4个空格
 set expandtab                   " 将输入的Tab自动展开成空格
 set smarttab                    " 在行首按Tab将加入sw个空格，否则加入ts个空格
+
+set autoindent                  " 继承前一行的缩进方式
+set smartindent                 " 为c/c++程序提供自动缩进
+set cindent                     " c/c++样式缩进
+set cinoptions=:0,l1,t0,g0      " Linux kernel style
+
 
 set cpoptions+=$                " cw显示$
 set wrap                        " 自动换行
@@ -114,11 +132,6 @@ set modeline                    " 开启模式行支持
 set autoread                    " 当文件在外部被修改时，自动重新读取
 set hidden                      " 允许在有未保存的修改时切换缓冲区
 set ttyfast
-
-set autoindent                  " 继承前一行的缩进方式
-set smartindent                 " 为c/c++程序提供自动缩进
-set cindent                     " c/c++样式缩进
-set cinoptions=:0,l1,t0,g0      " Linux kernel style
 
 set path+=../include            " gf搜索路径
 "set autochdir                  " 当前目录为工作目录
@@ -148,15 +161,10 @@ if has('persistent_undo')
 endif
 " }
 
-" codeing style {
-set tabstop=4 softtabstop=4 shiftwidth=4
-autocmd Filetype c,cpp      setlocal ts=4 sts=4 sw=4
-autocmd Filetype css        setlocal ts=2 sts=2 sw=2
-autocmd Filetype html       setlocal ts=2 sts=2 sw=2
-autocmd Filetype ruby       setlocal ts=2 sts=2 sw=2
-autocmd Filetype php        setlocal ts=2 sts=2 sw=2
-autocmd Filetype javascript setlocal ts=2 sts=2 sw=2
+" AutoGroups codeing style {
+autocmd Filetype css,html,ruby,php,javascript setlocal ts=2 sts=2 sw=2
 " }
+
 " Encode {
 set encoding=utf-8
 set fileencodings=utf-8,gb2312,gb18030,gbk,ucs-bom,cp936,latin1
@@ -298,17 +306,6 @@ cnoremap <ESC><C-B> <S-Left>
 cnoremap <ESC>f     <S-Right>
 cnoremap <ESC><C-F> <S-Right>
 cnoremap <ESC><C-H> <C-W>
-
-" 快速切换窗口
-" nnoremap <C-h> <C-w>h
-" nnoremap <C-j> <C-w>j
-" nnoremap <C-k> <C-w>k
-" nnoremap <C-l> <C-w>l
-" inoremap <C-h> <Esc><C-W>h
-" inoremap <C-j> <Esc><C-W>j
-" inoremap <C-k> <Esc><C-W>k
-" inoremap <C-l> <Esc><C-W>l
-" }
 
 " Folding {
 " au BufWinLeave * silent! mkview   " 让vim保存当前的折叠
@@ -536,15 +533,15 @@ nmap dl :DoxLic<CR>
 " r 刷新当前目录
 " R 递归刷新当前根目录
 " m 显示文件系统菜单 添加、删除、移动操作
-" nmap <silent> <Leader>d :NERDTreeToggle<CR>
-" nmap <silent> <Leader>f :NERDTreeFind<CR>
-" let g:NERDSpaceDelims=1
-" let NERDTreeShowLineNumbers     = 1
-" let NERDTreeIgnore              = ['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
-" let NERDTreeWinpos              = "left"
-" let NERDTreeQuitOnOpen          = 1     " 打开文件后, 关闭NERDTrre窗口
-" let NERDTreeWinSize             = 31    " 设置窗口大小
-" let NERDTreeHighlightCursorline = 1   " 高亮NERDTrre窗口的当前行
+nmap <silent> <Leader>d :NERDTreeToggle<CR>
+nmap <silent> <Leader>f :NERDTreeFind<CR>
+let g:NERDSpaceDelims=1
+let NERDTreeShowLineNumbers     = 1
+let NERDTreeIgnore              = ['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
+let NERDTreeWinpos              = "left"
+let NERDTreeQuitOnOpen          = 1     " 打开文件后, 关闭NERDTrre窗口
+let NERDTreeWinSize             = 31    " 设置窗口大小
+let NERDTreeHighlightCursorline = 1   " 高亮NERDTrre窗口的当前行
 " }
 
 " Fugitive.vim {
