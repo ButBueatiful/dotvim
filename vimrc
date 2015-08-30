@@ -8,7 +8,7 @@
 "    \ V /| | | | | | | | | (__
 "     \_/ |_|_| |_| |_|_|  \___|
 "
-"    Author: xutao(Tony Xu), hhktony@gmail.com
+"    Author: xutao(TonyXu), hhktony@gmail.com
 "   Company: myself
 
 " Bundle {
@@ -65,6 +65,7 @@ Bundle 'tpope/vim-rails'
 " python
 "----------------------------------------
 Bundle 'nvie/vim-flake8'
+
 "----------------------------------------
 " golang
 "----------------------------------------
@@ -306,6 +307,7 @@ cnoremap <ESC><C-B> <S-Left>
 cnoremap <ESC>f     <S-Right>
 cnoremap <ESC><C-F> <S-Right>
 cnoremap <ESC><C-H> <C-W>
+" }
 
 " Folding {
 " au BufWinLeave * silent! mkview   " 让vim保存当前的折叠
@@ -415,7 +417,7 @@ let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
 " }
 
 " tagbar.vim {
-nmap <silent> <Leader>t :TagbarToggle<CR>
+nmap <Leader>t :TagbarToggle<CR>
 let g:tagbar_ctags_bin = 'ctags'
 let g:tagbar_width = 36
 set tags=./tags
@@ -433,7 +435,7 @@ nmap <Leader>g :!uptags.sh<CR>
 " let g:syntastic_check_on_open = 1
 " let g:syntastic_auto_jump = 1
 let g:syntastic_error_symbol = "✗"
-let g:syntastic_warning_symbol = "⚠"
+let g:syntastic_warning_symbol = "w>"
 " }
 
 " YouCompleteMe {
@@ -454,7 +456,7 @@ autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
 autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
 
-nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
+nnoremap <silent> <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
 " }
 
 " vim-go {
