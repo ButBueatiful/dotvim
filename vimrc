@@ -87,8 +87,8 @@ set shortmess=atI               " I不显启动时的信息
 set showmode                    " 在插入、替换和可视模式里，在最后一行提供消息
 set showcmd                     " 在屏幕最后一行显示 (部分的) 命令
 " set showtabline=2               " 标签页：0不显示
-                                "         1至少有两个标签页时才显示
-                                "         2显示
+                                "           1至少有两个标签页时才显示
+                                "           2显示
 set matchtime=1                 " 跳转到匹配括号的时间
 set number                      " 显示行号
 set scrolloff=3                 " 上下滚动隔3行
@@ -347,7 +347,7 @@ nmap <leader>T :CtrlPClearCache<CR>:CtrlP<CR>
 let g:ctrlp_open_multiple_files = 'v'
 let g:ctrlp_custom_ignore = {
     \ 'dir':  '\v[\/]\.(git|hg|svn)$',
-    \ 'file': '\v\.(log|jpg|png|jpeg|exe|a|so|dll)$',
+    \ 'file': '\v\.(log|jpg|png|jpeg|exe|pyc|pyo|a|so|dll)$',
     \ }
 " }
 
@@ -542,8 +542,8 @@ let NERDTreeShowLineNumbers     = 1
 let NERDTreeIgnore              = ['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
 let NERDTreeWinpos              = "left"
 let NERDTreeQuitOnOpen          = 1     " 打开文件后, 关闭NERDTrre窗口
-let NERDTreeWinSize             = 31    " 设置窗口大小
-let NERDTreeHighlightCursorline = 1   " 高亮NERDTrre窗口的当前行
+let NERDTreeWinSize             = 21    " 设置窗口大小
+let NERDTreeHighlightCursorline = 1     " 高亮NERDTrre窗口的当前行
 " }
 
 " Fugitive.vim {
