@@ -42,6 +42,8 @@ Bundle 'junegunn/vim-easy-align'
 " IDE features
 "--------------
 Bundle 'a.vim'
+Bundle 'easymotion/vim-easymotion'
+Bundle 'terryma/vim-multiple-cursors'
 " Bundle 'L9'
 " Bundle 'othree/vim-autocomplpop'
 Bundle 'DoxygenToolkit.vim'
@@ -53,6 +55,7 @@ Bundle 'majutsushi/tagbar'
 Bundle 'mileszs/ack.vim'
 Bundle 'kien/ctrlp.vim'
 Bundle 'tpope/vim-fugitive'
+Bundle 'airblade/vim-gitgutter'
 Bundle 'bling/vim-airline'
 
 "----------------------------------------
@@ -87,8 +90,8 @@ set shortmess=atI               " I不显启动时的信息
 set showmode                    " 在插入、替换和可视模式里，在最后一行提供消息
 set showcmd                     " 在屏幕最后一行显示 (部分的) 命令
 " set showtabline=2               " 标签页：0不显示
-                                "           1至少有两个标签页时才显示
-                                "           2显示
+                                "         1至少有两个标签页时才显示
+                                "         2显示
 set matchtime=1                 " 跳转到匹配括号的时间
 set number                      " 显示行号
 set scrolloff=3                 " 上下滚动隔3行
@@ -347,20 +350,21 @@ nmap <leader>T :CtrlPClearCache<CR>:CtrlP<CR>
 let g:ctrlp_open_multiple_files = 'v'
 let g:ctrlp_custom_ignore = {
     \ 'dir':  '\v[\/]\.(git|hg|svn)$',
-    \ 'file': '\v\.(log|jpg|png|jpeg|exe|pyc|pyo|a|so|dll)$',
+    \ 'file': '\v\.(log|jpg|png|jpeg|exe|a|so|dll)$',
     \ }
 " }
 
 " vim-airline {
 if has('statusline')
     let g:airline_theme='powerlineish'
+    let g:airline#extensions#branch#enabled = 1
     " let g:airline_powerline_fonts=1
     " let g:airline_section_c = '%f%m'
-    " let g:airline#extensions#tabline#fnamemod     = ':t' "显示短路径文件名
-    " let g:airline#extensions#tabline#enabled      = 1
-    " let g:airline#extensions#tabline#tab_nr_type  = 1
-    " let g:airline#extensions#tabline#left_sep     = '>'
-    " let g:airline#extensions#tabline#left_alt_sep = '>'
+    let g:airline#extensions#tabline#fnamemod     = ':t' "显示短路径文件名
+    let g:airline#extensions#tabline#enabled      = 1
+    let g:airline#extensions#tabline#tab_nr_type  = 1
+    let g:airline#extensions#tabline#left_sep     = '>'
+    let g:airline#extensions#tabline#left_alt_sep = '>'
 endif
 " }
 
@@ -542,8 +546,8 @@ let NERDTreeShowLineNumbers     = 1
 let NERDTreeIgnore              = ['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
 let NERDTreeWinpos              = "left"
 let NERDTreeQuitOnOpen          = 1     " 打开文件后, 关闭NERDTrre窗口
-let NERDTreeWinSize             = 21    " 设置窗口大小
-let NERDTreeHighlightCursorline = 1     " 高亮NERDTrre窗口的当前行
+let NERDTreeWinSize             = 31    " 设置窗口大小
+let NERDTreeHighlightCursorline = 1   " 高亮NERDTrre窗口的当前行
 " }
 
 " Fugitive.vim {
@@ -556,6 +560,14 @@ let NERDTreeHighlightCursorline = 1     " 高亮NERDTrre窗口的当前行
 " nnoremap <silent> <Leader>gw :Gwrite<CR>:GitGutter<CR>
 " }
 
+" vim-multiple-cursors {
+" let g:multi_cursor_use_default_mapping=0
+" Default mapping
+" let g:multi_cursor_next_key='<C-m>'
+" let g:multi_cursor_prev_key='<C-p>'
+" let g:multi_cursor_skip_key='<C-x>'
+" let g:multi_cursor_quit_key='<Esc>'
+"}
 " matchit.vim {
     runtime macros/matchit.vim
 " }
