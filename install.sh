@@ -14,4 +14,4 @@ git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
 rm -f $HOME/.vimrc $HOME/.gvimrc
 ln -s $HOME/.vim/vimrc $HOME/.vimrc
 
-vim  +BundleInstall! +BundleClean +qall
+vim +BundleInstall! +BundleClean +qall
