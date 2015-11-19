@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
-printf "Do you want to backup your old file? (y|n) " 
+printf "Do you want to backup your old file? (y|n) "
 
-read result 
+read result
 
 if test $result = y ; then
-    echo "Install exit!"
-    exit
+  echo "Install exit!"
+  exit
 fi
 
 git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
