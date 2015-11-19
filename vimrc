@@ -166,7 +166,7 @@ endif
 " }
 
 " AutoGroups codeing style {
-autocmd Filetype css,html,ruby,php,javascript setlocal ts=2 sts=2 sw=2
+autocmd Filetype sh,css,html,ruby,php,javascript setlocal ts=2 sts=2 sw=2
 " }
 
 " Encode {
