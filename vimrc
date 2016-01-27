@@ -68,6 +68,7 @@ Bundle 'tpope/vim-rails'
 " python
 "----------------------------------------
 Bundle 'nvie/vim-flake8'
+Bundle 'python_match.vim'
 
 "----------------------------------------
 " golang
@@ -245,8 +246,12 @@ else
     if &term == 'xterm' || &term == 'screen'
         set t_Co=256    " 颜色数目为256
     endif
-    set background=dark
-    colorscheme molokai
+    " set background=dark
+    if &diff
+        colorscheme github
+    else
+        colorscheme molokai
+    endif
 endif
 " }
 
