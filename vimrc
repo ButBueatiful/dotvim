@@ -167,7 +167,7 @@ endif
 " }
 
 " AutoGroups codeing style {
-autocmd Filetype sh,css,html,ruby,php,javascript setlocal ts=2 sts=2 sw=2
+autocmd Filetype css,html,ruby,php,javascript setlocal ts=2 sts=2 sw=2
 " }
 
 " Encode {
@@ -544,7 +544,7 @@ nmap dl :DoxLic<CR>
 " r 刷新当前目录
 " R 递归刷新当前根目录
 " m 显示文件系统菜单 添加、删除、移动操作
-nmap <silent> <Leader>d :NERDTreeToggle<CR>
+nmap <silent> <Leader>n :NERDTreeToggle<CR>
 nmap <silent> <Leader>f :NERDTreeFind<CR>
 let g:NERDSpaceDelims=1
 let NERDTreeShowLineNumbers     = 1
