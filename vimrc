@@ -121,13 +121,10 @@ set tabstop=4                   " 编辑时一个Tab字符占4个空格的位置
 set softtabstop=4               " 每次退格将删除4个空格
 set expandtab                   " 将输入的Tab自动展开成空格
 set smarttab                    " 在行首按Tab将加入sw个空格，否则加入ts个空格
-
 set autoindent                  " 继承前一行的缩进方式
 set smartindent                 " 为c/c++程序提供自动缩进
 set cindent                     " c/c++样式缩进
 set cinoptions=:0,l1,t0,g0      " Linux kernel style
-
-
 set cpoptions+=$                " cw显示$
 set wrap                        " 自动换行
 set textwidth=78
