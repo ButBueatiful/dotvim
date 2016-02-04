@@ -211,22 +211,19 @@ if has("gui_running")
     source $VIMRUNTIME/menu.vim
     " 解决consle输出乱码
     language messages zh_CN.utf-8
-
     set guioptions-=m   " 隐藏菜单栏
     set guioptions-=T   " 隐藏工具栏
     set guioptions-=L   " 隐藏左侧滚动条
     set guioptions-=r   " 隐藏右侧滚动条
-
-    set background=light
-    colorscheme solarized
-
     set linespace=0     " 行与行之间没有多余的空格
-
     " au WinLeave * set nocursorline nocursorcolumn
     " au WinEnter * set cursorline cursorcolumn
     set cursorline cursorcolumn
     hi cursorline guibg=#333333
     hi cursorcolumn guibg=#333333
+
+    set background=light
+    colorscheme solarized
 
     if(has("win32") || has("win64"))
         " 激活菜单栏
@@ -259,9 +256,34 @@ cmap w!! %!sudo tee > /dev/null %
 nnoremap <leader>v <C-w>v<C-w>l
 nnoremap <leader>h <C-w>s<C-w>j
 
-nmap <silent> <Tab> :bn<CR>
-nmap <silent> <S-Tab> :bp<CR>
-nmap <silent> <Leader>bd :bd<CR>
+nnoremap <silent> <Tab> :bn<CR>
+nnoremap <silent> <S-Tab> :bp<CR>
+
+" tab
+" nnoremap <C-t> :tabnew<CR>
+" inoremap <C-t> <Esc>:tabnew<CR>
+" map <leader>th :tabfirst<cr>
+" map <leader>tl :tablast<cr>
+
+" map <leader>tj :tabnext<cr>
+" map <leader>tk :tabprev<cr>
+" map <leader>tn :tabnext<cr>
+" map <leader>tp :tabprev<cr>
+
+" map <leader>te :tabedit<cr>
+" map <leader>td :tabclose<cr>
+" map <leader>tm :tabm<cr>
+
+" noremap <leader>1 1gt
+" noremap <leader>2 2gt
+" noremap <leader>3 3gt
+" noremap <leader>4 4gt
+" noremap <leader>5 5gt
+" noremap <leader>6 6gt
+" noremap <leader>7 7gt
+" noremap <leader>8 8gt
+" noremap <leader>9 9gt
+" noremap <leader>0 :tablast<cr>
 
 vnoremap > >gv
 vnoremap < <gv
@@ -273,8 +295,8 @@ nnoremap * *<c-o>
 nnoremap # #<c-o>
 nnoremap n nzzzv
 nnoremap N Nzzzv
-nnoremap / /\v
-vnoremap / /\v
+" nnoremap / /\v
+" vnoremap / /\v
 nnoremap <silent> <Leader><CR> :noh<CR>
 
 nnoremap + <C-a>
@@ -420,6 +442,7 @@ let g:UltiSnipsSnippetsDir = '~/.vim/UltiSnips'
 let g:UltiSnipsExpandTrigger       = '<C-j>'
 let g:UltiSnipsJumpForwardTrigger  = '<C-j>'
 let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
+map <leader>us :UltiSnipsEdit<CR>
 " }
 
 " tagbar.vim {
@@ -446,12 +469,16 @@ let g:syntastic_warning_symbol = "w>"
 
 " YouCompleteMe {
 let g:ycm_autoclose_preview_window_after_completion = 1
+" let g:ycm_goto_buffer_command = 'horizontal-split'
 let g:ycm_global_ycm_extra_conf = '~/.vim/ycm_c_conf.py'
 " let g:ycm_server_use_vim_stdout = 1
 " let g:ycm_server_log_level = 'debug'
+let g:ycm_complete_in_strings = 1
+let g:ycm_use_ultisnips_completer = 1
 let g:ycm_complete_in_comments = 1
-let g:ycm_confirm_extra_conf = 0
+let g:ycm_collect_identifiers_from_comments_and_strings = 1
 let g:ycm_collect_identifiers_from_tags_files = 1
+let g:ycm_confirm_extra_conf = 0
 
 " Enable omni completion.
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
