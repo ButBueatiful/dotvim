@@ -76,6 +76,11 @@ Bundle 'python_match.vim'
 Bundle 'fatih/vim-go'
 
 "----------------------------------------
+" html
+"----------------------------------------
+Bundle 'mattn/emmet-vim'
+
+"----------------------------------------
 " Syntax/Indent for language enhancement
 "----------------------------------------
 Bundle 'tpope/vim-markdown'
@@ -302,7 +307,7 @@ nnoremap <silent> <Leader><CR> :noh<CR>
 nnoremap + <C-a>
 nnoremap - <C-x>
 
-set pastetoggle=<Leader>pp
+set pastetoggle=<F5>
 " nmap <silent> <Leader>ss :setlocal spell!<CR>
 
 nnoremap <Leader>W :%s/\s\+$//<CR>:let @/=''<CR>
