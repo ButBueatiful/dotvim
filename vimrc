@@ -56,7 +56,8 @@ Bundle 'mileszs/ack.vim'
 Bundle 'kien/ctrlp.vim'
 Bundle 'tpope/vim-fugitive'
 Bundle 'airblade/vim-gitgutter'
-Bundle 'bling/vim-airline'
+Bundle 'vim-airline/vim-airline'
+" Bundle 'vim-airline/vim-airline-themes'
 
 "----------------------------------------
 " ruby
@@ -79,6 +80,10 @@ Bundle 'fatih/vim-go'
 " html
 "----------------------------------------
 Bundle 'mattn/emmet-vim'
+Bundle 'amirh/HTML-AutoCloseTag'
+" Bundle 'hail2u/vim-css3-syntax'
+" Bundle 'gorodinskiy/vim-coloresque'
+" Bundle 'tpope/vim-haml'
 
 "----------------------------------------
 " Syntax/Indent for language enhancement
@@ -385,7 +390,7 @@ let g:ctrlp_custom_ignore = {
 
 " vim-airline {
 if has('statusline')
-    let g:airline_theme='powerlineish'
+    " let g:airline_theme='powerlineish'
     let g:airline#extensions#branch#enabled = 1
     " let g:airline_powerline_fonts=1
     " let g:airline_section_c = '%f%m'
@@ -602,6 +607,7 @@ let NERDTreeHighlightCursorline = 1   " 高亮NERDTrre窗口的当前行
 " let g:multi_cursor_skip_key='<C-x>'
 " let g:multi_cursor_quit_key='<Esc>'
 "}
+
 " matchit.vim {
     runtime macros/matchit.vim
 " }
