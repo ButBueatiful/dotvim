@@ -384,7 +384,7 @@ nmap <leader>T :CtrlPClearCache<CR>:CtrlP<CR>
 let g:ctrlp_open_multiple_files = 'v'
 let g:ctrlp_custom_ignore = {
     \ 'dir':  '\v[\/]\.(git|hg|svn)$',
-    \ 'file': '\v\.(log|jpg|png|jpeg|exe|a|so|dll)$',
+    \ 'file': '\v\.(log|jpg|png|jpeg|exe|a|so|pyc|pyo|dll)$',
     \ }
 " }
 
