@@ -13,9 +13,6 @@
 
 " Bundle {
 set nocompatible               " be iMproved
-
-syntax enable
-filetype on
 filetype off                   " required!
 
 set rtp+=~/.vim/bundle/vundle/
@@ -89,11 +86,15 @@ Bundle 'amirh/HTML-AutoCloseTag'
 " Syntax/Indent for language enhancement
 "----------------------------------------
 Bundle 'tpope/vim-markdown'
-
-filetype plugin indent on     " required!
 " }
 
 " General {
+filetype on                     " 检测文件类型
+filetype indent on              " 针对不同的文件类型采用不同的缩进格式
+filetype plugin on
+filetype plugin indent on       " 启动自动补全
+syntax on                       " 启动语法高亮
+
 set history=100                 " 命令显示历史
 let g:mapleader = ","           " 全局设置用,代替\
 
@@ -111,7 +112,7 @@ set ruler                       " 右下角显示光标位置的状态行
 set vb t_vb=                    " 关闭响铃和闪烁
 set novb
 set noeb
-syntax on                       " 启动语法高亮，使用 'background' 来设置颜色
+" set t_ti= t_te=                 " 退出vim后，内容显示在终端屏幕
 
 set magic                       " 增强行正则
 
@@ -191,9 +192,19 @@ au BufReadPost *
 " }
 
 " UI {
+if &term =~ '256color'
+    set t_ut=
+endif
+
+if &diff
+    colorscheme github
+else
+    " set background=dark
+    colorscheme molokai
+endif
+
 if (exists('+colorcolumn'))
     set colorcolumn=80
-    highlight ColorColumn ctermbg=9
     " set cursorline                  " 突出显示当前行
 endif
 
@@ -214,49 +225,6 @@ if has('statusline')
     set statusline+=%*
     set statusline+=%=%-10.(%l,%c%V\ \:\ %p%%%)\ " Right aligned file nav info
 endif
-
-if has("gui_running")
-    "解决菜单栏乱码
-    source $VIMRUNTIME/delmenu.vim
-    source $VIMRUNTIME/menu.vim
-    " 解决consle输出乱码
-    language messages zh_CN.utf-8
-    set guioptions-=m   " 隐藏菜单栏
-    set guioptions-=T   " 隐藏工具栏
-    set guioptions-=L   " 隐藏左侧滚动条
-    set guioptions-=r   " 隐藏右侧滚动条
-    set linespace=0     " 行与行之间没有多余的空格
-    " au WinLeave * set nocursorline nocursorcolumn
-    " au WinEnter * set cursorline cursorcolumn
-    set cursorline cursorcolumn
-    hi cursorline guibg=#333333
-    hi cursorcolumn guibg=#333333
-
-    set background=light
-    colorscheme solarized
-
-    if(has("win32") || has("win64"))
-        " 激活菜单栏
-        noremap <M-Space> :simalt ~<CR>
-        inoremap <M-Space> <C-O>:simalt ~<CR>
-        cnoremap <M-Space> <C-C>:simalt ~<CR>
-        set guifont=Microsoft\ YaHei,Courier\ New:h12
-        au GuiEnter * set t_vb=
-        " au GUIEnter * simalt ~x   " 窗口启动时自动最大化
-    else
-        set guifont=Microsoft\ YaHei
-    endif
-else
-    if &term == 'xterm' || &term == 'screen'
-        set t_Co=256    " 颜色数目为256
-    endif
-    " set background=dark
-    if &diff
-        colorscheme github
-    else
-        colorscheme molokai
-    endif
-endif
 " }
 
 " Bindings {
@@ -268,32 +236,6 @@ nnoremap <leader>h <C-w>s<C-w>j
 
 nnoremap <silent> <Tab> :bn<CR>
 nnoremap <silent> <S-Tab> :bp<CR>
-
-" tab
-" nnoremap <C-t> :tabnew<CR>
-" inoremap <C-t> <Esc>:tabnew<CR>
-" map <leader>th :tabfirst<cr>
-" map <leader>tl :tablast<cr>
-
-" map <leader>tj :tabnext<cr>
-" map <leader>tk :tabprev<cr>
-" map <leader>tn :tabnext<cr>
-" map <leader>tp :tabprev<cr>
-
-" map <leader>te :tabedit<cr>
-" map <leader>td :tabclose<cr>
-" map <leader>tm :tabm<cr>
-
-" noremap <leader>1 1gt
-" noremap <leader>2 2gt
-" noremap <leader>3 3gt
-" noremap <leader>4 4gt
-" noremap <leader>5 5gt
-" noremap <leader>6 6gt
-" noremap <leader>7 7gt
-" noremap <leader>8 8gt
-" noremap <leader>9 9gt
-" noremap <leader>0 :tablast<cr>
 
 vnoremap > >gv
 vnoremap < <gv
@@ -332,7 +274,7 @@ nnoremap <F1> <ESC>
 inoremap <F1> <ESC>
 vnoremap <F1> <ESC>
 
-" 末行模式仿emacs的快捷键
+" 末行模式仿emacs快捷键
 cnoremap <C-A>      <Home>
 cnoremap <C-B>      <Left>
 cnoremap <C-E>      <End>
@@ -542,8 +484,8 @@ let g:authorinfo_company = 'myself'
 " map <space> <Leader>ci
 map <space> <plug>NERDCommenterInvert
 " let NERDCreateDefaultMappings=0
-let NERDSpaceDelims     = 1     " 让注释符与语句之间留一个空格
-let NERDCompactSexyComs = 1     " 多行注释时样子更好看
+let NERDSpaceDelims = 1     " 让注释符与语句之间留一个空格
+let NERDCompactSexyComs = 1       " 多行注释时样子更好看
 " }
 
 " DoxygenToolkit.vim {
@@ -625,4 +567,4 @@ autocmd QuickFixCmdPost [^l]* nested cwindow
 autocmd QuickFixCmdPost    l* nested lwindow
 " }
 
-" vim: set sw=4 ts=4 sts=4 et tw=78 foldmarker={,} foldlevel=0 foldmethod=marker:
+" vim: set et sw=4 ts=4 sts=4 tw=78 foldmarker={,} foldlevel=0 foldmethod=marker:
