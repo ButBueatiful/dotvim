@@ -192,14 +192,13 @@ au BufReadPost *
 " }
 
 " UI {
-if &term =~ '256color'
-    set t_ut=
+if &term == 'xterm' || &term == 'screen'
+    set t_Co=256    " 颜色数目为256
 endif
-
+" set background=dark
 if &diff
     colorscheme github
 else
-    " set background=dark
     colorscheme molokai
 endif
 
