@@ -9,9 +9,7 @@ if test $result = y ; then
   exit
 fi
 
-git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
-
 rm -f $HOME/.vimrc $HOME/.gvimrc
 ln -s $HOME/.vim/vimrc $HOME/.vimrc
 
-vim +BundleInstall! +BundleClean +qall
+vim -u $HOME/.vimrc +PlugInstall! +PlugClean! +qall

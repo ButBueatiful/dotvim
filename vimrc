@@ -11,82 +11,70 @@
 "    Author: xutao(TonyXu), hhktony@gmail.com
 "   Company: myself
 
-" Bundle {
+" Plugged {
 set nocompatible               " be iMproved
 filetype off                   " required!
 
-if !exists('g:bundle_groups')
-    " let g:bundle_groups=['general', 'c', 'python', 'golang', 'ruby', 'javascript', 'html', 'css']
-    let g:bundle_groups=['general', 'programming', 'python', 'c', 'javascript', 'html', 'css']
+if !exists('g:xt_plugin_groups')
+    let g:xt_plugin_groups=['general', 'programming', 'python', 'golang', 'ruby', 'html', 'css', 'javascript']
+    " let g:xt_plugin_groups=['general', 'programming', 'python', 'javascript', 'html', 'css']
 endif
 
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+call plug#begin('~/.vim/plugged')
 
-Bundle 'gmarik/vundle'
-
-if count(g:bundle_groups, 'general')
-    Bundle 'Raimondi/delimitMate'
-    Bundle 'tpope/vim-repeat'
-    Bundle 'sjl/gundo.vim'
-    Bundle 'easymotion/vim-easymotion'
-    Bundle 'scrooloose/nerdtree'
-    Bundle 'terryma/vim-multiple-cursors'
-    Bundle 'vim-airline/vim-airline'
-    " Bundle 'vim-airline/vim-airline-themes'
-    Bundle 'mileszs/ack.vim'
-    Bundle 'kien/ctrlp.vim'
+if count(g:xt_plugin_groups, 'general')
+    Plug 'Raimondi/delimitMate'
+    Plug 'tpope/vim-repeat'
+    Plug 'sjl/gundo.vim'
+    Plug 'easymotion/vim-easymotion'
+    Plug 'scrooloose/nerdtree'
+    Plug 'terryma/vim-multiple-cursors'
+    Plug 'vim-airline/vim-airline'
+    " Plug 'vim-airline/vim-airline-themes'
+    Plug 'mileszs/ack.vim'
+    Plug 'kien/ctrlp.vim'
 endif
 
-if count(g:bundle_groups, 'programming')
-    Bundle 'hhktony/vim-authorinfo'
-    Bundle 'SirVer/ultisnips'
-    Bundle 'junegunn/vim-easy-align'
-    Bundle 'DoxygenToolkit.vim'
-    Bundle 'scrooloose/nerdcommenter'
-    Bundle 'Valloric/YouCompleteMe'
-    Bundle 'scrooloose/syntastic'
-    Bundle 'majutsushi/tagbar'
-    Bundle 'tpope/vim-fugitive'
-    Bundle 'airblade/vim-gitgutter'
+if count(g:xt_plugin_groups, 'programming')
+    Plug 'hhktony/vim-authorinfo'
+    Plug 'SirVer/ultisnips'
+    Plug 'junegunn/vim-easy-align'
+    Plug 'DoxygenToolkit.vim'
+    Plug 'scrooloose/nerdcommenter'
+    Plug 'Valloric/YouCompleteMe'
+    Plug 'scrooloose/syntastic'
+    Plug 'majutsushi/tagbar'
+    Plug 'tpope/vim-fugitive'
+    Plug 'airblade/vim-gitgutter'
 endif
 
-if count(g:bundle_groups, 'c')
-    Bundle 'a.vim'
+if count(g:xt_plugin_groups, 'python')
+    Plug 'nvie/vim-flake8'
+    Plug 'python_match.vim'
 endif
 
-if count(g:bundle_groups, 'ruby')
-    Bundle 'vim-ruby/vim-ruby'
-    Bundle 'tpope/vim-rails'
+if count(g:xt_plugin_groups, 'golang')
+    Plug 'fatih/vim-go'
 endif
 
-if count(g:bundle_groups, 'python')
-    Bundle 'nvie/vim-flake8'
-    Bundle 'python_match.vim'
+if count(g:xt_plugin_groups, 'ruby')
+    Plug 'vim-ruby/vim-ruby'
+    Plug 'tpope/vim-rails'
 endif
 
-if count(g:bundle_groups, 'golang')
-    Bundle 'fatih/vim-go'
+if count(g:xt_plugin_groups, 'html')
+    Plug 'mattn/emmet-vim'
+    Plug 'amirh/HTML-AutoCloseTag'
+    " Plug 'hail2u/vim-css3-syntax'
+    " Plug 'gorodinskiy/vim-coloresque'
+    " Plug 'tpope/vim-haml'
 endif
 
-if count(g:bundle_groups, 'html')
-    Bundle 'mattn/emmet-vim'
-    Bundle 'amirh/HTML-AutoCloseTag'
-    " Bundle 'hail2u/vim-css3-syntax'
-    " Bundle 'gorodinskiy/vim-coloresque'
-    " Bundle 'tpope/vim-haml'
-endif
-
-"----------------------------------------
-" Syntax/Indent for language enhancement
-"----------------------------------------
-Bundle 'tpope/vim-markdown'
+Plug 'tpope/vim-markdown'
+call plug#end()
 " }
 
 " General {
-filetype on                     " 检测文件类型
-filetype indent on              " 针对不同的文件类型采用不同的缩进格式
-filetype plugin on
 filetype plugin indent on       " 启动自动补全
 syntax on                       " 启动语法高亮
 
@@ -118,6 +106,9 @@ set incsearch                   " 开启实时搜索功能
 set showmatch                   " 显示括号配对情况
 set hlsearch                    " 开启高亮显示结果
 set wrapscan                    " 搜索到文件两端时重新搜索
+
+set wildmenu                    " 命令补全
+set wildmode=longest:list:full  " 命令模式Tab补全顺序
 
 set backspace=indent,eol,start  " 退格键和方向键可以换行
 set whichwrap=b,s,h,l,<,>,[,]   " 允许backspace和光标键跨越行边界
@@ -173,13 +164,6 @@ autocmd Filetype css,html,ruby,php,javascript setlocal ts=2 sts=2 sw=2
 set encoding=utf-8
 set fileencodings=utf-8,gb2312,gb18030,gbk,ucs-bom,cp936,latin1
 set termencoding=utf-8
-" }
-
-" Record exit position {
-au BufReadPost *
-    \ if line("'\"") > 0 && line("'\"") <= line("$") |
-    \ execute 'normal! g`"zvzz' |
-    \ endif
 " }
 
 " UI {
@@ -242,7 +226,6 @@ nnoremap / /\v
 vnoremap / /\v
 nnoremap ? ?\v
 vnoremap ? ?\v
-nnoremap :s/ :s/\v
 
 nnoremap <silent> <Leader><CR> :noh<CR>
 
@@ -294,24 +277,8 @@ nnoremap ,z zMzvzz
 nnoremap zO zCzO
 " }
 
-" Wildmenu completion {
-set wildmenu                    " 命令补全
-set wildmode=longest:list:full  " 命令模式Tab补全顺序
-
-set wildignore+=*.luac                          " Lua byte code
-set wildignore+=*.pyc                           " Python byte code
-set wildignore+=*.spl                           " compiled spelling word lists
-set wildignore+=*.sw?                           " Vim swap files
-set wildignore+=*.aux,*.out,*.toc               " LaTeX intermediate files
-set wildignore+=*.mp3,*.mp4,*.avi,*.mkv         " media format
-set wildignore+=*.png,*.jpg,*.jpeg,*.bmp,*.gif  " binary images
-set wildignore+=*.zip,*.tar,*.gz,*.7z           " Zip file
-set wildignore+=*.o,*.obj,*.exe,*.dll,*.so,*.a  " compiled object files
-set wildignore+=*.git*,*.hg*,*.svn*             " version control system
-" }
-
 " ctrlp.vim {
-if isdirectory(expand("~/.vim/bundle/ctrlp.vim/"))
+if isdirectory(expand("~/.vim/plugged/ctrlp.vim/"))
     " let g:ctrlp_map = ',,'
     nmap <leader>b :CtrlPBuffer<CR>
     " nmap <leader>t :CtrlP<CR>
@@ -417,7 +384,7 @@ nnoremap <silent> <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
 " }
 
 " Golang {
-if count(g:bundle_groups, 'golang')
+if count(g:xt_plugin_groups, 'golang')
     let g:go_fmt_command = "goimports"
     au FileType go nmap <leader>r <Plug>(go-run)
     au FileType go nmap <leader>b <Plug>(go-build)
@@ -436,7 +403,7 @@ endif
 " }
 
 " Ruby {
-if count(g:bundle_groups, 'ruby')
+if count(g:xt_plugin_groups, 'ruby')
     let g:rubycomplete_buffer_loading = 1
     let g:rubycomplete_classes_in_global = 1
 endif
