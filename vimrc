@@ -15,72 +15,67 @@
 set nocompatible               " be iMproved
 filetype off                   " required!
 
+if !exists('g:bundle_groups')
+    " let g:bundle_groups=['general', 'c', 'python', 'golang', 'ruby', 'javascript', 'html', 'css']
+    let g:bundle_groups=['general', 'programming', 'python', 'c', 'javascript', 'html', 'css']
+endif
+
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
 Bundle 'gmarik/vundle'
 
-"------------------
-" Code Completions
-"------------------
-Bundle 'Raimondi/delimitMate'
-" Bundle 'hhktony/snipmate.vim'
-Bundle 'SirVer/ultisnips'
-" Bundle 'honza/vim-snippets'
-Bundle 'tpope/vim-repeat'
+if count(g:bundle_groups, 'general')
+    Bundle 'Raimondi/delimitMate'
+    Bundle 'tpope/vim-repeat'
+    Bundle 'sjl/gundo.vim'
+    Bundle 'easymotion/vim-easymotion'
+    Bundle 'scrooloose/nerdtree'
+    Bundle 'terryma/vim-multiple-cursors'
+    Bundle 'vim-airline/vim-airline'
+    " Bundle 'vim-airline/vim-airline-themes'
+    Bundle 'mileszs/ack.vim'
+    Bundle 'kien/ctrlp.vim'
+endif
 
-"--------------
-" Fast editing
-"--------------
-Bundle 'hhktony/vim-authorinfo'
-Bundle 'junegunn/vim-easy-align'
+if count(g:bundle_groups, 'programming')
+    Bundle 'hhktony/vim-authorinfo'
+    Bundle 'SirVer/ultisnips'
+    Bundle 'junegunn/vim-easy-align'
+    Bundle 'DoxygenToolkit.vim'
+    Bundle 'scrooloose/nerdcommenter'
+    Bundle 'Valloric/YouCompleteMe'
+    Bundle 'scrooloose/syntastic'
+    Bundle 'majutsushi/tagbar'
+    Bundle 'tpope/vim-fugitive'
+    Bundle 'airblade/vim-gitgutter'
+endif
 
-"--------------
-" IDE features
-"--------------
-Bundle 'a.vim'
-Bundle 'easymotion/vim-easymotion'
-Bundle 'terryma/vim-multiple-cursors'
-" Bundle 'L9'
-" Bundle 'othree/vim-autocomplpop'
-Bundle 'DoxygenToolkit.vim'
-Bundle 'scrooloose/nerdcommenter'
-Bundle 'Valloric/YouCompleteMe'
-Bundle 'scrooloose/syntastic'
-Bundle 'scrooloose/nerdtree'
-Bundle 'majutsushi/tagbar'
-Bundle 'mileszs/ack.vim'
-Bundle 'kien/ctrlp.vim'
-Bundle 'tpope/vim-fugitive'
-Bundle 'airblade/vim-gitgutter'
-Bundle 'vim-airline/vim-airline'
-" Bundle 'vim-airline/vim-airline-themes'
+if count(g:bundle_groups, 'c')
+    Bundle 'a.vim'
+endif
 
-"----------------------------------------
-" ruby
-"----------------------------------------
-Bundle 'vim-ruby/vim-ruby'
-Bundle 'tpope/vim-rails'
+if count(g:bundle_groups, 'ruby')
+    Bundle 'vim-ruby/vim-ruby'
+    Bundle 'tpope/vim-rails'
+endif
 
-"----------------------------------------
-" python
-"----------------------------------------
-Bundle 'nvie/vim-flake8'
-Bundle 'python_match.vim'
+if count(g:bundle_groups, 'python')
+    Bundle 'nvie/vim-flake8'
+    Bundle 'python_match.vim'
+endif
 
-"----------------------------------------
-" golang
-"----------------------------------------
-Bundle 'fatih/vim-go'
+if count(g:bundle_groups, 'golang')
+    Bundle 'fatih/vim-go'
+endif
 
-"----------------------------------------
-" html
-"----------------------------------------
-Bundle 'mattn/emmet-vim'
-Bundle 'amirh/HTML-AutoCloseTag'
-" Bundle 'hail2u/vim-css3-syntax'
-" Bundle 'gorodinskiy/vim-coloresque'
-" Bundle 'tpope/vim-haml'
+if count(g:bundle_groups, 'html')
+    Bundle 'mattn/emmet-vim'
+    Bundle 'amirh/HTML-AutoCloseTag'
+    " Bundle 'hail2u/vim-css3-syntax'
+    " Bundle 'gorodinskiy/vim-coloresque'
+    " Bundle 'tpope/vim-haml'
+endif
 
 "----------------------------------------
 " Syntax/Indent for language enhancement
@@ -163,11 +158,7 @@ set nobackup   " 设置无备份文件
 set noswapfile " 不生成swap文件
 
 if has('persistent_undo')
-    if has("win32") || has("win64")
-        set undodir=C:\Windows\Temp
-    else
-        set undodir=/tmp
-    endif
+    set undodir=/tmp/vimundo
     set undofile
     set undolevels=1000
     set undoreload=10000
@@ -202,7 +193,7 @@ else
     colorscheme molokai
 endif
 
-if (exists('+colorcolumn'))
+if exists('+colorcolumn')
     set colorcolumn=80
     " set cursorline                  " 突出显示当前行
 endif
@@ -226,12 +217,8 @@ if has('statusline')
 endif
 " }
 
-" Bindings {
+" Key (re)Mappings {
 cmap w!! %!sudo tee > /dev/null %
-
-" Splits ,v and ,h to open new splits (vertical and horizontal)
-nnoremap <leader>v <C-w>v<C-w>l
-nnoremap <leader>h <C-w>s<C-w>j
 
 nnoremap <silent> <Tab> :bn<CR>
 nnoremap <silent> <S-Tab> :bp<CR>
@@ -242,18 +229,24 @@ vnoremap < <gv
 nmap <silent> <Leader>fef ggVG=``
 nnoremap <Leader>q gqip
 
-nnoremap * *<c-o>
-nnoremap # #<c-o>
-nnoremap n nzzzv
-nnoremap N Nzzzv
-" nnoremap / /\v
-" vnoremap / /\v
+" 搜索模式保持焦点在屏幕中间
+nnoremap <silent> n nzz
+nnoremap <silent> N Nzz
+nnoremap <silent> * *zz
+nnoremap <silent> # #zz
+nnoremap <silent> g* g*zz
+nnoremap <silent> g# g#zz
+
+" 增强正则
+nnoremap / /\v
+vnoremap / /\v
+nnoremap ? ?\v
+vnoremap ? ?\v
+nnoremap :s/ :s/\v
+
 nnoremap <silent> <Leader><CR> :noh<CR>
 
-nnoremap + <C-a>
-nnoremap - <C-x>
-
-set pastetoggle=<F5>
+set pastetoggle=<Leader>pp
 " nmap <silent> <Leader>ss :setlocal spell!<CR>
 
 nnoremap <Leader>W :%s/\s\+$//<CR>:let @/=''<CR>
@@ -318,28 +311,38 @@ set wildignore+=*.git*,*.hg*,*.svn*             " version control system
 " }
 
 " ctrlp.vim {
-" let g:ctrlp_map = ',,'
-nmap <leader>b :CtrlPBuffer<CR>
-" nmap <leader>t :CtrlP<CR>
-nmap <leader>T :CtrlPClearCache<CR>:CtrlP<CR>
-let g:ctrlp_open_multiple_files = 'v'
-let g:ctrlp_custom_ignore = {
-    \ 'dir':  '\v[\/]\.(git|hg|svn)$',
-    \ 'file': '\v\.(log|jpg|png|jpeg|exe|a|so|pyc|pyo|dll)$',
-    \ }
+if isdirectory(expand("~/.vim/bundle/ctrlp.vim/"))
+    " let g:ctrlp_map = ',,'
+    nmap <leader>b :CtrlPBuffer<CR>
+    " nmap <leader>t :CtrlP<CR>
+    nmap <leader>T :CtrlPClearCache<CR>:CtrlP<CR>
+    let g:ctrlp_open_multiple_files = 'v'
+    let g:ctrlp_custom_ignore = {
+        \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+        \ 'file': '\v\.(log|jpg|png|jpeg|o|a|so|pyc|pyo)$',
+        \ }
+endif
 " }
 
 " vim-airline {
 if has('statusline')
-    " let g:airline_theme='powerlineish'
-    let g:airline#extensions#branch#enabled = 1
-    " let g:airline_powerline_fonts=1
     " let g:airline_section_c = '%f%m'
+    let g:airline#extensions#tabline#buffer_idx_mode = 1
     let g:airline#extensions#tabline#fnamemod     = ':t' "显示短路径文件名
     let g:airline#extensions#tabline#enabled      = 1
     let g:airline#extensions#tabline#tab_nr_type  = 1
-    let g:airline#extensions#tabline#left_sep     = '>'
-    let g:airline#extensions#tabline#left_alt_sep = '>'
+    " let g:airline#extensions#tabline#buffer_nr_show  = 1
+    let g:airline#extensions#tabline#left_sep = ' '
+    let g:airline#extensions#tabline#left_alt_sep = '¦'
+    nmap <leader>1 <Plug>AirlineSelectTab1
+    nmap <leader>2 <Plug>AirlineSelectTab2
+    nmap <leader>3 <Plug>AirlineSelectTab3
+    nmap <leader>4 <Plug>AirlineSelectTab4
+    nmap <leader>5 <Plug>AirlineSelectTab5
+    nmap <leader>6 <Plug>AirlineSelectTab6
+    nmap <leader>7 <Plug>AirlineSelectTab7
+    nmap <leader>8 <Plug>AirlineSelectTab8
+    nmap <leader>9 <Plug>AirlineSelectTab9
 endif
 " }
 
@@ -347,36 +350,6 @@ endif
 if executable('ack')
     let g:ackprg="ack -H --nocolor --nogroup --column"
 endif
-" }
-
-" tabular.vim {
-" nmap <Leader>a& :Tabularize /&<CR>
-" vmap <Leader>a& :Tabularize /&<CR>
-" nmap <Leader>a= :Tabularize /=<CR>
-" vmap <Leader>a= :Tabularize /=<CR>
-" nmap <Leader>a: :Tabularize /:<CR>
-" vmap <Leader>a: :Tabularize /:<CR>
-" nmap <Leader>a:: :Tabularize /:\zs<CR>
-" vmap <Leader>a:: :Tabularize /:\zs<CR>
-" nmap <Leader>a, :Tabularize /,<CR>
-" vmap <Leader>a, :Tabularize /,<CR>
-" nmap <Leader>a<Space> :Tabularize / /<CR>
-" vmap <Leader>a<Space> :Tabularize / /<CR>
-" nmap <Leader>a<Bar> :Tabularize /<Bar><CR>
-" vmap <Leader>a<Bar> :Tabularize /<Bar><CR>
-
-" inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
-
-" function! s:align()
-    " let p = '^\s*|\s.*\s|\s*$'
-    " if exists(':Tabularize') && getline('.') =~# '^\s*|' && (getline(line('.')-1) =~# p || getline(line('.')+1) =~# p)
-        " let column = strlen(substitute(getline('.')[0:col('.')],'[^|]','','g'))
-        " let position = strlen(matchstr(getline('.')[0:col('.')],'.*|\s*\zs.*'))
-        " Tabularize/|/l1
-        " normal! 0
-        " call search(repeat('[^|]*|',column).'\s\{-\}'.repeat('.',position),'ce',line('.'))
-    " endif
-" endfunction
 " }
 
 " vim-easy-align {
@@ -393,7 +366,7 @@ let g:UltiSnipsSnippetsDir = '~/.vim/UltiSnips'
 let g:UltiSnipsExpandTrigger       = '<C-j>'
 let g:UltiSnipsJumpForwardTrigger  = '<C-j>'
 let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
-map <leader>us :UltiSnipsEdit<CR>
+" map <leader>us :UltiSnipsEdit<CR>
 " }
 
 " tagbar.vim {
@@ -443,26 +416,30 @@ autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
 nnoremap <silent> <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
 " }
 
-" vim-go {
-let g:go_fmt_command = "goimports"
-au FileType go nmap <leader>r <Plug>(go-run)
-au FileType go nmap <leader>b <Plug>(go-build)
-au FileType go nmap <leader>t <Plug>(go-test)
-au FileType go nmap <leader>c <Plug>(go-coverage)
-au FileType go nmap <Leader>ds <Plug>(go-def-split)
-au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
-au FileType go nmap <Leader>dt <Plug>(go-def-tab)
-au FileType go nmap <Leader>gd <Plug>(go-doc)
-au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
-au FileType go nmap <Leader>gb <Plug>(go-doc-browser)
-au FileType go nmap <Leader>s <Plug>(go-implements)
-au FileType go nmap <Leader>i <Plug>(go-info)
-au FileType go nmap <Leader>e <Plug>(go-rename)
+" Golang {
+if count(g:bundle_groups, 'golang')
+    let g:go_fmt_command = "goimports"
+    au FileType go nmap <leader>r <Plug>(go-run)
+    au FileType go nmap <leader>b <Plug>(go-build)
+    au FileType go nmap <leader>t <Plug>(go-test)
+    au FileType go nmap <leader>c <Plug>(go-coverage)
+    au FileType go nmap <Leader>ds <Plug>(go-def-split)
+    au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
+    au FileType go nmap <Leader>dt <Plug>(go-def-tab)
+    au FileType go nmap <Leader>gd <Plug>(go-doc)
+    au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
+    au FileType go nmap <Leader>gb <Plug>(go-doc-browser)
+    au FileType go nmap <Leader>s <Plug>(go-implements)
+    au FileType go nmap <Leader>i <Plug>(go-info)
+    au FileType go nmap <Leader>e <Plug>(go-rename)
+endif
 " }
 
-" RoR {
-let g:rubycomplete_buffer_loading = 1
-let g:rubycomplete_classes_in_global = 1
+" Ruby {
+if count(g:bundle_groups, 'ruby')
+    let g:rubycomplete_buffer_loading = 1
+    let g:rubycomplete_classes_in_global = 1
+endif
 " }
 
 " vim-authorinfo {
@@ -507,27 +484,29 @@ nmap dl :DoxLic<CR>
 " }
 
 " nerdtree {
-" :ERDtree        打开NERD_tree
-" :NERDtreeClose  关闭NERD_tree
-" o 打开关闭文件或者目录
-" t 在标签页中打开
-" T 在后台标签页中打开
-" ! 执行此文件
-" p/P 到上层目录
-" K/J 到第一个/最后一个节点
-" u 打开上层目录
-" r 刷新当前目录
-" R 递归刷新当前根目录
-" m 显示文件系统菜单 添加、删除、移动操作
-nmap <silent> <Leader>n :NERDTreeToggle<CR>
-nmap <silent> <Leader>f :NERDTreeFind<CR>
-let g:NERDSpaceDelims=1
-let NERDTreeShowLineNumbers     = 1
-let NERDTreeIgnore              = ['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
-let NERDTreeWinpos              = "left"
-let NERDTreeQuitOnOpen          = 1     " 打开文件后, 关闭NERDTrre窗口
-let NERDTreeWinSize             = 31    " 设置窗口大小
-let NERDTreeHighlightCursorline = 1   " 高亮NERDTrre窗口的当前行
+if isdirectory(expand("~/.vim/bundle/nerdtree"))
+    " :NERDtree        打开NERD_tree
+    " :NERDtreeClose  关闭NERD_tree
+    " o 打开关闭文件或者目录
+    " t 在标签页中打开
+    " T 在后台标签页中打开
+    " ! 执行此文件
+    " p/P 到上层目录
+    " K/J 到第一个/最后一个节点
+    " u 打开上层目录
+    " r 刷新当前目录
+    " R 递归刷新当前根目录
+    " m 显示文件系统菜单 添加、删除、移动操作
+    nmap <silent> <Leader>n :NERDTreeToggle<CR>
+    nmap <silent> <Leader>f :NERDTreeFind<CR>
+    let g:NERDSpaceDelims=1
+    let NERDTreeShowLineNumbers     = 1
+    let NERDTreeIgnore              = ['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
+    let NERDTreeWinpos              = "left"
+    let NERDTreeQuitOnOpen          = 1     " 打开文件后, 关闭NERDTrre窗口
+    let NERDTreeWinSize             = 31    " 设置窗口大小
+    let NERDTreeHighlightCursorline = 1   " 高亮NERDTrre窗口的当前行
+endif
 " }
 
 " Fugitive.vim {
@@ -548,6 +527,10 @@ let NERDTreeHighlightCursorline = 1   " 高亮NERDTrre窗口的当前行
 " let g:multi_cursor_skip_key='<C-x>'
 " let g:multi_cursor_quit_key='<Esc>'
 "}
+
+" gundo {
+noremap <leader>h :GundoToggle<CR>
+" }
 
 " matchit.vim {
     runtime macros/matchit.vim
