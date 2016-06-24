@@ -1,7 +1,5 @@
-x-vim
+x-vim: hhktony vim config
 =====
-
-![screenshots](https://raw.github.com/hhktony/dotvim/master/screenshots/vim-screenshot.jpg)
 
 - [Installation](#installation)
     - [CentOS](#centos)
@@ -10,6 +8,9 @@ x-vim
     - [Golang](#golang)
     - [x-vim](#x-vim)
 - [Settings](#settings)
+
+![screenshots](https://raw.github.com/hhktony/dotvim/master/screenshots/vim-screenshot.jpg)
+
 
 Installation
 ------------
