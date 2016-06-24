@@ -8,34 +8,38 @@
 "    \ V /| | | | | | | | | (__
 "     \_/ |_|_| |_| |_|_|  \___|
 "
-"    Author: xutao(TonyXu), hhktony@gmail.com
+"    Author: xutao(Tony Xu), hhktony@gmail.com
 "   Company: myself
 
 " Plugged {
 set nocompatible               " be iMproved
 filetype off                   " required!
 
-if !exists('g:xt_plugin_groups')
-    let g:xt_plugin_groups=['general', 'programming', 'python', 'golang', 'ruby', 'html', 'css', 'javascript']
-    " let g:xt_plugin_groups=['general', 'programming', 'python', 'javascript', 'html', 'css']
+if filereadable(expand("~/.vimrc.before"))
+    source ~/.vimrc.before
+endif
+
+if !exists('g:x_plugin_groups')
+    " let g:x_plugin_groups=['general', 'programming', 'python', 'html']
+    let g:x_plugin_groups=['general', 'programming', 'python', 'golang', 'ruby', 'html']
 endif
 
 call plug#begin('~/.vim/plugged')
 
-if count(g:xt_plugin_groups, 'general')
+if count(g:x_plugin_groups, 'general')
     Plug 'Raimondi/delimitMate'
     Plug 'tpope/vim-repeat'
     Plug 'sjl/gundo.vim'
     Plug 'easymotion/vim-easymotion'
     Plug 'scrooloose/nerdtree'
-    Plug 'terryma/vim-multiple-cursors'
+    " Plug 'terryma/vim-multiple-cursors'
     Plug 'vim-airline/vim-airline'
     " Plug 'vim-airline/vim-airline-themes'
     Plug 'mileszs/ack.vim'
     Plug 'kien/ctrlp.vim'
 endif
 
-if count(g:xt_plugin_groups, 'programming')
+if count(g:x_plugin_groups, 'programming')
     Plug 'hhktony/vim-authorinfo'
     Plug 'SirVer/ultisnips'
     Plug 'junegunn/vim-easy-align'
@@ -48,21 +52,21 @@ if count(g:xt_plugin_groups, 'programming')
     Plug 'airblade/vim-gitgutter'
 endif
 
-if count(g:xt_plugin_groups, 'python')
-    Plug 'nvie/vim-flake8'
+if count(g:x_plugin_groups, 'python')
+    " Plug 'nvie/vim-flake8'
     Plug 'python_match.vim'
 endif
 
-if count(g:xt_plugin_groups, 'golang')
+if count(g:x_plugin_groups, 'golang')
     Plug 'fatih/vim-go'
 endif
 
-if count(g:xt_plugin_groups, 'ruby')
+if count(g:x_plugin_groups, 'ruby')
     Plug 'vim-ruby/vim-ruby'
     Plug 'tpope/vim-rails'
 endif
 
-if count(g:xt_plugin_groups, 'html')
+if count(g:x_plugin_groups, 'html')
     Plug 'mattn/emmet-vim'
     Plug 'amirh/HTML-AutoCloseTag'
     " Plug 'hail2u/vim-css3-syntax'
@@ -144,12 +148,18 @@ set fillchars=vert:\ ,stl:\ ,stlnc:\    " 在被分割的窗口间显示空白
 set completeopt=menu,menuone,longest
 "}
 
+" Record exit position {
+au BufReadPost *
+    \ if line("'\"") > 0 && line("'\"") <= line("$") |
+    \ execute 'normal! g`"zvzz' |
+    \ endif
+" }
+
 " Backups {
 set nobackup   " 设置无备份文件
 set noswapfile " 不生成swap文件
 
 if has('persistent_undo')
-    set undodir=/tmp/vimundo
     set undofile
     set undolevels=1000
     set undoreload=10000
@@ -384,7 +394,7 @@ nnoremap <silent> <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
 " }
 
 " Golang {
-if count(g:xt_plugin_groups, 'golang')
+if count(g:x_plugin_groups, 'golang')
     let g:go_fmt_command = "goimports"
     au FileType go nmap <leader>r <Plug>(go-run)
     au FileType go nmap <leader>b <Plug>(go-build)
@@ -403,7 +413,7 @@ endif
 " }
 
 " Ruby {
-if count(g:xt_plugin_groups, 'ruby')
+if count(g:x_plugin_groups, 'ruby')
     let g:rubycomplete_buffer_loading = 1
     let g:rubycomplete_classes_in_global = 1
 endif
