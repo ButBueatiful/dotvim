@@ -1,15 +1,20 @@
-x-vim: hhktony vim config
-=====
+x-vim: Tony Xu's Vim Configuration
+==================================
+
+	__  __   __   _(_)_ __ ___
+	\ \/ /___\ \ / / | '_ ` _ \
+	 >  <_____\ V /| | | | | | |
+	/_/\_\     \_/ |_|_| |_| |_|
 
 - [Installation](#installation)
     - [CentOS](#centos)
     - [Ubuntu](#ubuntu)
     - [Python](#python)
     - [Golang](#golang)
-    - [x-vim](#x-vim)
+    - [vim](#vim)
 - [Settings](#settings)
 
-![screenshots](https://raw.github.com/hhktony/dotvim/master/screenshots/vim-screenshot.jpg)
+![screenshots](https://raw.github.com/hhktony/x-vim/master/screenshots/vim-screenshot.jpg)
 
 
 Installation
@@ -17,11 +22,11 @@ Installation
 
 ### CentOS
 
-    sudo yum install -y python-devel python-pip
+    sudo yum install -y cmake llvm clang clang-devel gcc-c++ python-devel python-devel python-pip ctags
 
 ### Ubuntu
 
-    sudo apt-get install -y build-essential cmake python-dev python-pip
+    sudo apt-get install -y llvm-3.8 clang-3.8 build-essential cmake python-dev python-pip ctags
 
 ### Python
 
@@ -39,12 +44,12 @@ Installation
     go get github.com/jstemmer/gotags     # 自动补全
     go get github.com/rogpeppe/godef      # Tagbar显示函数列表
 
-### x-vim
+### vim
 
 	cd
 	git clone https://github.com/hhktony/x-vim.git .vim
 	cd ~/.vim/
-    ./setup.sh
+    ./install.sh
 
 ### YouCompleteMe
 

@@ -11,91 +11,29 @@
 "    Author: xutao(Tony Xu), hhktony@gmail.com
 "   Company: myself
 
-" Plugged {
 set nocompatible               " be iMproved
-filetype off                   " required!
-
 if filereadable(expand("~/.vimrc.before"))
     source ~/.vimrc.before
 endif
 
-if !exists('g:x_plugin_groups')
-    " let g:x_plugin_groups=['general', 'programming', 'python', 'html']
-    let g:x_plugin_groups=['general', 'programming', 'python', 'golang', 'ruby', 'html']
+if filereadable(expand("~/.vimrc.plugins"))
+    source ~/.vimrc.plugins
 endif
-
-call plug#begin('~/.vim/plugged')
-
-if count(g:x_plugin_groups, 'general')
-    Plug 'Raimondi/delimitMate'
-    Plug 'tpope/vim-repeat'
-    Plug 'sjl/gundo.vim'
-    Plug 'easymotion/vim-easymotion'
-    Plug 'scrooloose/nerdtree'
-    " Plug 'terryma/vim-multiple-cursors'
-    Plug 'vim-airline/vim-airline'
-    " Plug 'vim-airline/vim-airline-themes'
-    Plug 'mileszs/ack.vim'
-    Plug 'kien/ctrlp.vim'
-endif
-
-if count(g:x_plugin_groups, 'programming')
-    Plug 'hhktony/vim-authorinfo'
-    Plug 'SirVer/ultisnips'
-    Plug 'junegunn/vim-easy-align'
-    Plug 'DoxygenToolkit.vim'
-    Plug 'scrooloose/nerdcommenter'
-    Plug 'Valloric/YouCompleteMe'
-    Plug 'scrooloose/syntastic'
-    Plug 'majutsushi/tagbar'
-    Plug 'tpope/vim-fugitive'
-    Plug 'airblade/vim-gitgutter'
-endif
-
-if count(g:x_plugin_groups, 'python')
-    " Plug 'nvie/vim-flake8'
-    Plug 'python_match.vim'
-endif
-
-if count(g:x_plugin_groups, 'golang')
-    Plug 'fatih/vim-go'
-endif
-
-if count(g:x_plugin_groups, 'ruby')
-    Plug 'vim-ruby/vim-ruby'
-    Plug 'tpope/vim-rails'
-endif
-
-if count(g:x_plugin_groups, 'html')
-    Plug 'mattn/emmet-vim'
-    Plug 'amirh/HTML-AutoCloseTag'
-    " Plug 'hail2u/vim-css3-syntax'
-    " Plug 'gorodinskiy/vim-coloresque'
-    " Plug 'tpope/vim-haml'
-endif
-
-Plug 'tpope/vim-markdown'
-call plug#end()
-" }
 
 " General {
-filetype plugin indent on       " 启动自动补全
-syntax on                       " 启动语法高亮
+let g:mapleader = ","
+set history=1000
 
-set history=100                 " 命令显示历史
-let g:mapleader = ","           " 全局设置用,代替\
+filetype plugin indent on
+syntax on
 
 set shortmess=atI               " I不显启动时的信息
 set showmode                    " 在插入、替换和可视模式里，在最后一行提供消息
-set showcmd                     " 在屏幕最后一行显示 (部分的) 命令
-" set showtabline=2               " 标签页：0不显示
-                                "         1至少有两个标签页时才显示
-                                "         2显示
+set showcmd                     " 在屏幕最后一行显示当前命令
 set matchtime=1                 " 跳转到匹配括号的时间
 set number                      " 显示行号
 set scrolloff=3                 " 上下滚动隔3行
 set cmdheight=1                 " 命令行的高度，默认为1
-set ruler                       " 右下角显示光标位置的状态行
 set vb t_vb=                    " 关闭响铃和闪烁
 set novb
 set noeb
@@ -156,10 +94,14 @@ au BufReadPost *
 " }
 
 " Backups {
-set nobackup   " 设置无备份文件
-set noswapfile " 不生成swap文件
+set nobackup
+set noswapfile
 
 if has('persistent_undo')
+    set undodir=~/.vimundo
+    if !isdirectory(&undodir)
+        call mkdir(&undodir, 'p')
+    endif
     set undofile
     set undolevels=1000
     set undoreload=10000
@@ -182,9 +124,13 @@ if &term == 'xterm' || &term == 'screen'
 endif
 " set background=dark
 if &diff
-    colorscheme github
+    if filereadable(expand("~/.vim/colors/github.vim"))
+        colorscheme github
+    endif
 else
-    colorscheme molokai
+    if filereadable(expand("~/.vim/colors/molokai.vim"))
+        colorscheme molokai
+    endif
 endif
 
 if exists('+colorcolumn')
@@ -203,9 +149,7 @@ if has('statusline')
     set statusline+=%*
     set statusline+=%m "modified flag
 
-    set statusline+=%{fugitive#statusline()}    " Git Hotness
     set statusline+=%#warningmsg#
-    set statusline+=%{SyntasticStatuslineFlag()}
     set statusline+=%*
     set statusline+=%=%-10.(%l,%c%V\ \:\ %p%%%)\ " Right aligned file nav info
 endif
@@ -214,8 +158,8 @@ endif
 " Key (re)Mappings {
 cmap w!! %!sudo tee > /dev/null %
 
-nnoremap <silent> <Tab> :bn<CR>
-nnoremap <silent> <S-Tab> :bp<CR>
+nmap <silent> <Tab> :bn<CR>
+nmap <silent> <S-Tab> :bp<CR>
 
 vnoremap > >gv
 vnoremap < <gv
@@ -223,7 +167,7 @@ vnoremap < <gv
 nmap <silent> <Leader>fef ggVG=``
 nnoremap <Leader>q gqip
 
-" 搜索模式保持焦点在屏幕中间
+"Keep search pattern at the center of the screen.
 nnoremap <silent> n nzz
 nnoremap <silent> N Nzz
 nnoremap <silent> * *zz
@@ -246,8 +190,8 @@ nnoremap <Leader>W :%s/\s\+$//<CR>:let @/=''<CR>
 
 nmap <C-\> :!sdcv <C-R>=expand("<cword>")<CR><CR>
 
-nmap <Leader>rb :%!xxd<CR>
-nmap <Leader>nrb :%!xxd -r<CR>
+" nmap <Leader>rb :%!xxd<CR>
+" nmap <Leader>nrb :%!xxd -r<CR>
 
 inoremap <C-A> <Esc>I
 inoremap <C-E> <Esc>A
@@ -277,236 +221,10 @@ cnoremap <ESC><C-H> <C-W>
 " au BufWinLeave * silent! mkview   " 让vim保存当前的折叠
 " au BufWinEnter * silent! loadview " 打开上次保存的折叠样式
 set foldlevelstart=0
-" Space to toggle folds.
-" nnoremap <Space> za
-" vnoremap <Space> za
-" "Refocus" folds
 nnoremap ,z zMzvzz
 " Make zO recursively open whatever top level fold we're in, no matter where
 " the cursor happens to be.
 nnoremap zO zCzO
-" }
-
-" ctrlp.vim {
-if isdirectory(expand("~/.vim/plugged/ctrlp.vim/"))
-    " let g:ctrlp_map = ',,'
-    nmap <leader>b :CtrlPBuffer<CR>
-    " nmap <leader>t :CtrlP<CR>
-    nmap <leader>T :CtrlPClearCache<CR>:CtrlP<CR>
-    let g:ctrlp_open_multiple_files = 'v'
-    let g:ctrlp_custom_ignore = {
-        \ 'dir':  '\v[\/]\.(git|hg|svn)$',
-        \ 'file': '\v\.(log|jpg|png|jpeg|o|a|so|pyc|pyo)$',
-        \ }
-endif
-" }
-
-" vim-airline {
-if has('statusline')
-    " let g:airline_section_c = '%f%m'
-    let g:airline#extensions#tabline#buffer_idx_mode = 1
-    let g:airline#extensions#tabline#fnamemod     = ':t' "显示短路径文件名
-    let g:airline#extensions#tabline#enabled      = 1
-    let g:airline#extensions#tabline#tab_nr_type  = 1
-    " let g:airline#extensions#tabline#buffer_nr_show  = 1
-    let g:airline#extensions#tabline#left_sep = ' '
-    let g:airline#extensions#tabline#left_alt_sep = '¦'
-    nmap <leader>1 <Plug>AirlineSelectTab1
-    nmap <leader>2 <Plug>AirlineSelectTab2
-    nmap <leader>3 <Plug>AirlineSelectTab3
-    nmap <leader>4 <Plug>AirlineSelectTab4
-    nmap <leader>5 <Plug>AirlineSelectTab5
-    nmap <leader>6 <Plug>AirlineSelectTab6
-    nmap <leader>7 <Plug>AirlineSelectTab7
-    nmap <leader>8 <Plug>AirlineSelectTab8
-    nmap <leader>9 <Plug>AirlineSelectTab9
-endif
-" }
-
-" ack.vim {
-if executable('ack')
-    let g:ackprg="ack -H --nocolor --nogroup --column"
-endif
-" }
-
-" vim-easy-align {
-vnoremap <silent> <Leader>a :EasyAlign<Enter>
-" }
-
-" delimitmate.vim {
-au FileType * let b:delimitMate_autoclose = 1
-au FileType xml,html,xhtml let b:delimitMate_matchpairs ="(:),[:],{:}"
-" }
-
-" ultisnips {
-let g:UltiSnipsSnippetsDir = '~/.vim/UltiSnips'
-let g:UltiSnipsExpandTrigger       = '<C-j>'
-let g:UltiSnipsJumpForwardTrigger  = '<C-j>'
-let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
-" map <leader>us :UltiSnipsEdit<CR>
-" }
-
-" tagbar.vim {
-nmap <Leader>t :TagbarToggle<CR>
-let g:tagbar_ctags_bin = 'ctags'
-let g:tagbar_width = 36
-set tags=./tags
-" Make tags placed in .git/tags file available in all levels of a repository
-let gitroot = substitute(system('git rev-parse --show-toplevel'), '[\n\r]', '', 'g')
-if gitroot != ''
-    let &tags = &tags . ',' . gitroot . '/tags'
-endif
-nmap <Leader>g :!uptags.sh<CR>
-
-" }
-
-" syntastic {
-" let g:syntastic_auto_loc_list = 1
-" let g:syntastic_check_on_open = 1
-" let g:syntastic_auto_jump = 1
-let g:syntastic_error_symbol = "✗"
-let g:syntastic_warning_symbol = "w>"
-" }
-
-" YouCompleteMe {
-let g:ycm_autoclose_preview_window_after_completion = 1
-" let g:ycm_goto_buffer_command = 'horizontal-split'
-let g:ycm_global_ycm_extra_conf = '~/.vim/ycm_c_conf.py'
-" let g:ycm_server_use_vim_stdout = 1
-" let g:ycm_server_log_level = 'debug'
-let g:ycm_complete_in_strings = 1
-let g:ycm_use_ultisnips_completer = 1
-let g:ycm_complete_in_comments = 1
-let g:ycm_collect_identifiers_from_comments_and_strings = 1
-let g:ycm_collect_identifiers_from_tags_files = 1
-let g:ycm_confirm_extra_conf = 0
-
-" Enable omni completion.
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
-autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
-
-nnoremap <silent> <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
-" }
-
-" Golang {
-if count(g:x_plugin_groups, 'golang')
-    let g:go_fmt_command = "goimports"
-    au FileType go nmap <leader>r <Plug>(go-run)
-    au FileType go nmap <leader>b <Plug>(go-build)
-    au FileType go nmap <leader>t <Plug>(go-test)
-    au FileType go nmap <leader>c <Plug>(go-coverage)
-    au FileType go nmap <Leader>ds <Plug>(go-def-split)
-    au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
-    au FileType go nmap <Leader>dt <Plug>(go-def-tab)
-    au FileType go nmap <Leader>gd <Plug>(go-doc)
-    au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
-    au FileType go nmap <Leader>gb <Plug>(go-doc-browser)
-    au FileType go nmap <Leader>s <Plug>(go-implements)
-    au FileType go nmap <Leader>i <Plug>(go-info)
-    au FileType go nmap <Leader>e <Plug>(go-rename)
-endif
-" }
-
-" Ruby {
-if count(g:x_plugin_groups, 'ruby')
-    let g:rubycomplete_buffer_loading = 1
-    let g:rubycomplete_classes_in_global = 1
-endif
-" }
-
-" vim-authorinfo {
-let g:authorinfo_author  = 'xutao(Tony Xu)'
-let g:authorinfo_email   = 'hhktony@gmail.com'
-let g:authorinfo_company = 'myself'
-" }
-
-" nerdcommenter.vim {
-" [n],cc n 行逐行添加注释(9,cc)
-" [n],cu n 行逐行取消注释(9,cu)
-" [n],cm n 行尝试添加块注释(9,cm)
-" [n],cs n 行尝试添加美观的块注释(9,cm)
-" ,ca 切换注释方式
-" ,cA 在行尾插入注释符号并且进入插入模式。
-
-" 空格键添加去除注释
-" map <space> <Leader>ci
-map <space> <plug>NERDCommenterInvert
-" let NERDCreateDefaultMappings=0
-let NERDSpaceDelims = 1     " 让注释符与语句之间留一个空格
-let NERDCompactSexyComs = 1       " 多行注释时样子更好看
-" }
-
-" DoxygenToolkit.vim {
-" highlight the doxygen comments
-set syntax=cpp.doxygen
-let g:load_doxygen_syntax=1
-let s:licenseTag = "Copyright(C)\<enter>"
-let s:licenseTag = s:licenseTag . "For free\<enter>"
-let s:licenseTag = s:licenseTag . "All right reserved"
-let g:DoxygenToolkit_licenseTag = s:licenseTag
-let g:DoxygenToolkit_authorName        = "xutao hhktony@gmail.com"
-let g:DoxygenToolkit_versionString     = "1.0"
-let g:DoxygenToolkit_briefTag_funcName = "yes"
-let g:doxygen_enhanced_color=1
-
-nmap dx :Dox<CR>
-nmap da :DoxAut<CR>
-nmap dl :DoxLic<CR>
-" autocmd BufNewFile *.{h,hpp,c,cpp,cc} DoxAuthor
-" }
-
-" nerdtree {
-if isdirectory(expand("~/.vim/bundle/nerdtree"))
-    " :NERDtree        打开NERD_tree
-    " :NERDtreeClose  关闭NERD_tree
-    " o 打开关闭文件或者目录
-    " t 在标签页中打开
-    " T 在后台标签页中打开
-    " ! 执行此文件
-    " p/P 到上层目录
-    " K/J 到第一个/最后一个节点
-    " u 打开上层目录
-    " r 刷新当前目录
-    " R 递归刷新当前根目录
-    " m 显示文件系统菜单 添加、删除、移动操作
-    nmap <silent> <Leader>n :NERDTreeToggle<CR>
-    nmap <silent> <Leader>f :NERDTreeFind<CR>
-    let g:NERDSpaceDelims=1
-    let NERDTreeShowLineNumbers     = 1
-    let NERDTreeIgnore              = ['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
-    let NERDTreeWinpos              = "left"
-    let NERDTreeQuitOnOpen          = 1     " 打开文件后, 关闭NERDTrre窗口
-    let NERDTreeWinSize             = 31    " 设置窗口大小
-    let NERDTreeHighlightCursorline = 1   " 高亮NERDTrre窗口的当前行
-endif
-" }
-
-" Fugitive.vim {
-" nnoremap <silent> <Leader>gs :Gstatus<CR>
-" nnoremap <silent> <Leader>gd :Gdiff<CR>
-" nnoremap <silent> <Leader>gc :Gcommit<CR>
-" nnoremap <silent> <Leader>gb :Gblame<CR>
-" nnoremap <silent> <Leader>gl :Glog<CR>
-" nnoremap <silent> <Leader>gp :Git push<CR>
-" nnoremap <silent> <Leader>gw :Gwrite<CR>:GitGutter<CR>
-" }
-
-" vim-multiple-cursors {
-" let g:multi_cursor_use_default_mapping=0
-" Default mapping
-" let g:multi_cursor_next_key='<C-m>'
-" let g:multi_cursor_prev_key='<C-p>'
-" let g:multi_cursor_skip_key='<C-x>'
-" let g:multi_cursor_quit_key='<Esc>'
-"}
-
-" gundo {
-noremap <leader>h :GundoToggle<CR>
 " }
 
 " matchit.vim {
@@ -525,5 +243,10 @@ nnoremap <silent> <Leader>qx :ccl<CR>
 autocmd QuickFixCmdPost [^l]* nested cwindow
 autocmd QuickFixCmdPost    l* nested lwindow
 " }
+
+
+if filereadable(expand("~/.vimrc.plugins"))
+    source ~/.vim/vimrc.plugins.settings
+endif
 
 " vim: set et sw=4 ts=4 sts=4 tw=78 foldmarker={,} foldlevel=0 foldmethod=marker:

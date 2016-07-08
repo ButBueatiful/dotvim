@@ -1,0 +1,221 @@
+" ctrlp.vim {
+if isdirectory(expand("~/.vim/plugged/ctrlp.vim/"))
+    " let g:ctrlp_map = ',,'
+    nmap <leader>b :CtrlPBuffer<CR>
+    " nmap <leader>t :CtrlP<CR>
+    nmap <leader>T :CtrlPClearCache<CR>:CtrlP<CR>
+    let g:ctrlp_open_multiple_files = 'v'
+    let g:ctrlp_custom_ignore = {
+        \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+        \ 'file': '\v\.(log|jpg|png|jpeg|o|a|so|pyc|pyo)$',
+        \ }
+endif
+" }
+
+" vim-airline {
+if has('statusline')
+    " let g:airline_section_c = '%f%m'
+    let g:airline#extensions#tabline#buffer_idx_mode = 1
+    let g:airline#extensions#tabline#fnamemod     = ':t' "显示短路径文件名
+    let g:airline#extensions#tabline#enabled      = 1
+    let g:airline#extensions#tabline#tab_nr_type  = 1
+    " let g:airline#extensions#tabline#buffer_nr_show  = 1
+    let g:airline#extensions#tabline#left_sep = ' '
+    let g:airline#extensions#tabline#left_alt_sep = '¦'
+    nmap <leader>1 <Plug>AirlineSelectTab1
+    nmap <leader>2 <Plug>AirlineSelectTab2
+    nmap <leader>3 <Plug>AirlineSelectTab3
+    nmap <leader>4 <Plug>AirlineSelectTab4
+    nmap <leader>5 <Plug>AirlineSelectTab5
+    nmap <leader>6 <Plug>AirlineSelectTab6
+    nmap <leader>7 <Plug>AirlineSelectTab7
+    nmap <leader>8 <Plug>AirlineSelectTab8
+    nmap <leader>9 <Plug>AirlineSelectTab9
+endif
+" }
+
+" ack.vim {
+if executable('ack')
+    let g:ackprg="ack -H --nocolor --nogroup --column"
+endif
+" }
+
+" vim-easy-align {
+vnoremap <silent> <Leader>a :EasyAlign<Enter>
+" }
+
+" delimitmate.vim {
+au FileType * let b:delimitMate_autoclose = 1
+au FileType xml,html,xhtml let b:delimitMate_matchpairs ="(:),[:],{:}"
+" }
+
+" ultisnips {
+let g:UltiSnipsSnippetsDir = '~/.vim/UltiSnips'
+let g:UltiSnipsExpandTrigger       = '<C-j>'
+let g:UltiSnipsJumpForwardTrigger  = '<C-j>'
+let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
+" map <leader>us :UltiSnipsEdit<CR>
+" }
+
+" tagbar.vim {
+nmap <Leader>t :TagbarToggle<CR>
+let g:tagbar_ctags_bin = 'ctags'
+let g:tagbar_width = 36
+set tags=./tags
+" Make tags placed in .git/tags file available in all levels of a repository
+let gitroot = substitute(system('git rev-parse --show-toplevel'), '[\n\r]', '', 'g')
+if gitroot != ''
+    let &tags = &tags . ',' . gitroot . '/tags'
+endif
+nmap <Leader>g :!uptags.sh<CR>
+
+" }
+
+" syntastic {
+" let g:syntastic_auto_loc_list = 1
+" let g:syntastic_check_on_open = 1
+" let g:syntastic_auto_jump = 1
+let g:syntastic_error_symbol = "✗"
+let g:syntastic_warning_symbol = "w>"
+" }
+
+" YouCompleteMe {
+let g:ycm_autoclose_preview_window_after_completion = 1
+" let g:ycm_goto_buffer_command = 'horizontal-split'
+let g:ycm_global_ycm_extra_conf = '~/.vim/ycm_c_conf.py'
+" let g:ycm_server_use_vim_stdout = 1
+" let g:ycm_server_log_level = 'debug'
+let g:ycm_complete_in_strings = 1
+let g:ycm_use_ultisnips_completer = 1
+let g:ycm_complete_in_comments = 1
+let g:ycm_collect_identifiers_from_comments_and_strings = 1
+let g:ycm_collect_identifiers_from_tags_files = 1
+let g:ycm_confirm_extra_conf = 0
+
+" Enable omni completion.
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
+autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
+
+nnoremap <silent> <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
+" }
+
+" Golang {
+if count(g:x_plugin_groups, 'golang')
+    let g:go_fmt_command = "goimports"
+    au FileType go nmap <leader>r <Plug>(go-run)
+    au FileType go nmap <leader>b <Plug>(go-build)
+    au FileType go nmap <leader>t <Plug>(go-test)
+    au FileType go nmap <leader>c <Plug>(go-coverage)
+    au FileType go nmap <Leader>ds <Plug>(go-def-split)
+    au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
+    au FileType go nmap <Leader>dt <Plug>(go-def-tab)
+    au FileType go nmap <Leader>gd <Plug>(go-doc)
+    au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
+    au FileType go nmap <Leader>gb <Plug>(go-doc-browser)
+    au FileType go nmap <Leader>s <Plug>(go-implements)
+    au FileType go nmap <Leader>i <Plug>(go-info)
+    au FileType go nmap <Leader>e <Plug>(go-rename)
+endif
+" }
+
+" Ruby {
+if count(g:x_plugin_groups, 'ruby')
+    let g:rubycomplete_buffer_loading = 1
+    let g:rubycomplete_classes_in_global = 1
+endif
+" }
+
+" vim-authorinfo {
+let g:authorinfo_author  = 'xutao(Tony Xu)'
+let g:authorinfo_email   = 'hhktony@gmail.com'
+let g:authorinfo_company = 'myself'
+" }
+
+" nerdcommenter.vim {
+" [n],cc n 行逐行添加注释(9,cc)
+" [n],cu n 行逐行取消注释(9,cu)
+" [n],cm n 行尝试添加块注释(9,cm)
+" [n],cs n 行尝试添加美观的块注释(9,cm)
+" ,ca 切换注释方式
+" ,cA 在行尾插入注释符号并且进入插入模式。
+
+" 空格键添加去除注释
+" map <space> <Leader>ci
+map <space> <plug>NERDCommenterInvert
+" let NERDCreateDefaultMappings=0
+let NERDSpaceDelims = 1     " 让注释符与语句之间留一个空格
+let NERDCompactSexyComs = 1       " 多行注释时样子更好看
+" }
+
+" DoxygenToolkit.vim {
+" highlight the doxygen comments
+set syntax=cpp.doxygen
+let g:load_doxygen_syntax=1
+let s:licenseTag = "Copyright(C)\<enter>"
+let s:licenseTag = s:licenseTag . "For free\<enter>"
+let s:licenseTag = s:licenseTag . "All right reserved"
+let g:DoxygenToolkit_licenseTag = s:licenseTag
+let g:DoxygenToolkit_authorName        = "xutao hhktony@gmail.com"
+let g:DoxygenToolkit_versionString     = "1.0"
+let g:DoxygenToolkit_briefTag_funcName = "yes"
+let g:doxygen_enhanced_color=1
+
+nmap dx :Dox<CR>
+nmap da :DoxAut<CR>
+nmap dl :DoxLic<CR>
+" autocmd BufNewFile *.{h,hpp,c,cpp,cc} DoxAuthor
+" }
+
+" nerdtree {
+if isdirectory(expand("~/.vim/plugged/nerdtree"))
+    " :NERDtree        打开NERD_tree
+    " :NERDtreeClose  关闭NERD_tree
+    " o 打开关闭文件或者目录
+    " t 在标签页中打开
+    " T 在后台标签页中打开
+    " ! 执行此文件
+    " p/P 到上层目录
+    " K/J 到第一个/最后一个节点
+    " u 打开上层目录
+    " r 刷新当前目录
+    " R 递归刷新当前根目录
+    " m 显示文件系统菜单 添加、删除、移动操作
+    nmap <silent> <Leader>n :NERDTreeToggle<CR>
+    nmap <silent> <Leader>f :NERDTreeFind<CR>
+    let g:NERDSpaceDelims=1
+    let NERDTreeShowLineNumbers     = 1
+    let NERDTreeIgnore              = ['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
+    let NERDTreeWinpos              = "left"
+    let NERDTreeQuitOnOpen          = 1     " 打开文件后, 关闭NERDTrre窗口
+    let NERDTreeWinSize             = 31    " 设置窗口大小
+    let NERDTreeHighlightCursorline = 1   " 高亮NERDTrre窗口的当前行
+endif
+" }
+
+" Fugitive.vim {
+" nnoremap <silent> <Leader>gs :Gstatus<CR>
+" nnoremap <silent> <Leader>gd :Gdiff<CR>
+" nnoremap <silent> <Leader>gc :Gcommit<CR>
+" nnoremap <silent> <Leader>gb :Gblame<CR>
+" nnoremap <silent> <Leader>gl :Glog<CR>
+" nnoremap <silent> <Leader>gp :Git push<CR>
+" nnoremap <silent> <Leader>gw :Gwrite<CR>:GitGutter<CR>
+" }
+
+" vim-multiple-cursors {
+" let g:multi_cursor_use_default_mapping=0
+" Default mapping
+" let g:multi_cursor_next_key='<C-m>'
+" let g:multi_cursor_prev_key='<C-p>'
+" let g:multi_cursor_skip_key='<C-x>'
+" let g:multi_cursor_quit_key='<Esc>'
+"}
+
+" gundo {
+noremap <leader>h :GundoToggle<CR>
+" }
