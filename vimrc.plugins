@@ -36,6 +36,7 @@ endif
 if count(g:x_plugin_groups, 'python')
     " Plug 'nvie/vim-flake8'
     Plug 'python_match.vim'
+    Plug 'Glench/Vim-Jinja2-Syntax'
 endif
 
 if count(g:x_plugin_groups, 'golang')

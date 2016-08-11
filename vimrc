@@ -12,12 +12,14 @@
 "   Company: myself
 
 set nocompatible               " be iMproved
+let g:enable_plugin = 1
+
 if filereadable(expand("~/.vimrc.before"))
     source ~/.vimrc.before
 endif
 
-if filereadable(expand("~/.vimrc.plugins"))
-    source ~/.vimrc.plugins
+if g:enable_plugin
+    source ~/.vim/vimrc.plugins
 endif
 
 " General {
@@ -65,7 +67,7 @@ set smartindent                 " 为c/c++程序提供自动缩进
 set cindent                     " c/c++样式缩进
 set cinoptions=:0,l1,t0,g0      " Linux kernel style
 set cpoptions+=$                " cw显示$
-set wrap                        " 自动换行
+" set wrap                        " 自动换行
 set textwidth=78
 set formatoptions+=mM
 
@@ -109,7 +111,7 @@ endif
 " }
 
 " AutoGroups codeing style {
-autocmd Filetype css,html,ruby,php,javascript setlocal ts=2 sts=2 sw=2
+autocmd Filetype css,html,ruby,php,javascript,yaml setlocal ts=2 sts=2 sw=2
 " }
 
 " Encode {
@@ -122,7 +124,8 @@ set termencoding=utf-8
 if &term == 'xterm' || &term == 'screen'
     set t_Co=256    " 颜色数目为256
 endif
-" set background=dark
+
+set background=dark
 if &diff
     if filereadable(expand("~/.vim/colors/github.vim"))
         colorscheme github
@@ -245,7 +248,7 @@ autocmd QuickFixCmdPost    l* nested lwindow
 " }
 
 
-if filereadable(expand("~/.vimrc.plugins"))
+if g:enable_plugin
     source ~/.vim/vimrc.plugins.settings
 endif
 
