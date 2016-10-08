@@ -1,8 +1,9 @@
 ._*
-
 .*.sw[a-z]
 *.un~
 .netrwhist
+
+autoload
 
 bundle
 plugged
