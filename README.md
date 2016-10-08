@@ -22,17 +22,17 @@ Installation
 
 ### CentOS
 
-    sudo yum install -y cmake llvm clang clang-devel gcc-c++ python-devel python-devel python-pip ctags
+    sudo yum groupinstall 'Development Tools'
+    sudo yum install epel-release
+    sudo yum install -y cmake llvm clang clang-devel gcc-c++ python-devel python-pip ctags the_silver_searcher
 
 ### Ubuntu
 
-    sudo apt-get install -y llvm-3.8 clang-3.8 build-essential cmake python-dev python-pip ctags
+    sudo apt-get install -y build-essential cmake llvm-3.8 clang-3.8 python-dev python-pip ctags silversearcher-ag
 
 ### Python
 
-    sudo pip install flake8 # check
-    sudo pip install jedi   # autocomplete
-    sudo pip install pylint
+    sudo pip install flake8 pep8 pylint jedi
 
 ### Golang
 
@@ -53,7 +53,7 @@ Installation
 
 ### YouCompleteMe
 
-    cd ~/.vim/bundle/YouCompleteMe
+    cd ~/.vim/plugged//YouCompleteMe
     ./install.py --clang-completer --gocode-completer
 
 Settings
