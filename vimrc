@@ -133,6 +133,9 @@ if &diff
 else
     if filereadable(expand("~/.vim/colors/molokai.vim"))
         colorscheme molokai
+    else
+        colorscheme desert
+        hi ColorColumn ctermbg=236
     endif
 endif
 
@@ -250,6 +253,8 @@ autocmd QuickFixCmdPost    l* nested lwindow
 
 if g:enable_plugin
     source ~/.vim/vimrc.plugins.settings
+else
+    iabbrev ipdb   import ipdb; ipdb.set_trace()
 endif
 
 " vim: set et sw=4 ts=4 sts=4 tw=78 foldmarker={,} foldlevel=0 foldmethod=marker:
