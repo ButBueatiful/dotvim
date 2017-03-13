@@ -40,18 +40,18 @@ flags = [
 compilation_database_folder = ''
 
 if compilation_database_folder:
-  database = ycm_core.CompilationDatabase( compilation_database_folder )
+    database = ycm_core.CompilationDatabase(compilation_database_folder)
 else:
-  database = None
+    database = None
 
 
 def DirectoryOfThisScript():
-  return os.path.dirname( os.path.abspath( __file__ ) )
+  return os.path.dirname(os.path.abspath(__file__))
 
 
-def MakeRelativePathsInFlagsAbsolute( flags, working_directory ):
+def MakeRelativePathsInFlagsAbsolute(flags, working_directory):
   if not working_directory:
-    return list( flags )
+    return list(flags)
   new_flags = []
   make_next_absolute = False
   path_flags = [ '-isystem', '-I', '-iquote', '--sysroot=' ]

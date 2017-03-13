@@ -1,6 +1,7 @@
 x-vim: Tony Xu's Vim Configuration
 ==================================
 
+					_
 	__  __   __   _(_)_ __ ___
 	\ \/ /___\ \ / / | '_ ` _ \
 	 >  <_____\ V /| | | | | | |
@@ -46,15 +47,14 @@ Installation
 
 ### vim
 
-	cd
-	git clone https://github.com/hhktony/x-vim.git .vim
+	git clone https://github.com/hhktony/x-vim.git ~/.vim
 	cd ~/.vim/
-    ./install.sh
+	./install.sh
 
 ### YouCompleteMe
 
-    cd ~/.vim/plugged//YouCompleteMe
-    ./install.py --clang-completer --gocode-completer
+	cd ~/.vim/plugged//YouCompleteMe
+	./install.py --clang-completer --gocode-completer
 
 Settings
 --------

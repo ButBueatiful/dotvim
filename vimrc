@@ -86,7 +86,7 @@ set dictionary+=~/.vim/dict/simple  " For i_CTRL_X_K
 set listchars=tab:›\ ,trail:•,extends:#,nbsp:.
 set fillchars=vert:\ ,stl:\ ,stlnc:\    " 在被分割的窗口间显示空白
 set completeopt=menu,menuone,longest
-"}
+" }
 
 " Record exit position {
 au BufReadPost *
@@ -111,7 +111,7 @@ endif
 " }
 
 " AutoGroups codeing style {
-autocmd Filetype css,html,ruby,php,javascript,yaml setlocal ts=2 sts=2 sw=2
+autocmd Filetype sh,zsh,css,html,ruby,php,javascript,yaml setlocal ts=2 sts=2 sw=2 ex
 " }
 
 " Encode {
@@ -250,11 +250,10 @@ autocmd QuickFixCmdPost [^l]* nested cwindow
 autocmd QuickFixCmdPost    l* nested lwindow
 " }
 
-
 if g:enable_plugin
     source ~/.vim/vimrc.plugins.settings
 else
-    iabbrev ipdb   import ipdb; ipdb.set_trace()
+    iabbrev ipdb import ipdb; ipdb.set_trace()
 endif
 
 " vim: set et sw=4 ts=4 sts=4 tw=78 foldmarker={,} foldlevel=0 foldmethod=marker:

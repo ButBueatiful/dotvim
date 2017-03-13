@@ -2,21 +2,24 @@ set nocompatible               " be iMproved
 filetype off                   " required!
 
 if !exists('g:x_plugin_groups')
-    let g:x_plugin_groups=['general', 'programming', 'python', 'golang', 'ruby', 'html']
+    let g:x_plugin_groups=['general', 'programming',
+                           \'language']
 endif
 
-call plug#begin('~/.vim/plugged')
+call plug#begin('~/.vim/bundle')
 
 if count(g:x_plugin_groups, 'general')
+    Plug 'mhinz/vim-startify'
     Plug 'Raimondi/delimitMate'
     Plug 'tpope/vim-repeat'
     Plug 'sjl/gundo.vim'
     Plug 'easymotion/vim-easymotion'
-    Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle'  }
+    Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+    " Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind'] } | Plug 'Xuyuanp/nerdtree-git-plugin'
     " Plug 'terryma/vim-multiple-cursors'
     Plug 'vim-airline/vim-airline'
     " Plug 'vim-airline/vim-airline-themes'
-    Plug 'mileszs/ack.vim'
+    Plug 'rking/ag.vim'
     Plug 'kien/ctrlp.vim'
 endif
 
@@ -26,37 +29,30 @@ if count(g:x_plugin_groups, 'programming')
     Plug 'junegunn/vim-easy-align'
     Plug 'DoxygenToolkit.vim'
     Plug 'scrooloose/nerdcommenter'
-    Plug 'Valloric/YouCompleteMe'
+    " Plug 'Valloric/YouCompleteMe'
+    Plug '~/.vim/bundle/YouCompleteMe' " 这个插件安装慢，我们要手动装
     Plug 'scrooloose/syntastic'
     Plug 'majutsushi/tagbar'
     Plug 'tpope/vim-fugitive'
     Plug 'airblade/vim-gitgutter'
 endif
 
-if count(g:x_plugin_groups, 'python')
+if count(g:x_plugin_groups, 'language')
     " Plug 'nvie/vim-flake8'
-    Plug 'python_match.vim'
-    Plug 'Glench/Vim-Jinja2-Syntax'
-endif
+    Plug 'python_match.vim', {'for': 'python'}
 
-if count(g:x_plugin_groups, 'golang')
-    Plug 'fatih/vim-go'
-endif
+    Plug 'fatih/vim-go', { 'for': 'go' }
 
-if count(g:x_plugin_groups, 'ruby')
-    Plug 'vim-ruby/vim-ruby'
+    Plug 'vim-ruby/vim-ruby', { 'for': 'ruby' }
     Plug 'tpope/vim-rails'
-endif
 
-if count(g:x_plugin_groups, 'html')
-    Plug 'mattn/emmet-vim'
-    Plug 'amirh/HTML-AutoCloseTag'
+    Plug 'mattn/emmet-vim', { 'for': ['html', 'css'] }
     " Plug 'hail2u/vim-css3-syntax'
     " Plug 'gorodinskiy/vim-coloresque'
-    " Plug 'tpope/vim-haml'
 endif
 
-Plug 'tpope/vim-markdown'
+Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
+
 call plug#end()
 
 " vim: set et sw=4 ts=4 sts=4 tw=78 foldmarker={,} foldlevel=0 foldmethod=marker:
