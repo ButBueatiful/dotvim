@@ -68,5 +68,6 @@ Settings
 
     let g:x_plugin_groups=['general', 'programming', 'python', 'html']
 
-Custom shortcut keys
---------------------
+More
+----
+[x-vim wiki](https://github.com/hhktony/x-vim/wiki)
