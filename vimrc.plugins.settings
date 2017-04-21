@@ -8,6 +8,7 @@ let g:startify_custom_header=[
 \'                         		 ']
 let g:startify_custom_footer=['', '    This configuration is maintained by Tony Xu <hhktony@gmail.com> and other contributors. Thanks!']
 " }
+
 " ctrlp.vim {
 if isdirectory(expand("~/.vim/bundle/ctrlp.vim/"))
     " nmap <leader>b :CtrlPBuffer<CR>
@@ -55,7 +56,7 @@ endif
 vnoremap <silent> <Leader>a :EasyAlign<Enter>
 " }
 
-" delimitmate.vim {
+" delimitMate {
 au FileType * let b:delimitMate_autoclose = 1
 au FileType xml,html,xhtml let b:delimitMate_matchpairs ="(:),[:],{:}"
 " }
@@ -68,7 +69,7 @@ let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
 " map <leader>us :UltiSnipsEdit<CR>
 " }
 
-" tagbar.vim {
+" tagbar {
 nmap <Leader>t :TagbarToggle<CR>
 let g:tagbar_ctags_bin = 'ctags'
 let g:tagbar_width = 36
@@ -79,7 +80,6 @@ if gitroot != ''
     let &tags = &tags . ',' . gitroot . '/tags'
 endif
 nmap <Leader>g :!uptags.sh<CR>
-
 " }
 
 " syntastic {
@@ -88,6 +88,10 @@ nmap <Leader>g :!uptags.sh<CR>
 " let g:syntastic_auto_jump = 1
 let g:syntastic_error_symbol = "✗"
 let g:syntastic_warning_symbol = "w>"
+let g:syntastic_python_python_exec = 'python'
+let g:syntastic_python_checkers = ['flake8']
+" let g:syntastic_python_flake8_args='--ignore=E501,E225,E129,E126'
+let g:syntastic_python_flake8_args='--ignore=E225,E126'
 " }
 
 " YouCompleteMe {
@@ -96,12 +100,16 @@ let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_global_ycm_extra_conf = '~/.vim/ycm_c_conf.py'
 " let g:ycm_server_use_vim_stdout = 1
 " let g:ycm_server_log_level = 'debug'
+let g:ycm_seed_identifiers_with_syntax=1
 let g:ycm_complete_in_strings = 1
 let g:ycm_use_ultisnips_completer = 1
 let g:ycm_complete_in_comments = 1
-let g:ycm_collect_identifiers_from_comments_and_strings = 1
+" let g:ycm_collect_identifiers_from_comments_and_strings = 1
 let g:ycm_collect_identifiers_from_tags_files = 1
 let g:ycm_confirm_extra_conf = 0
+
+" let g:ycm_python_binary_path = '/usr/bin/python'
+" let g:ycm_python_binary_path = '/usr/bin/python3'
 
 " Enable omni completion.
 " autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
@@ -116,7 +124,7 @@ nnoremap <silent> <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
 " }
 
 " Golang {
-if count(g:x_plugin_groups, 'golang')
+if count(g:x_plugin_groups, 'go')
     let g:go_fmt_command = "goimports"
     au FileType go nmap <leader>r <Plug>(go-run)
     au FileType go nmap <leader>b <Plug>(go-build)
@@ -147,7 +155,7 @@ let g:authorinfo_email   = 'hhktony@gmail.com'
 let g:authorinfo_company = 'myself'
 " }
 
-" nerdcommenter.vim {
+" nerdcommenter {
 " [n],cc n 行逐行添加注释(9,cc)
 " [n],cu n 行逐行取消注释(9,cu)
 " [n],cm n 行尝试添加块注释(9,cm)
@@ -176,9 +184,9 @@ let g:DoxygenToolkit_versionString     = "1.0"
 let g:DoxygenToolkit_briefTag_funcName = "yes"
 let g:doxygen_enhanced_color=1
 
-nmap dx :Dox<CR>
-nmap da :DoxAut<CR>
-nmap dl :DoxLic<CR>
+" nmap dx :Dox<CR>
+" nmap da :DoxAut<CR>
+" nmap dl :DoxLic<CR>
 " autocmd BufNewFile *.{h,hpp,c,cpp,cc} DoxAuthor
 " }
 
@@ -229,8 +237,10 @@ nmap <leader>gn :GitGutterSignsToggle<CR>
 " let g:multi_cursor_prev_key='<C-p>'
 " let g:multi_cursor_skip_key='<C-x>'
 " let g:multi_cursor_quit_key='<Esc>'
-"}
+" }
 
 " gundo {
-noremap <leader>h :GundoToggle<CR>
+" noremap <leader>h :GundoToggle<CR>
 " }
+
+" vim: set et sw=4 ts=4 sts=4 tw=78 foldmarker={,} foldlevel=0 foldmethod=marker:

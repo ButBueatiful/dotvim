@@ -1,7 +1,7 @@
 x-vim: Tony Xu's Vim Configuration
 ==================================
 
-					_
+                    _
 	__  __   __   _(_)_ __ ___
 	\ \/ /___\ \ / / | '_ ` _ \
 	 >  <_____\ V /| | | | | | |
@@ -25,11 +25,15 @@ Installation
 
     sudo yum groupinstall 'Development Tools'
     sudo yum install epel-release
-    sudo yum install -y cmake llvm clang clang-devel gcc-c++ python-devel python-pip ctags the_silver_searcher
+    sudo yum install -y cmake llvm clang clang-devel gcc-c++ \
+                        python-devel python-pip \
+                        ctags the_silver_searcher
 
 ### Ubuntu
 
-    sudo apt-get install -y build-essential cmake llvm-3.8 clang-3.8 python-dev python-pip ctags silversearcher-ag
+    sudo apt install -y build-essential cmake llvm-3.8 clang-3.8 \
+                        python-dev python-pip \
+                        ctags silversearcher-ag
 
 ### Python
 
@@ -63,3 +67,6 @@ Settings
 启用你需要的插件, 例如：
 
     let g:x_plugin_groups=['general', 'programming', 'python', 'html']
+
+Custom shortcut keys
+--------------------

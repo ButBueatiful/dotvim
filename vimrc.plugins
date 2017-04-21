@@ -3,7 +3,7 @@ filetype off                   " required!
 
 if !exists('g:x_plugin_groups')
     let g:x_plugin_groups=['general', 'programming',
-                           \'language']
+                           \'go', 'python', 'ruby', 'html']
 endif
 
 call plug#begin('~/.vim/bundle')
@@ -27,29 +27,28 @@ if count(g:x_plugin_groups, 'programming')
     Plug 'hhktony/vim-authorinfo'
     Plug 'SirVer/ultisnips'
     Plug 'junegunn/vim-easy-align'
-    Plug 'DoxygenToolkit.vim'
+    " Plug 'DoxygenToolkit.vim'
     Plug 'scrooloose/nerdcommenter'
     " Plug 'Valloric/YouCompleteMe'
-    Plug '~/.vim/bundle/YouCompleteMe' " 这个插件安装慢，我们要手动装
+    Plug '~/.vim/bundle/YouCompleteMe' " 这个插件安装慢，建议手动装
     Plug 'scrooloose/syntastic'
     Plug 'majutsushi/tagbar'
     Plug 'tpope/vim-fugitive'
     Plug 'airblade/vim-gitgutter'
 endif
 
-if count(g:x_plugin_groups, 'language')
-    " Plug 'nvie/vim-flake8'
-    Plug 'python_match.vim', {'for': 'python'}
+" Plug 'nvie/vim-flake8'
+Plug 'python_match.vim', {'for': 'python'}
 
-    Plug 'fatih/vim-go', { 'for': 'go' }
 
-    Plug 'vim-ruby/vim-ruby', { 'for': 'ruby' }
-    Plug 'tpope/vim-rails'
+" 打开一个.go文件，执行 :GoInstallBinaries
+" Plug 'fatih/vim-go', { 'for': 'go', 'do': ':GoInstallBinaries' }
+Plug 'fatih/vim-go', { 'for': 'go' }
 
-    Plug 'mattn/emmet-vim', { 'for': ['html', 'css'] }
-    " Plug 'hail2u/vim-css3-syntax'
-    " Plug 'gorodinskiy/vim-coloresque'
-endif
+Plug 'vim-ruby/vim-ruby', { 'for': 'ruby' }
+Plug 'tpope/vim-rails',   {'for': ['ruby', 'eruby'] }
+
+Plug 'mattn/emmet-vim', { 'for': ['html', 'css'] }
 
 Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
 

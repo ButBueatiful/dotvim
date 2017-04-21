@@ -12,13 +12,14 @@
 "   Company: myself
 
 set nocompatible               " be iMproved
-let g:enable_plugin = 1
+" let g:enable_plugin = 1
 
 if filereadable(expand("~/.vimrc.before"))
     source ~/.vimrc.before
 endif
 
-if g:enable_plugin
+" if g:enable_plugin
+if filereadable(expand("~/.vim/vimrc.plugins"))
     source ~/.vim/vimrc.plugins
 endif
 
@@ -29,27 +30,27 @@ set history=1000
 filetype plugin indent on
 syntax on
 
+set number                      " 显示行号
 set shortmess=atI               " I不显启动时的信息
 set showmode                    " 在插入、替换和可视模式里，在最后一行提供消息
 set showcmd                     " 在屏幕最后一行显示当前命令
+set showmatch                   " 显示括号配对情况
 set matchtime=1                 " 跳转到匹配括号的时间
-set number                      " 显示行号
-set scrolloff=3                 " 上下滚动隔3行
-set cmdheight=1                 " 命令行的高度，默认为1
+set scrolloff=3                 " 上下滚动保留屏幕3行
+" set t_ti= t_te=                 " 退出vim后，内容显示在终端屏幕
+" set cmdheight=1                 " 命令行的高度，默认为1
 set vb t_vb=                    " 关闭响铃和闪烁
 set novb
 set noeb
-" set t_ti= t_te=                 " 退出vim后，内容显示在终端屏幕
 
 set magic                       " 增强行正则
 
 set ignorecase                  " 搜索时忽略大小写
-set smartcase                   " 如果搜索模式包含大写字符，
+set smartcase                   " 搜索模式只包含小写字母时才忽略大小写
 set gdefault                    " 默认开启全局匹配(在替换时不用输入g)
 set incsearch                   " 开启实时搜索功能
-set showmatch                   " 显示括号配对情况
 set hlsearch                    " 开启高亮显示结果
-set wrapscan                    " 搜索到文件两端时重新搜索
+" set wrapscan                    " 搜索到文件两端时重新搜索
 
 set wildmenu                    " 命令补全
 set wildmode=longest:list:full  " 命令模式Tab补全顺序
@@ -67,19 +68,19 @@ set smartindent                 " 为c/c++程序提供自动缩进
 set cindent                     " c/c++样式缩进
 set cinoptions=:0,l1,t0,g0      " Linux kernel style
 set cpoptions+=$                " cw显示$
-" set wrap                        " 自动换行
+set nowrap                      " 取消自动换行
 set textwidth=78
 set formatoptions+=mM
 
-set modeline                    " 开启模式行支持
+" set modeline                    " 开启模式行支持
 set autoread                    " 当文件在外部被修改时，自动重新读取
 set hidden                      " 允许在有未保存的修改时切换缓冲区
 set ttyfast
 
-set path+=../include            " gf搜索路径
-"set autochdir                  " 当前目录为工作目录
+" set path+=../include            " gf搜索路径
+" set autochdir                   " 当前目录为工作目录
 
-" set iskeyword+=_,$,@,%,#,-    " 包含这些字符时当作一个单词
+" set iskeyword+=$,@,%,#,-        " 包含这些字符时当作一个单词
 set dictionary+=~/.vim/dict/simple  " For i_CTRL_X_K
 
 " set list                        " 显示Tab符
@@ -111,7 +112,7 @@ endif
 " }
 
 " AutoGroups codeing style {
-autocmd Filetype sh,zsh,css,html,ruby,php,javascript,yaml setlocal ts=2 sts=2 sw=2 ex
+autocmd Filetype sh,zsh,css,html,ruby,php,javascript,json,yaml setlocal ts=2 sts=2 sw=2 ex
 " }
 
 " Encode {
@@ -194,7 +195,7 @@ set pastetoggle=<Leader>pp
 
 nnoremap <Leader>W :%s/\s\+$//<CR>:let @/=''<CR>
 
-nmap <C-\> :!sdcv <C-R>=expand("<cword>")<CR><CR>
+nmap <C-\> :!dict <C-R>=expand("<cword>")<CR><CR>
 
 " nmap <Leader>rb :%!xxd<CR>
 " nmap <Leader>nrb :%!xxd -r<CR>
@@ -250,7 +251,8 @@ autocmd QuickFixCmdPost [^l]* nested cwindow
 autocmd QuickFixCmdPost    l* nested lwindow
 " }
 
-if g:enable_plugin
+" if g:enable_plugin
+if filereadable(expand("~/.vim/vimrc.plugins.settings"))
     source ~/.vim/vimrc.plugins.settings
 else
     iabbrev ipdb import ipdb; ipdb.set_trace()
