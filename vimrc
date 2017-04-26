@@ -12,13 +12,11 @@
 "   Company: myself
 
 set nocompatible               " be iMproved
-" let g:enable_plugin = 1
 
 if filereadable(expand("~/.vimrc.before"))
     source ~/.vimrc.before
 endif
 
-" if g:enable_plugin
 if filereadable(expand("~/.vim/vimrc.plugins"))
     source ~/.vim/vimrc.plugins
 endif
@@ -86,7 +84,7 @@ set dictionary+=~/.vim/dict/simple  " For i_CTRL_X_K
 " set list                        " 显示Tab符
 set listchars=tab:›\ ,trail:•,extends:#,nbsp:.
 set fillchars=vert:\ ,stl:\ ,stlnc:\    " 在被分割的窗口间显示空白
-set completeopt=menu,menuone,longest
+set completeopt=menu,menuone
 " }
 
 " Record exit position {
@@ -122,17 +120,18 @@ set termencoding=utf-8
 " }
 
 " UI {
-if &term == 'xterm' || &term == 'screen'
-    set t_Co=256    " 颜色数目为256
+set t_Co=256
+if &term =~ '256color'
+    set t_ut=
 endif
 
 set background=dark
 if &diff
-    if filereadable(expand("~/.vim/colors/github.vim"))
+    if filereadable(expand("~/.vim/bundle/vim-colors-github/colors/github.vim"))
         colorscheme github
     endif
 else
-    if filereadable(expand("~/.vim/colors/molokai.vim"))
+    if filereadable(expand("~/.vim/bundle/molokai/colors/molokai.vim"))
         colorscheme molokai
     else
         colorscheme desert
@@ -251,7 +250,6 @@ autocmd QuickFixCmdPost [^l]* nested cwindow
 autocmd QuickFixCmdPost    l* nested lwindow
 " }
 
-" if g:enable_plugin
 if filereadable(expand("~/.vim/vimrc.plugins.settings"))
     source ~/.vim/vimrc.plugins.settings
 else

@@ -19,6 +19,8 @@ if count(g:x_plugin_groups, 'general')
     " Plug 'terryma/vim-multiple-cursors'
     Plug 'vim-airline/vim-airline'
     " Plug 'vim-airline/vim-airline-themes'
+    Plug 'tomasr/molokai'
+    Plug 'acarapetis/vim-colors-github'
     Plug 'rking/ag.vim'
     Plug 'kien/ctrlp.vim'
     Plug 'dyng/ctrlsf.vim'
@@ -27,7 +29,7 @@ endif
 
 if count(g:x_plugin_groups, 'programming')
     Plug 'hhktony/vim-authorinfo'
-    Plug 'SirVer/ultisnips'
+    Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
     Plug 'junegunn/vim-easy-align'
     Plug 'DoxygenToolkit.vim'
     Plug 'scrooloose/nerdcommenter'
