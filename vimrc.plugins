@@ -21,13 +21,15 @@ if count(g:x_plugin_groups, 'general')
     " Plug 'vim-airline/vim-airline-themes'
     Plug 'rking/ag.vim'
     Plug 'kien/ctrlp.vim'
+    Plug 'dyng/ctrlsf.vim'
+    " Plug 'bogado/file-line'
 endif
 
 if count(g:x_plugin_groups, 'programming')
     Plug 'hhktony/vim-authorinfo'
     Plug 'SirVer/ultisnips'
     Plug 'junegunn/vim-easy-align'
-    " Plug 'DoxygenToolkit.vim'
+    Plug 'DoxygenToolkit.vim'
     Plug 'scrooloose/nerdcommenter'
     " Plug 'Valloric/YouCompleteMe'
     Plug '~/.vim/bundle/YouCompleteMe' " 这个插件安装慢，建议手动装
@@ -54,4 +56,4 @@ Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
 
 call plug#end()
 
-" vim: set et sw=4 ts=4 sts=4 tw=78 foldmarker={,} foldlevel=0 foldmethod=marker:
+" vim: set et sw=4 ts=4 sts=4 tw=78 fmr={,} fdl=0 fdm=marker:

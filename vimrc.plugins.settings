@@ -22,6 +22,27 @@ if isdirectory(expand("~/.vim/bundle/ctrlp.vim/"))
 endif
 " }
 
+" ctrlsf {
+    nmap \ <Plug>CtrlSFCwordPath<CR>
+    " let g:ctrlsf_position = 'below'
+    " let g:ctrlsf_winsize = '30%'
+    let g:ctrlsf_auto_close = 0
+    let g:ctrlsf_confirm_save = 0
+    " Note: cannot use <CR> or <C-m> for open
+    " Use : <sapce> or <tab>
+    let g:ctrlsf_mapping = {
+        \ "open"  : "<Space>",
+        \ "openb" : "O",
+        \ "tab"   : "t",
+        \ "tabb"  : "T",
+        \ "prevw" : "p",
+        \ "quit"  : "q",
+        \ "next"  : "<C-J>",
+        \ "prev"  : "<C-K>",
+        \ "pquit" : "q",
+        \ }
+" }
+
 " vim-airline {
 if has('statusline')
     " let g:airline_section_c = '%f%m'
@@ -123,7 +144,8 @@ let g:ycm_confirm_extra_conf = 0
 nnoremap <silent> <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
 " }
 
-" Golang {
+" Go {
+" /home/tony/.vim/bundle/vim-go/gosnippets/snippets/go.snip for ultisnips
 if count(g:x_plugin_groups, 'go')
     let g:go_fmt_command = "goimports"
     au FileType go nmap <leader>r <Plug>(go-run)
@@ -184,9 +206,9 @@ let g:DoxygenToolkit_versionString     = "1.0"
 let g:DoxygenToolkit_briefTag_funcName = "yes"
 let g:doxygen_enhanced_color=1
 
-" nmap dx :Dox<CR>
-" nmap da :DoxAut<CR>
-" nmap dl :DoxLic<CR>
+autocmd FileType c,cpp nmap dx :Dox<CR>
+autocmd FileType c,cpp nmap da :DoxAut<CR>
+autocmd FileType c,cpp nmap dl :DoxLic<CR>
 " autocmd BufNewFile *.{h,hpp,c,cpp,cc} DoxAuthor
 " }
 
@@ -220,6 +242,10 @@ endif
 nmap <leader>gn :GitGutterSignsToggle<CR>
 " }
 
+" vim-markdown {
+let g:vim_markdown_folding_disabled=1
+" }
+
 " Fugitive.vim {
 " nnoremap <silent> <Leader>gs :Gstatus<CR>
 " nnoremap <silent> <Leader>gd :Gdiff<CR>
@@ -243,4 +269,4 @@ nmap <leader>gn :GitGutterSignsToggle<CR>
 " noremap <leader>h :GundoToggle<CR>
 " }
 
-" vim: set et sw=4 ts=4 sts=4 tw=78 foldmarker={,} foldlevel=0 foldmethod=marker:
+" vim: set et sw=4 ts=4 sts=4 tw=78 fmr={,} fdl=0 fdm=marker:

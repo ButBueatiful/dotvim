@@ -258,4 +258,4 @@ else
     iabbrev ipdb import ipdb; ipdb.set_trace()
 endif
 
-" vim: set et sw=4 ts=4 sts=4 tw=78 foldmarker={,} foldlevel=0 foldmethod=marker:
+" vim: set et sw=4 ts=4 sts=4 tw=78 fmr={,} fdl=0 fdm=marker:
