@@ -14,12 +14,12 @@ x-vim: Tony Xu's Vim Configuration
     - [Programing Language](#programing-language)
         - [Python](#python)
         - [Go](#go)
-    - [vim](#vim)
+    - [Vim](#vim)
     - [YouCompleteMe](#youcompleteme)
 - [Settings](#settings)
 - [More](#more)
 
-![screenshots](https://raw.github.com/hhktony/x-vim/master/screenshots/vim-screenshot.jpg)
+![x-vim-screenshots](http://7xnvif.com1.z0.glb.clouddn.com/x-vim-screenshot.png)
 
 
 Installation
