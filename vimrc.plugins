@@ -19,7 +19,7 @@ if count(g:x_plugin_groups, 'general')
     " Plug 'terryma/vim-multiple-cursors'
     Plug 'vim-airline/vim-airline'
     " Plug 'vim-airline/vim-airline-themes'
-    Plug 'tomasr/molokai'
+    Plug 'hhktony/molokai'
     Plug 'acarapetis/vim-colors-github'
     Plug 'rking/ag.vim'
     Plug 'kien/ctrlp.vim'
@@ -31,18 +31,22 @@ if count(g:x_plugin_groups, 'programming')
     Plug 'hhktony/vim-authorinfo'
     Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
     Plug 'junegunn/vim-easy-align'
-    Plug 'DoxygenToolkit.vim'
+    " Plug 'DoxygenToolkit.vim'
     Plug 'scrooloose/nerdcommenter'
     " Plug 'Valloric/YouCompleteMe'
-    Plug '~/.vim/bundle/YouCompleteMe' " 这个插件安装慢，建议手动装
-    Plug 'scrooloose/syntastic'
+    " Plug '~/.vim/bundle/YouCompleteMe' " 这个插件安装慢，建议手动装
+    if v:version >= 800
+        Plug 'w0rp/ale'
+    else
+        Plug 'scrooloose/syntastic'
+    endif
     Plug 'majutsushi/tagbar'
     Plug 'tpope/vim-fugitive'
     Plug 'airblade/vim-gitgutter'
 endif
 
 " Plug 'nvie/vim-flake8'
-Plug 'python_match.vim', {'for': 'python'}
+" Plug 'python_match.vim', {'for': 'python'}
 
 
 " 打开一个.go文件，执行 :GoInstallBinaries

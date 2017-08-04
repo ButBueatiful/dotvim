@@ -70,7 +70,7 @@ set nowrap                      " 取消自动换行
 set textwidth=78
 set formatoptions+=mM
 
-" set modeline                    " 开启模式行支持
+set modeline                    " 开启模式行支持
 set autoread                    " 当文件在外部被修改时，自动重新读取
 set hidden                      " 允许在有未保存的修改时切换缓冲区
 set ttyfast
