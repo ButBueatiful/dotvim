@@ -3,7 +3,7 @@ filetype off                   " required!
 
 if !exists('g:x_plugin_groups')
     let g:x_plugin_groups=['general', 'programming',
-                           \'go', 'python', 'ruby', 'html']
+                          \'go', 'python', 'ruby', 'html']
 endif
 
 call plug#begin('~/.vim/bundle')
@@ -31,7 +31,6 @@ if count(g:x_plugin_groups, 'programming')
     Plug 'hhktony/vim-authorinfo'
     Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
     Plug 'junegunn/vim-easy-align'
-    " Plug 'DoxygenToolkit.vim'
     Plug 'scrooloose/nerdcommenter'
     " Plug 'Valloric/YouCompleteMe'
     " Plug '~/.vim/bundle/YouCompleteMe' " 这个插件安装慢，建议手动装

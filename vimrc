@@ -10,19 +10,20 @@
 "
 "    Author: xutao(Tony Xu), hhktony@gmail.com
 "   Company: myself
+scriptencoding utf-8
 
 set nocompatible               " be iMproved
 
-if filereadable(expand("~/.vimrc.before"))
+if filereadable(expand('~/.vimrc.before'))
     source ~/.vimrc.before
 endif
 
-if filereadable(expand("~/.vim/vimrc.plugins"))
+if filereadable(expand('~/.vim/vimrc.plugins'))
     source ~/.vim/vimrc.plugins
 endif
 
 " General {
-let g:mapleader = ","
+let g:mapleader = ','
 set history=1000
 
 filetype plugin indent on
@@ -127,11 +128,11 @@ endif
 
 set background=dark
 if &diff
-    if filereadable(expand("~/.vim/bundle/vim-colors-github/colors/github.vim"))
+    if filereadable(expand('~/.vim/bundle/vim-colors-github/colors/github.vim'))
         colorscheme github
     endif
 else
-    if filereadable(expand("~/.vim/bundle/molokai/colors/molokai.vim"))
+    if filereadable(expand('~/.vim/bundle/molokai/colors/molokai.vim'))
         colorscheme molokai
     else
         colorscheme desert
@@ -238,7 +239,7 @@ nnoremap zO zCzO
 " }
 
 " man.vim {
-if filereadable($VIMRUNTIME . "/ftplugin/man.vim")
+if filereadable($VIMRUNTIME . '/ftplugin/man.vim')
     source $VIMRUNTIME/ftplugin/man.vim
     nnoremap <silent> <S-k> :Man <c-r>=expand("<cword>")<CR><CR>
 endif
@@ -250,7 +251,7 @@ autocmd QuickFixCmdPost [^l]* nested cwindow
 autocmd QuickFixCmdPost    l* nested lwindow
 " }
 
-if filereadable(expand("~/.vim/vimrc.plugins.settings"))
+if filereadable(expand('~/.vim/vimrc.plugins.settings'))
     source ~/.vim/vimrc.plugins.settings
 else
     iabbrev ipdb import ipdb; ipdb.set_trace()

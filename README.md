@@ -52,7 +52,8 @@ sudo apt install -y build-essential cmake llvm-3.8 clang-3.8 \
 #### Python
 
 ```sh
-sudo pip install flake8 pep8 pylint jedi
+sudo pip install flake8 pep8 pylint jedi vim-vint
+apt-get install shellcheck
 ```
 
 #### Go
