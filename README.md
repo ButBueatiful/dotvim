@@ -7,20 +7,20 @@ x-vim: Tony Xu's Vim Configuration
 	 >  <_____\ V /| | | | | | |
 	/_/\_\     \_/ |_|_| |_| |_|
 
-- [Installation](#installation)
-    - [Dependencies](#dependencies)
-        - [CentOS](#centos)
-        - [Ubuntu](#ubuntu)
-    - [Programing Language](#programing-language)
-        - [Python](#python)
-        - [Go](#go)
-    - [Vim](#vim)
-    - [YouCompleteMe](#youcompleteme)
-- [Settings](#settings)
-- [More](#more)
+* [Installation](#installation)
+* [Dependencies](#dependencies)
+    * [OS](#os)
+        * [CentOS](#centos)
+        * [Ubuntu](#ubuntu)
+    * [Programing Language](#programing-language)
+        * [Python](#python)
+        * [Go](#go)
+    * [vim](#vim)
+    * [YouCompleteMe](#youcompleteme)
+* [Settings](#settings)
+* [More](#more)
 
 ![x-vim-screenshots](http://7xnvif.com1.z0.glb.clouddn.com/x-vim-screenshot.png)
-
 
 Installation
 ------------
@@ -53,7 +53,8 @@ sudo apt install -y build-essential cmake llvm-3.8 clang-3.8 \
 
 ```sh
 sudo pip install flake8 pep8 pylint jedi vim-vint
-apt-get install shellcheck
+sudo apt-get install shellcheck
+sudo dnf install ShellCheck
 ```
 
 #### Go
