@@ -52,6 +52,8 @@ if count(g:x_plugin_groups, 'programming')
   Plug 'airblade/vim-gitgutter'
 endif
 
+Plug 'octol/vim-cpp-enhanced-highlight'
+
 " Plug 'python_match.vim', {'for': 'python'}
 
 " Plug 'fatih/vim-go', { 'for': 'go', 'do': ':GoInstallBinaries' }
