@@ -1,19 +1,18 @@
 " Vim File
 "  Filename: vimrc
 "   Created: 2013-07-23 01:13:02
-"      Desc:
-"          _
-"   __   _(_)_ __ ___  _ __ ___
-"   \ \ / / | '_ ` _ \| '__/ __|
-"    \ V /| | | | | | | | | (__
-"     \_/ |_|_| |_| |_|_|  \___|
+"      Desc: Tony Xu's Vim Configuration
+"                   _
+"   __  __   __   _(_)_ __ ___
+"   \ \/ /___\ \ / / | '_ ` _ \
+"    >  <_____\ V /| | | | | | |
+"   /_/\_\     \_/ |_|_| |_| |_|
 "
 "    Author: xutao(Tony Xu), hhktony@gmail.com
 "   Company: myself
 
 " Init {{{
 scriptencoding utf-8
-set nocompatible               " be iMproved
 
 let g:mapleader = ','
 
@@ -21,8 +20,8 @@ if filereadable(expand('~/.vimrc.before'))
   source ~/.vimrc.before
 endif
 
-if filereadable(expand('~/.vim/vimrc.plugins'))
-  source ~/.vim/vimrc.plugins
+if filereadable(expand('~/.vimrc.plugins'))
+  source ~/.vimrc.plugins
 endif
 " }}}
 
@@ -38,7 +37,7 @@ set showmode                    " 在插入、替换和可视模式里，在最�
 set showcmd                     " 在屏幕最后一行显示当前命令
 set showmatch                   " 显示括号配对情况
 set matchtime=1                 " 跳转到匹配括号的时间
-set scrolloff=3                 " 上下滚动保留屏幕3行
+set scrolloff=5                 " 上下滚动保留屏幕3行
 " set t_ti= t_te=                 " 退出vim后，内容显示在终端屏幕
 " set cmdheight=1                 " 命令行的高度，默认为1
 " set vb t_vb=                    " 关闭响铃和闪烁
@@ -53,10 +52,14 @@ set gdefault                    " 默认开启全局匹配(在替换时不用输
 set incsearch                   " 开启实时搜索功能
 set hlsearch                    " 开启高亮显示结果
 " set wrapscan                    " 搜索到文件两端时重新搜索
+set grepprg=grep\ -rnH\ --exclude='.*.swp'\ --exclude='*~'\ --exclude=tags
 
 set wildignorecase
 set wildmenu                    " 命令补全
 set wildmode=longest:list:full  " 命令模式Tab补全顺序
+
+set ttimeout                    " time out for key codes
+set ttimeoutlen=500             " wait up to 500ms after Esc for special key
 
 set backspace=indent,eol,start  " 退格键和方向键可以换行
 set whichwrap=b,s,h,l,<,>,[,]   " 允许backspace和光标键跨越行边界
@@ -66,39 +69,37 @@ set tabstop=4                   " 编辑时一个Tab字符占4个空格的位置
 set softtabstop=4               " 每次退格将删除4个空格
 set expandtab                   " 将输入的Tab自动展开成空格
 set smarttab                    " 在行首按Tab将加入sw个空格，否则加入ts个空格
+
 set autoindent                  " 继承前一行的缩进方式
 set smartindent                 " 为c/c++程序提供自动缩进
 set cindent                     " c/c++样式缩进
 set cinoptions=:0,l1,t0,g0      " Linux kernel style
 set cpoptions+=$                " cw显示$
+
 set nowrap                      " 取消自动换行
 set textwidth=78
 set formatoptions+=mM
 
-set modeline                    " 开启模式行支持
+set modeline                    " 开启模式行
 set autoread                    " 当文件在外部被修改时，自动重新读取
+set clipboard=unnamedplus       " share clipboar
 set hidden                      " 允许在有未保存的修改时切换缓冲区
 set ttyfast
 
 " set path+=../include            " gf搜索路径
 " set autochdir                   " 当前目录为工作目录
 
-" set iskeyword+=$,@,%,#,-        " 包含这些字符时当作一个单词
-set dictionary+=~/.vim/dict/simple  " For i_CTRL_X_K
+" set iskeyword+=$,%,-,:        " 包含这些字符时当作一个单词
+set dictionary+=~/.vim/dict/simple,/usr/share/dict/words " For i_CTRL_X_K
 
 set list                        " 显示Tab符
 set listchars=tab:›\ ,trail:•,extends:#,nbsp:.
 set fillchars=vert:\ ,stl:\ ,stlnc:\    " 在被分割的窗口间显示空白
 set completeopt=menu,menuone
-" }}}
 
-" Record exit position {{{
-augroup VimBase
-  autocmd BufReadPost *
-    \ if line("'\"") > 1 && line("'\"") <= line("$") |
-    \ execute "normal! g`\"" |
-    \ endif
-augroup END
+set encoding=utf-8
+set fileencodings=utf-8,gb2312,gb18030,gbk,ucs-bom,cp936,latin1
+set termencoding=utf-8
 " }}}
 
 " Backups {{{
@@ -116,14 +117,18 @@ if has('persistent_undo')
 endif
 " }}}
 
-" AutoGroups codeing style {{{
-autocmd Filetype sh,zsh,css,html,ruby,php,javascript,json,yaml setlocal ts=2 sts=2 sw=2 ex
-" }}}
+" Autocmd {{{
+augroup VimBase
+  " Coding style
+  autocmd Filetype sh,zsh,vim,css,html,ruby,php,javascript,json,yaml setlocal ts=2 sts=2 sw=2 ex
+  " autocmd Filetype markdown setlocal ts=4 sts=4 sw=4 noet
 
-" Encode {{{
-set encoding=utf-8
-set fileencodings=utf-8,gb2312,gb18030,gbk,ucs-bom,cp936,latin1
-set termencoding=utf-8
+  " Always jump to the last cursor position
+  autocmd BufReadPost *
+    \ if line("'\"") > 1 && line("'\"") <= line("$") |
+    \ execute "normal! g`\"" |
+    \ endif
+augroup END
 " }}}
 
 " UI {{{
@@ -144,13 +149,18 @@ else
     colorscheme desert
     hi ColorColumn ctermbg=236
   endif
-  hi Normal  ctermfg=252 ctermbg=none
 endif
 
 if exists('+colorcolumn')
-  set colorcolumn=80
+  augroup ColorColumn
+    set colorcolumn=80
+    autocmd FileType gitcommit   setlocal colorcolumn=50,72
+  augroup END
   " set cursorline
 endif
+
+" Keep the cursor on the same column
+set nostartofline
 
 if has('statusline')
   set laststatus=2
@@ -170,23 +180,44 @@ endif
 " }}}
 
 " Key (re)Mappings {{{
-cmap w!! %!sudo tee > /dev/null %
-
-nnoremap <silent> <Tab> :bnext<CR>
-nnoremap <silent> <S-Tab> :bprev<CR>
-
-nnoremap ]q :cnext<CR>zz
-nnoremap [q :cprev<CR>zz
-nnoremap ]l :lnext<CR>zz
-nnoremap [l :lprev<CR>zz
+cnoremap w!! %!sudo tee > /dev/null %
 
 vnoremap > >gv
 vnoremap < <gv
 
-nmap <silent> <Leader>fef ggVG=``
-nnoremap <Leader>q gqip
+nnoremap <silent> <Leader>fef ggVG=``
+" Don't use Ex mode, use Q for formatting.
+" map Q gq
+nnoremap Q gqip
 
-"Keep search pattern at the center of the screen.
+" Fold
+set foldlevelstart=0
+nnoremap ,z zMzvzz
+" Make zO recursively open whatever top level fold we're in, no matter where
+" the cursor happens to be.
+nnoremap zO zCzO
+
+" Quit & Save
+nnoremap <Leader>q :q<CR>
+nnoremap <Leader>Q :qa!<CR>
+nnoremap <Leader>w :w<CR>
+nnoremap <Leader>W :%s/\s\+$//<CR>:let @/=''<CR>
+
+" Buffers
+nnoremap <silent> ]b :bnext<CR>
+nnoremap <silent> [b :bprev<CR>
+" nnoremap <silent> <Tab> :bnext<CR>
+" nnoremap <silent> <S-Tab> :bprev<CR>
+" nnoremap <silent> <Leader>bd :bd<CR>
+
+" Quickfix
+nnoremap ]q :cnext<CR>zz
+nnoremap [q :cprev<CR>zz
+nnoremap ]l :lnext<CR>zz
+nnoremap [l :lprev<CR>zz
+nnoremap <silent> <Leader>c :cclose<bar>lclose<CR>
+
+" Keep search pattern at the center of the screen.
 nnoremap <silent> n nzz
 nnoremap <silent> N Nzz
 nnoremap <silent> * *zz
@@ -202,15 +233,13 @@ nnoremap <silent> g# g#zz
 
 nnoremap <silent> <Leader><CR> :noh<CR>
 
-set pastetoggle=<Leader>pp
+set pastetoggle=<Leader>p
 " nmap <silent> <Leader>ss :setlocal spell!<CR>
 
-nnoremap <Leader>W :%s/\s\+$//<CR>:let @/=''<CR>
+nnoremap <C-\> :!dict <C-R>=expand("<cword>")<CR><CR>
 
-nmap <C-\> :!dict <C-R>=expand("<cword>")<CR><CR>
-
-" nmap <Leader>rb :%!xxd<CR>
-" nmap <Leader>nrb :%!xxd -r<CR>
+" nnoremap <Leader>rb :%!xxd<CR>
+" nnoremap <Leader>nrb :%!xxd -r<CR>
 
 inoremap <C-A> <Esc>I
 inoremap <C-E> <Esc>A
@@ -225,6 +254,7 @@ vnoremap <F1> <ESC>
 " emacs like
 cnoremap <C-A>      <Home>
 cnoremap <C-B>      <Left>
+cnoremap <expr> <C-D> getcmdpos()>strlen(getcmdline())?"\<Lt>C-D>":"\<Lt>Del>"
 cnoremap <C-E>      <End>
 cnoremap <C-F>      <Right>
 cnoremap <C-N>      <Down>
@@ -236,14 +266,49 @@ cnoremap <ESC><C-F> <S-Right>
 cnoremap <ESC><C-H> <C-W>
 " }}}
 
+" co? : Toggle options {{{
+function! s:map_toggle(...)
+  let [l:key, l:opt] = a:000[0:1]
+  let l:op = get(a:, 3, 'set '.l:opt.'!')
+  execute printf('nnoremap <silent> co%s :%s<bar>set %s?<CR>', l:key, l:op, l:opt)
+  " co<k>
+endfunction
+
+call s:map_toggle('p', 'paste')
+call s:map_toggle('n', 'number')
+call s:map_toggle('w', 'wrap')
+call s:map_toggle('h', 'hlsearch')
+call s:map_toggle('m', 'mouse', 'let &mouse = &mouse == "" ? "a" : ""')
+call s:map_toggle('t', 'textwidth',
+    \ 'let &textwidth = input("textwidth (". &textwidth ."): ")<bar>redraw')
+call s:map_toggle('b', 'background',
+    \ 'let &background = &background == "dark" ? "light" : "dark"<bar>redraw')
+" }}}
+
 " Folding {{{
-" au BufWinLeave * silent! mkview
+" au BufWintogglet! mkview
 " au BufWinEnter * silent! loadview
-set foldlevelstart=0
-nnoremap ,z zMzvzz
-" Make zO recursively open whatever top level fold we're in, no matter where
-" the cursor happens to be.
-nnoremap zO zCzO
+" }}}
+
+" Color scheme selector {{{
+" function! s:colors(...)
+"   return filter(map(filter(split(globpath(&runtimepath, 'colors/*.vim'), "\n"),
+"         \                  'v:val !~# "^/usr/"'),
+"         \           'fnamemodify(v:val, ":t:r")'),
+"         \       '!a:0 || stridx(v:val, a:1) >= 0')
+" endfunction
+"
+" function! s:rotate_colors()
+"   if !exists('s:colors')
+"     let s:colors = s:colors()
+"   endif
+"   let l:name = remove(s:colors, 0)
+"   call add(s:colors, l:name)
+"   execute 'colorscheme' l:name
+"   redraw
+"   echo l:name
+" endfunction
+" nnoremap <silent> <F8> :call <SID>rotate_colors()<CR>
 " }}}
 
 " matchit.vim {{{
@@ -257,10 +322,11 @@ if filereadable($VIMRUNTIME . '/ftplugin/man.vim')
 endif
 " }}}
 
-" QuickFix Window {{{
-nnoremap <silent> <Leader>qx :ccl<CR>
-autocmd QuickFixCmdPost [^l]* nested cwindow
-autocmd QuickFixCmdPost    l* nested lwindow
+" Self Documenting Vim Key Mappings {{{
+nnoremap <Leader>a? :map <Leader>a<CR>
+" nnoremap <Leader>a? :map <Leader>a<CR>
+" Show all keymappings
+nnoremap <Leader>? :map <Leader><CR>
 " }}}
 
-" vim: set et sw=2 ts=2 sts=2 tw=78 fmr={,} fdl=0 fdm=marker:
+" vim: set et sw=2 ts=2 sts=2 tw=78 fdl=0 fdm=marker:

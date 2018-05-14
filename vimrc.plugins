@@ -1,3 +1,17 @@
+" Vim File
+"  Filename: vimrc
+"   Created: 2016-04-20 00:31
+"      Desc: Tony Xu's Vim Configuration
+"                   _
+"   __  __   __   _(_)_ __ ___
+"   \ \/ /___\ \ / / | '_ ` _ \
+"    >  <_____\ V /| | | | | | |
+"   /_/\_\     \_/ |_|_| |_| |_|
+"
+"    Author: xutao(Tony Xu), hhktony@gmail.com
+"   Company: myself
+
+" Init {{{
 scriptencoding utf-8
 set nocompatible               " be iMproved
 filetype off                   " required!
@@ -8,25 +22,27 @@ if !exists('g:x_plugin_groups')
   let g:x_plugin_groups=['general', 'programming',
                         \'go', 'python', 'ruby', 'html']
 endif
+" }}}
 
 " Load Plugins {{{
 call plug#begin('~/.vim/bundle')
 
 if count(g:x_plugin_groups, 'general')
   Plug 'mhinz/vim-startify'
-  Plug 'vimcn/vimcdoc'
+  " Plug 'vimcn/vimcdoc'
   Plug 'Raimondi/delimitMate'
   " Plug 'tpope/vim-repeat'
-  Plug 'sjl/gundo.vim'
+  " Plug 'sjl/gundo.vim'
   Plug 'easymotion/vim-easymotion'
-  Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+  Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } | Plug 'Xuyuanp/nerdtree-git-plugin'
   " Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind'] } | Plug 'Xuyuanp/nerdtree-git-plugin'
   " Plug 'terryma/vim-multiple-cursors'
+  Plug 'Yggdroot/indentLine'
   Plug 'vim-airline/vim-airline'
   " Plug 'vim-airline/vim-airline-themes'
   Plug 'hhktony/molokai'
   Plug 'acarapetis/vim-colors-github'
-  Plug 'rking/ag.vim'
+  " Plug 'rking/ag.vim'
   Plug 'kien/ctrlp.vim' | Plug 'tacahiroy/ctrlp-funky'
   Plug 'dyng/ctrlsf.vim'
   " Plug 'bogado/file-line'
@@ -35,37 +51,45 @@ endif
 if count(g:x_plugin_groups, 'programming')
   Plug 'hhktony/vim-authorinfo'
   Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
-  Plug 'junegunn/vim-easy-align'
+  Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
   Plug 'scrooloose/nerdcommenter'
-  if v:version >= 800
+  " Plug '~/.vim/bundle/YouCompleteMe'
+  " Plug 'Valloric/YouCompleteMe', { 'do': 'python3 ./install.py --clang-completer'}
+  " Plug 'Valloric/YouCompleteMe', { 'for': ['c', 'cpp'] }
+  " Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
+  if (!has('nvim') && v:version >= 800) || has('nvim-0.2.0')
     Plug 'maralla/completor.vim'
     Plug 'w0rp/ale'
+    Plug 'ludovicchabant/vim-gutentags'
   else
     Plug 'scrooloose/syntastic'
-    " Plug 'Valloric/YouCompleteMe'
-    " Plug '~/.vim/bundle/YouCompleteMe'
-    " Plug 'Valloric/YouCompleteMe', { 'do': 'python3 ./install.py --clang-completer'}
-    " Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
   endif
-  Plug 'majutsushi/tagbar'
+  " Plug 'majutsushi/tagbar'
   Plug 'tpope/vim-fugitive'
+  Plug 'junegunn/gv.vim'
   Plug 'airblade/vim-gitgutter'
 endif
 
+Plug 'octol/vim-cpp-enhanced-highlight'
+
 " Plug 'python_match.vim', {'for': 'python'}
+Plug 'davidhalter/jedi-vim', { 'for': 'python' }
 
 " Plug 'fatih/vim-go', { 'for': 'go', 'do': ':GoInstallBinaries' }
 Plug 'fatih/vim-go', { 'for': 'go' }
 
 Plug 'vim-ruby/vim-ruby', { 'for': 'ruby' }
-Plug 'tpope/vim-rails',   {'for': ['ruby', 'eruby'] }
+Plug 'tpope/vim-rails',   { 'for': ['ruby', 'eruby'] }
 
 Plug 'mattn/emmet-vim', { 'for': ['html', 'css'] }
 
-Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
-Plug 'mzlogin/vim-markdown-toc', {'for': 'markdown'}
-Plug 'iamcco/markdown-preview.vim', {'for': 'markdown'}
-Plug 'hotoo/pangu.vim', {'for': 'markdown'}
+Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
+Plug 'mzlogin/vim-markdown-toc', { 'on': ['GenTocGFM', 'GenTocRedcarpet', 'GenTocGitLab', 'UpdateToc', 'RemoveToc'] }
+Plug 'iamcco/markdown-preview.vim', { 'for': 'markdown' }
+" Plug 'hotoo/pangu.vim', { 'for': 'markdown' }
+Plug 'PotatoesMaster/i3-vim-syntax', { 'for': 'i3' }
+" Plug 'pearofducks/ansible-vim'
+Plug 'iamcco/dict.vim'
 
 call plug#end()
 " }}}
@@ -101,12 +125,23 @@ let g:startify_files_number = 5
   let g:authorinfo_company = 'myself'
 " }}}
 
-" ag.vim {{{
-if executable('ag')
-  let g:ag_prg='ag --vimgrep --column'
-  nmap <leader>a :tab split<CR>:Ag ""<left>
-  nmap <leader>A :tab split<CR>:Ag <C-r><C-w><CR>
+" vim-gutentags {{{
+let g:gutentags_ctags_extra_args = ['--fields=+niazS', '--extra=+q']
+" let g:gutentags_ctags_extra_args += ['--c-kinds=+px']
+" let g:gutentags_ctags_extra_args += ['--c++-kinds=+px']
+let s:vim_tags = expand('~/.cache/tags')
+if !isdirectory(s:vim_tags)
+  silent! call mkdir(s:vim_tags, 'p')
 endif
+let g:gutentags_cache_dir = s:vim_tags
+" }}}
+
+" ag.vim {{{
+" if executable('ag')
+  " let g:ag_prg='ag --vimgrep --column'
+  " nmap <leader>a :tab split<CR>:Ag ""<left>
+  " nmap <leader>A :tab split<CR>:Ag <C-r><C-w><CR>
+" endif
 " }}}
 
 " ctrlp.vim {{{
@@ -129,14 +164,16 @@ endif
 
 " ctrlsf {{{
 nmap \ <Plug>CtrlSFCwordPath<CR>
+" let g:ctrlsf_debug_mode = 1
 " let g:ctrlsf_position = 'below'
 " let g:ctrlsf_winsize = '30%'
-let g:ctrlsf_auto_close = 0
+let g:ctrlsf_default_root = 'project+fw'
+let g:ctrlsf_ignore_dir = ['tests']
+let g:ctrlsf_auto_close = 1
 let g:ctrlsf_confirm_save = 0
-" Note: cannot use <CR> or <C-m> for open
-" Use : <sapce> or <tab>
+let g:ctrlsf_context = '-B 2 -A 2'
 let g:ctrlsf_mapping = {
-      \ 'open'  : '<Space>',
+      \ 'open'  : 'o',
       \ 'openb' : 'O',
       \ 'tab'   : 't',
       \ 'tabb'  : 'T',
@@ -182,15 +219,19 @@ endif
 " molokai {{{
 " let g:molokai_original = 1
 " let g:rehash256 = 1
+let g:molokai_transparent = 1
 " }}}
 
 " vim-easy-align {{{
-vnoremap <silent> <Leader>a :EasyAlign<Enter>
+" vip<Leader>a
+xmap <Leader>a <Plug>(EasyAlign)
+" For motion/text object (eg: <Leader>aip)
+nmap <Leader>a <Plug>(EasyAlign)
 " }}}
 
 " delimitMate {{{
-au FileType * let b:delimitMate_autoclose = 1
-au FileType xml,html,xhtml let b:delimitMate_matchpairs ="(:),[:],{:}"
+autocmd FileType * let b:delimitMate_autoclose = 1
+autocmd FileType xml,html,xhtml let b:delimitMate_matchpairs ="(:),[:],{:}"
 " }}}
 
 " ultisnips {{{
@@ -202,16 +243,16 @@ let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
 " }}}
 
 " tagbar {{{
-nmap <Leader>t :TagbarToggle<CR>
-let g:tagbar_ctags_bin = 'ctags'
-let g:tagbar_width = 36
-set tags=./tags
-" Make tags placed in .git/tags file available in all levels of a repository
-let g:gitroot = substitute(system('git rev-parse --show-toplevel'), '[\n\r]', '', 'g')
-if g:gitroot !=# ''
-  let &tags = &tags . ',' . g:gitroot . '/tags'
-endif
-nmap <Leader>g :!uptags.sh<CR>
+" nmap <Leader>t :TagbarToggle<CR>
+" let g:tagbar_ctags_bin = 'ctags'
+" let g:tagbar_width = 36
+" set tags=./tags
+" " Make tags placed in .git/tags file available in all levels of a repository
+" let g:gitroot = substitute(system('git rev-parse --show-toplevel'), '[\n\r]', '', 'g')
+" if g:gitroot !=# ''
+"   let &tags = &tags . ',' . g:gitroot . '/tags'
+" endif
+" nmap <Leader>g :!uptags.sh<CR>
 " }}}
 
 " syntastic {{{
@@ -239,11 +280,16 @@ if has_key(g:plugs, 'ale')
         \   'vim': ['vint'],
         \}
   let g:ale_python_flake8_args='--ignore=E225,E126'
+  " let g:ale_set_loclist = 0
+  " let g:ale_set_quickfix = 1
 
   let g:ale_sign_error = '✗'
   let g:ale_sign_warning = 'w>'
   let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
   let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+  let g:ale_c_parse_makefile = 1
+  let g:ale_c_clang_options = '-std=gnu99 -Wall -I../include -I.'
+  let g:ale_c_gcc_options = '-std=gnu99 -Wall -I../include -I.'
 
   " nmap <silent> <Leader>ep <Plug>(ale_previous_wrap)
   " nmap <silent> <Leader>en <Plug>(ale_next_wrap)
@@ -261,62 +307,95 @@ endif
 " }}}
 
 " YouCompleteMe {{{
-let g:ycm_autoclose_preview_window_after_completion = 1
-" let g:ycm_goto_buffer_command = 'vertical-split'
-let g:ycm_global_ycm_extra_conf = '~/.vim/ycm_c_conf.py'
-" let g:ycm_server_use_vim_stdout = 1
-" let g:ycm_server_log_level = 'debug'
-let g:ycm_seed_identifiers_with_syntax=1
-let g:ycm_complete_in_strings = 1
-let g:ycm_use_ultisnips_completer = 1
-let g:ycm_complete_in_comments = 1
-" let g:ycm_collect_identifiers_from_comments_and_strings = 1
-let g:ycm_collect_identifiers_from_tags_files = 1
-let g:ycm_confirm_extra_conf = 0
+if has_key(g:plugs, 'YouCompleteMe')
+  let g:ycm_autoclose_preview_window_after_completion = 1
+  " let g:ycm_goto_buffer_command = 'vertical-split'
+  let g:ycm_global_ycm_extra_conf = '~/.vim/ycm_extra_conf.py'
+  " let g:ycm_server_use_vim_stdout = 1
+  " let g:ycm_server_log_level = 'debug'
+  let g:ycm_seed_identifiers_with_syntax=1
+  let g:ycm_complete_in_comments = 1
+  " let g:ycm_collect_identifiers_from_comments_and_strings = 1
+  let g:ycm_collect_identifiers_from_tags_files = 1
+  let g:ycm_confirm_extra_conf = 0
+  let g:ycm_server_log_level='debug'
+  let g:ycm_extra_conf_vim_data   = [ '&filetype' ]
+  let g:ycm_server_python_interpreter = 'python'
 
-" let g:ycm_python_binary_path = '/usr/bin/python'
-" let g:ycm_python_binary_path = '/usr/bin/python3'
+  " let g:ycm_python_binary_path = '/usr/bin/python'
+  " let g:ycm_python_binary_path = '/usr/bin/python3'
 
-" Enable omni completion.
-" autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-" autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-" autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-" autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-" autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-" autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
-" autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
+  augroup VimYcm
+    autocmd!
+    " Enable omni completion.
+    " autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+    " autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+    " autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+    " autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+    " autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+    " autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
+    " autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
 
-nnoremap <silent> <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
+    autocmd FileType c,cpp nnoremap <silent> <buffer> <leader>jd :YcmCompleter GoTo<CR>
+    autocmd FileType c,cpp nnoremap <buffer> K  :YcmCompleter GetType<CR>
+  augroup END
+endif
 " }}}
 
-" Go {{{
+" vim-go {{{
 " /home/tony/.vim/bundle/vim-go/gosnippets/snippets/go.snip for ultisnips
-  if has_key(g:plugs, 'vim-go')
-    let g:go_fmt_command = 'goimports'
-    let g:go_highlight_types = 1
-    let g:go_highlight_fields = 1
-    let g:go_highlight_methods = 1
-    let g:go_highlight_operators = 1
-    let g:go_highlight_functions = 1
-    let g:go_highlight_build_constraints = 1
-    augroup VimGo
-      autocmd FileType go nmap <buffer> <LocalLeader>d :GoDef<CR>
-      autocmd FileType go nmap <buffer> <LocalLeader>u :GoCallers<CR>
-      autocmd FileType go nmap <LocalLeader>r <Plug>(go-run)
-      autocmd FileType go nmap <LocalLeader>b <Plug>(go-build)
-      autocmd FileType go nmap <LocalLeader>t <Plug>(go-test)
-      " autocmd FileType go nmap <LocalLeader>c <Plug>(go-coverage)
-      " autocmd FileType go nmap <LocalLeader>ds <Plug>(go-def-split)
-      " autocmd FileType go nmap <LocalLeader>dv <Plug>(go-def-vertical)
-      " autocmd FileType go nmap <LocalLeader>dt <Plug>(go-def-tab)
-      " autocmd FileType go nmap <LocalLeader>gd <Plug>(go-doc)
-      " autocmd FileType go nmap <LocalLeader>gv <Plug>(go-doc-vertical)
-      " autocmd FileType go nmap <LocalLeader>gb <Plug>(go-doc-browser)
-      " autocmd FileType go nmap <LocalLeader>s <Plug>(go-implements)
-      " autocmd FileType go nmap <LocalLeader>i <Plug>(go-info)
-      " autocmd FileType go nmap <LocalLeader>e <Plug>(go-rename)
-    augroup END
-  endif
+if has_key(g:plugs, 'vim-go')
+  let g:go_fmt_command = 'goimports'
+  " let g:go_fmt_autosave = 0
+  let g:go_def_mapping_enabled = 1
+  " let g:go_info_mode = 'gocode'
+  " let g:go_auto_type_info = 1
+  " let g:go_guru_scope = []
+  " let g:go_list_type = 'quickfix'
+  " let g:go_decls_mode = 'ctrlp.vim' " fzf
+  " let g:go_fold_enable = ['block', 'import', 'varconst', 'package_comment']
+  let g:go_highlight_types = 1
+  let g:go_highlight_fields = 1
+  let g:go_highlight_methods = 1
+  let g:go_highlight_operators = 1
+  let g:go_highlight_functions = 1
+  let g:go_highlight_build_constraints = 1
+  " let g:go_highlight_function_arguments = 1
+  " let g:go_highlight_function_calls = 1
+  augroup VimGo
+    autocmd!
+    autocmd Filetype go command! -bang A call go#alternate#Switch(<bang>0, 'edit')
+    " autocmd FileType go nnoremap <Leader>d :GoDecls<CR>
+    " autocmd FileType go nnoremap <Leader>d :GoDef<CR>
+    " autocmd FileType go nnoremap <Leader>c :GoCallers<CR>
+    autocmd FileType go nmap <Leader>r <Plug>(go-run)
+    " autocmd FileType go nmap <Leader>b <Plug>(go-build)
+    " autocmd FileType go nmap <Leader>t <Plug>(go-test)
+    " autocmd FileType go nmap <Leader>c <Plug>(go-coverage)
+    " autocmd FileType go nmap <Leader>ds <Plug>(go-def-split)
+    " autocmd FileType go nmap <Leader>dv <Plug>(go-def-vertical)
+    " autocmd FileType go nmap <Leader>dt <Plug>(go-def-tab)
+    " autocmd FileType go nmap <Leader>gd <Plug>(go-doc)
+    " autocmd FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
+    " autocmd FileType go nmap <Leader>gb <Plug>(go-doc-browser)
+    autocmd FileType go nmap <Leader>s <Plug>(go-implements)
+    autocmd FileType go nmap <Leader>K <Plug>(go-info)
+    " autocmd FileType go nnoremap <LocalLeader>i <Plug>(go-info)
+    " autocmd FileType go nnoremap <LocalLeader>e <Plug>(go-rename)
+  augroup END
+endif
+" }}}
+
+" jedi-vim {{{
+if has_key(g:plugs, 'jedi-vim')
+  let g:jedi#goto_command = 'gd'
+  " let g:jedi#goto_command = '<C-]>'
+  let g:jedi#completions_command = ''
+  let g:jedi#documentation_command = 'K'
+  " let g:jedi#goto_assignments_command = '<leader>g'
+  " let g:jedi#rename_command = '<Leader>r'
+  " let g:jedi#usages_command = '<Leader>n'
+endif
 " }}}
 
 " Ruby {{{
@@ -334,12 +413,12 @@ nnoremap <silent> <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
 " ,ca 切换注释方式
 " ,cA 在行尾插入注释符号并且进入插入模式。
 
+let g:NERDCreateDefaultMappings = 0
 " <C-/>添加去除注释
 " https://stackoverflow.com/questions/9051837/how-to-map-c-to-toggle-comments-in-vim
 map <C-_> <plug>NERDCommenterInvert
-" let NERDCreateDefaultMappings=0
-let NERDSpaceDelims = 1           " 让注释符与语句之间留一个空格
-let NERDCompactSexyComs = 1       " 多行注释时样子更好看
+let g:NERDSpaceDelims = 1           " 让注释符与语句之间留一个空格
+let g:NERDCompactSexyComs = 1       " 多行注释时样子更好看
 " }}}
 
 " nerdtree {{{
@@ -368,6 +447,14 @@ if has_key(g:plugs, 'nerdtree')
 endif
 " }}}
 
+" indentLine {{{
+let g:indentLine_enabled = 0
+let g:indentLine_color_term = 239
+" let g:indentLine_color_gui = '#616161'
+" let g:indentLine_bgcolor_term = 202
+nnoremap <silent> <Leader>l :IndentLinesToggle<CR>
+" }}}
+
 " vim-gitgutter {{{
   nmap <silent> <Leader>gn :GitGutterSignsToggle<CR>
 " }}}
@@ -377,7 +464,7 @@ let g:vim_markdown_folding_disabled=1
 " }}}
 
 " vim-fugitive {{{
-nnoremap <Leader>d :Gdiff<CR>
+" nnoremap <Leader>d :Gdiff<CR>
 " nnoremap <silent> <Leader>gs :Gstatus<CR>
 " nnoremap <silent> <Leader>gd :Gdiff<CR>
 " nnoremap <silent> <Leader>gc :Gcommit<CR>
