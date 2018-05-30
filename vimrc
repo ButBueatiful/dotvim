@@ -16,6 +16,18 @@ scriptencoding utf-8
 
 let g:mapleader = ','
 
+let g:xvim_colorscheme_default     = 'desert'
+let g:xvim_colorscheme = 'molokai'
+let g:xvim_background = 'dark'
+
+" Functions {{{
+func! EnsureExists(path)
+  if !isdirectory(expand(a:path))
+    call mkdir(expand(a:path), 'p')
+  endif
+endfunc
+" }}}
+
 if filereadable(expand('~/.vimrc.before'))
   source ~/.vimrc.before
 endif
@@ -23,17 +35,18 @@ endif
 if filereadable(expand('~/.vimrc.plugins'))
   source ~/.vimrc.plugins
 endif
-" }}}
 
-" General {{{
-set history=1000
+let g:plugs = get(g:, 'plugs', {})
 
 filetype plugin indent on
 syntax on
+" set synmaxcol=256
+set redrawtime=10000
 
-set number                      " 显示行号
+set history=1000
+set number
 set shortmess=atI               " I不显启动时的信息
-set showmode                    " 在插入、替换和可视模式里，在最后一行提供消息
+" set showmode                    " 在插入、替换和可视模式里，在最后一行提供消息
 set showcmd                     " 在屏幕最后一行显示当前命令
 set showmatch                   " 显示括号配对情况
 set matchtime=1                 " 跳转到匹配括号的时间
@@ -43,8 +56,6 @@ set scrolloff=5                 " 上下滚动保留屏幕3行
 " set vb t_vb=                    " 关闭响铃和闪烁
 set novisualbell
 set noerrorbells
-
-set magic                       " 增强行正则
 
 set ignorecase                  " 搜索时忽略大小写
 set smartcase                   " 搜索模式只包含小写字母时才忽略大小写
@@ -76,13 +87,13 @@ set cindent                     " c/c++样式缩进
 set cinoptions=:0,l1,t0,g0      " Linux kernel style
 set cpoptions+=$                " cw显示$
 
-set nowrap                      " 取消自动换行
+" set nowrap                      " 取消自动换行
 set textwidth=78
 set formatoptions+=mM
 
-set modeline                    " 开启模式行
-set autoread                    " 当文件在外部被修改时，自动重新读取
-set clipboard=unnamedplus       " share clipboar
+set modeline
+set autoread
+set clipboard=unnamedplus,unnamed " share clipboar
 set hidden                      " 允许在有未保存的修改时切换缓冲区
 set ttyfast
 
@@ -108,9 +119,7 @@ set noswapfile
 
 if has('persistent_undo')
   set undodir=~/.vimundo
-  if !isdirectory(&undodir)
-    call mkdir(&undodir, 'p')
-  endif
+  call EnsureExists(&undodir)
   set undofile
   set undolevels=1000
   set undoreload=10000
@@ -120,6 +129,7 @@ endif
 " Autocmd {{{
 augroup VimBase
   " Coding style
+  autocmd!
   autocmd Filetype sh,zsh,vim,css,html,ruby,php,javascript,json,yaml setlocal ts=2 sts=2 sw=2 ex
   " autocmd Filetype markdown setlocal ts=4 sts=4 sw=4 noet
 
@@ -128,6 +138,11 @@ augroup VimBase
     \ if line("'\"") > 1 && line("'\"") <= line("$") |
     \ execute "normal! g`\"" |
     \ endif
+
+  autocmd BufWinEnter quickfix nnoremap <silent> <buffer>
+    \   q :cclose<cr>:lclose<cr>
+  autocmd BufEnter * if (winnr('$') == 1 && &buftype ==# 'quickfix' ) |
+    \   bd | q | endif
 augroup END
 " }}}
 
@@ -137,24 +152,48 @@ if &term =~# '256color'
   set t_ut=
 endif
 
-set background=dark
 if &diff
   if has_key(g:plugs, 'vim-colors-github')
+    set background=light
     colorscheme github
   endif
 else
-  if has_key(g:plugs, 'molokai')
-    colorscheme molokai
+  if g:xvim_colorscheme !=# ''
+    try
+        exec 'set background=' . g:xvim_background
+        exec 'colorscheme ' . g:xvim_colorscheme
+    catch
+        exec 'colorscheme '. g:xvim_colorscheme_default
+    endtry
   else
-    colorscheme desert
+    exec 'colorscheme '. g:xvim_colorscheme_default
     hi ColorColumn ctermbg=236
+    hi StatusLine      ctermfg=238 ctermbg=253
+    hi StatusLineNC    ctermfg=244 ctermbg=232
   endif
+endif
+
+set guicursor=           " prevent nvim from changing the cursor shape
+if has('gui_running')
+  set guioptions-=m        " Disable menu bar
+  set guioptions-=T        " Disable the toolbar
+  set guioptions-=a        " Do not auto copy selection to clipboard
+  set guioptions-=e        " Do not use gui tab apperance
+  set guioptions-=r        " Do not show scrollbars
+  set guioptions-=R        " Do not show scrollbars
+  set guioptions-=l        " Do not show scrollbars
+  set guioptions-=L        " Do not show scrollbars
+  set guifont=Source\ Code\ Pro\ 14
+
+  " if has('termguicolors')
+  "   set termguicolors " Enable 24bit colors in terminal
+  " endif
 endif
 
 if exists('+colorcolumn')
   augroup ColorColumn
     set colorcolumn=80
-    autocmd FileType gitcommit   setlocal colorcolumn=50,72
+    autocmd FileType gitcommit setlocal colorcolumn=50,72
   augroup END
   " set cursorline
 endif
@@ -162,26 +201,44 @@ endif
 " Keep the cursor on the same column
 set nostartofline
 
+function! Buffer_total_num()
+  return len(filter(range(1, bufnr('$')), 'buflisted(v:val)'))
+endfunction
+
+function! Git_branch()
+  let l:branch = system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
+  if v:shell_error
+    let l:branch = ''
+  endif
+  return l:branch
+  return strlen(l:branch) > 0 ? '  '.l:branch.' ':''
+endfunction
+
 if has('statusline')
   set laststatus=2
-  " Broken down into easily includeable segments
-  set statusline=\ %f\                        " Filename
-  set statusline+=%(%{&fenc}\[%{&ff}]%)       " Fencoding
-  set statusline+=%y                          " Filetype
-  set statusline+=%#errormsg#
-  set statusline+=%r "read only flag
-  set statusline+=%*
-  set statusline+=%m "modified flag
+  if !exists('g:loaded_airline')
+    set statusline=%<%1*\ %n\:%{Buffer_total_num()}\ %*
+    " set statusline+=%6*\ %{Git_branch()}%*
+    set statusline+=%2*\ %t%m\ %*
+    set statusline+=%3*%r\ %*
+    set statusline+=%=%4*\ %y\ %*
+    set statusline+=%5*\ \|\ %{\"\".(&fenc==\"\"?&enc:&fenc).((exists(\"+bomb\")\ &&\ &bomb)?\",B\":\"\").\"\"}[%{&ff}]\ \ %-14.(%l:%c%)%*
+    set statusline+=%6*\ %p%%
 
-  set statusline+=%#warningmsg#
-  set statusline+=%*
-  set statusline+=%=%-10.(%l,%c%V\ \:\ %p%%%)\ " Right aligned file nav info
+    hi User1 cterm=bold ctermfg=249 ctermbg=235
+    hi User2 cterm=bold ctermfg=118 ctermbg=239
+    hi User3 cterm=bold ctermfg=197 ctermbg=239
+    hi User4 cterm=None ctermfg=246 ctermbg=237
+    hi User5 cterm=None ctermfg=250 ctermbg=238
+    hi User6 cterm=None ctermfg=249 ctermbg=240
+  endif
 endif
 " }}}
 
 " Key (re)Mappings {{{
 cnoremap w!! %!sudo tee > /dev/null %
-
+" nnoremap ; :
+" nnoremap : ;
 vnoremap > >gv
 vnoremap < <gv
 
@@ -198,29 +255,35 @@ nnoremap ,z zMzvzz
 nnoremap zO zCzO
 
 " Quit & Save
-nnoremap <Leader>q :q<CR>
+" nnoremap <Leader>q :q<CR>
 nnoremap <Leader>Q :qa!<CR>
 nnoremap <Leader>w :w<CR>
+" Delete all spaces
 nnoremap <Leader>W :%s/\s\+$//<CR>:let @/=''<CR>
 
 " Buffers
-nnoremap <silent> ]b :bnext<CR>
-nnoremap <silent> [b :bprev<CR>
-" nnoremap <silent> <Tab> :bnext<CR>
-" nnoremap <silent> <S-Tab> :bprev<CR>
-" nnoremap <silent> <Leader>bd :bd<CR>
+nnoremap <silent> <Tab> :bn<CR>
+nnoremap <silent> <S-Tab> :bp<CR>
+" <Leader>[1-9] move to buffer [1-9]
+" for s:i in range(1, 9)
+  " execute 'nnoremap <Leader>' . s:i . ' :b' . s:i . '<CR>'
+" endfor
+
+nnoremap <silent> <Leader>cb :bd<CR>
+nnoremap <silent> <Leader>cq :cclose<bar>lclose<CR>
+nnoremap <silent> <Leader>cp :pclose<CR>
 
 " Quickfix
 nnoremap ]q :cnext<CR>zz
 nnoremap [q :cprev<CR>zz
 nnoremap ]l :lnext<CR>zz
 nnoremap [l :lprev<CR>zz
-nnoremap <silent> <Leader>c :cclose<bar>lclose<CR>
+" nnoremap <silent> <Leader>c :cclose<bar>lclose<CR>
 
 " Keep search pattern at the center of the screen.
 nnoremap <silent> n nzz
 nnoremap <silent> N Nzz
-nnoremap <silent> * *zz
+" nnoremap <silent> * *zz
 nnoremap <silent> # #zz
 nnoremap <silent> g* g*zz
 nnoremap <silent> g# g#zz
@@ -312,7 +375,9 @@ call s:map_toggle('b', 'background',
 " }}}
 
 " matchit.vim {{{
-runtime macros/matchit.vim
+if !exists('g:loaded_matchit') && findfile('plugin/matchit.vim', &rtp) ==# ''
+  runtime! macros/matchit.vim
+endif
 " }}}
 
 " man.vim {{{
@@ -327,6 +392,14 @@ nnoremap <Leader>a? :map <Leader>a<CR>
 " nnoremap <Leader>a? :map <Leader>a<CR>
 " Show all keymappings
 nnoremap <Leader>? :map <Leader><CR>
+nnoremap ]? :map ]<CR>
+nnoremap [? :map [<CR>
+" }}}
+
+" Load after config {{{
+if filereadable(expand('~/.vimrc.after'))
+  source ~/.vimrc.after
+endif
 " }}}
 
 " vim: set et sw=2 ts=2 sts=2 tw=78 fdl=0 fdm=marker:

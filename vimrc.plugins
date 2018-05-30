@@ -17,79 +17,76 @@ set nocompatible               " be iMproved
 filetype off                   " required!
 
 let g:xvim_version = '0.1'
-
-if !exists('g:x_plugin_groups')
-  let g:x_plugin_groups=['general', 'programming',
-                        \'go', 'python', 'ruby', 'html']
-endif
 " }}}
 
 " Load Plugins {{{
 call plug#begin('~/.vim/bundle')
 
-if count(g:x_plugin_groups, 'general')
-  Plug 'mhinz/vim-startify'
-  " Plug 'vimcn/vimcdoc'
-  Plug 'Raimondi/delimitMate'
-  " Plug 'tpope/vim-repeat'
-  " Plug 'sjl/gundo.vim'
-  Plug 'easymotion/vim-easymotion'
-  Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } | Plug 'Xuyuanp/nerdtree-git-plugin'
-  " Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind'] } | Plug 'Xuyuanp/nerdtree-git-plugin'
-  " Plug 'terryma/vim-multiple-cursors'
-  Plug 'Yggdroot/indentLine'
-  Plug 'vim-airline/vim-airline'
-  " Plug 'vim-airline/vim-airline-themes'
-  Plug 'hhktony/molokai'
-  Plug 'acarapetis/vim-colors-github'
-  " Plug 'rking/ag.vim'
-  Plug 'kien/ctrlp.vim' | Plug 'tacahiroy/ctrlp-funky'
-  Plug 'dyng/ctrlsf.vim'
-  " Plug 'bogado/file-line'
+Plug 'mhinz/vim-startify'
+Plug 'tweekmonster/startuptime.vim', { 'on': 'StartupTime' }
+" Plug 'vimcn/vimcdoc'
+Plug 'Raimondi/delimitMate'
+" Plug 'Valloric/MatchTagAlways'
+Plug 'tpope/vim-repeat' | Plug 'tpope/vim-surround'
+" Plug 'easymotion/vim-easymotion'
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+" Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeToggle' }
+" Plug 'Yggdroot/indentLine', { 'on': 'IndentLinesToggle' } " TODO
+Plug 'Yggdroot/indentLine'
+Plug 'hhktony/molokai'
+Plug 'w0ng/vim-hybrid'
+Plug 'NLKNguyen/papercolor-theme'
+Plug 'acarapetis/vim-colors-github'
+" let g:hybrid_custom_term_colors = 1
+" Plug 'yonchu/accelerated-smooth-scroll'
+Plug 'schickling/vim-bufonly'
+" Plug 'ap/vim-buftabline'
+" Plug 'bling/vim-bufferline'
+Plug 'vim-airline/vim-airline'
+" Plug 'vim-airline/vim-airline-themes'
+" Plug 'rking/ag.vim'
+Plug 'google/vim-searchindex'
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
+" Plug 'bogado/file-line'
+Plug 'hhktony/vim-authorinfo'
+Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
+
+Plug 'scrooloose/nerdcommenter'
+" Plug 'editorconfig/editorconfig-vim'
+
+Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+
+Plug 'Valloric/YouCompleteMe'
+Plug 'rdnetto/YCM-Generator', { 'branch': 'stable', 'for': ['c', 'cpp'] }
+if (!has('nvim') && v:version >= 800) || has('nvim-0.2.0')
+  " Plug 'maralla/completor.vim'
+  Plug 'w0rp/ale'
+  Plug 'ludovicchabant/vim-gutentags'
+  Plug 'vim-scripts/gtags.vim', { 'for': [ 'c', 'cpp' ] }
+else
+  Plug 'scrooloose/syntastic'
 endif
-
-if count(g:x_plugin_groups, 'programming')
-  Plug 'hhktony/vim-authorinfo'
-  Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
-  Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
-  Plug 'scrooloose/nerdcommenter'
-  " Plug '~/.vim/bundle/YouCompleteMe'
-  " Plug 'Valloric/YouCompleteMe', { 'do': 'python3 ./install.py --clang-completer'}
-  " Plug 'Valloric/YouCompleteMe', { 'for': ['c', 'cpp'] }
-  " Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
-  if (!has('nvim') && v:version >= 800) || has('nvim-0.2.0')
-    Plug 'maralla/completor.vim'
-    Plug 'w0rp/ale'
-    Plug 'ludovicchabant/vim-gutentags'
-  else
-    Plug 'scrooloose/syntastic'
-  endif
-  " Plug 'majutsushi/tagbar'
-  Plug 'tpope/vim-fugitive'
-  Plug 'junegunn/gv.vim'
-  Plug 'airblade/vim-gitgutter'
-endif
-
-Plug 'octol/vim-cpp-enhanced-highlight'
-
+Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
+Plug 'tpope/vim-fugitive'
+" Plug 'neoclide/vim-easygit'
+" let g:easygit_enable_command = 1
+Plug 'junegunn/gv.vim', { 'on': 'GV' }
+Plug 'airblade/vim-gitgutter', { 'on': 'GitGutterSignsToggle' }
+Plug 'octol/vim-cpp-enhanced-highlight', { 'for': [ 'c', 'cpp' ] }
 " Plug 'python_match.vim', {'for': 'python'}
-Plug 'davidhalter/jedi-vim', { 'for': 'python' }
-
 " Plug 'fatih/vim-go', { 'for': 'go', 'do': ':GoInstallBinaries' }
 Plug 'fatih/vim-go', { 'for': 'go' }
-
-Plug 'vim-ruby/vim-ruby', { 'for': 'ruby' }
-Plug 'tpope/vim-rails',   { 'for': ['ruby', 'eruby'] }
-
 Plug 'mattn/emmet-vim', { 'for': ['html', 'css'] }
-
 Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
-Plug 'mzlogin/vim-markdown-toc', { 'on': ['GenTocGFM', 'GenTocRedcarpet', 'GenTocGitLab', 'UpdateToc', 'RemoveToc'] }
+Plug 'mzlogin/vim-markdown-toc', { 'for': 'markdown' }
 Plug 'iamcco/markdown-preview.vim', { 'for': 'markdown' }
+" Plug 'dhruvasagar/vim-table-mode'
 " Plug 'hotoo/pangu.vim', { 'for': 'markdown' }
-Plug 'PotatoesMaster/i3-vim-syntax', { 'for': 'i3' }
+Plug 'mboughaba/i3config.vim', { 'for': 'i3config' }
 " Plug 'pearofducks/ansible-vim'
-Plug 'iamcco/dict.vim'
+" Plug 'iamcco/dict.vim'
+" Plug 'ianva/vim-youdao-translater'
 
 call plug#end()
 " }}}
@@ -120,76 +117,107 @@ let g:startify_files_number = 5
 " }}}
 
 " vim-authorinfo {{{
+if has_key(g:plugs, 'vim-authorinfo')
   let g:authorinfo_author  = 'xutao(Tony Xu)'
   let g:authorinfo_email   = 'hhktony@gmail.com'
   let g:authorinfo_company = 'myself'
+endif
 " }}}
 
 " vim-gutentags {{{
-let g:gutentags_ctags_extra_args = ['--fields=+niazS', '--extra=+q']
-" let g:gutentags_ctags_extra_args += ['--c-kinds=+px']
-" let g:gutentags_ctags_extra_args += ['--c++-kinds=+px']
-let s:vim_tags = expand('~/.cache/tags')
-if !isdirectory(s:vim_tags)
-  silent! call mkdir(s:vim_tags, 'p')
+if has_key(g:plugs, 'vim-gutentags')
+  " let g:gutentags_trace = 1
+  " let g:gutentags_debug = 1
+  let g:gutentags_modules = []
+  if executable('ctags')
+    let g:gutentags_modules += ['ctags']
+  endif
+  if executable('gtags-cscope') && executable('gtags')
+    let g:gutentags_modules += ['gtags_cscope']
+  endif
+  " let g:gutentags_ctags_extra_args += ['--output-format=e-ctags']
+  let g:gutentags_ctags_extra_args = ['--fields=+niazS', '--extra=+q']
+  " let g:gutentags_ctags_extra_args += ['--c-kinds=+px']
+  " let g:gutentags_ctags_extra_args += ['--c++-kinds=+px']
+  let g:gutentags_auto_add_gtags_cscope = 0
+  let s:vim_tags = expand('~/.cache/tags')
+  call EnsureExists(s:vim_tags)
+  let g:gutentags_cache_dir = s:vim_tags
 endif
-let g:gutentags_cache_dir = s:vim_tags
+" }}}
+
+" gtags.vim {{{
+if has_key(g:plugs, 'gtags.vim')
+  augroup VimGtags
+    autocmd!
+    autocmd FileType c,cpp nnoremap <Leader>gd :Gtags <CR><CR>
+    autocmd FileType c,cpp nnoremap <Leader>gr :Gtags -r<CR><CR>
+  augroup END
+endif
 " }}}
 
 " ag.vim {{{
 " if executable('ag')
   " let g:ag_prg='ag --vimgrep --column'
-  " nmap <leader>a :tab split<CR>:Ag ""<left>
-  " nmap <leader>A :tab split<CR>:Ag <C-r><C-w><CR>
+  " nmap <Leader>a :tab split<CR>:Ag ""<left>
+  " nmap <Leader>A :tab split<CR>:Ag <C-r><C-w><CR>
 " endif
 " }}}
 
-" ctrlp.vim {{{
-" if isdirectory(expand('~/.vim/bundle/ctrlp.vim/'))
-if has_key(g:plugs, 'ctrlp.vim')
-  " nmap <leader>b :CtrlPBuffer<CR>
-  " nmap <leader>t :CtrlP<CR>
-  if executable('ag')
-    let g:ctrlp_user_command = 'ag %s --hidden -i -g "" '
-    let g:ctrlp_use_caching = 0
-  endif
-  nmap <leader>T :CtrlPClearCache<CR>:CtrlP<CR>
-  let g:ctrlp_open_multiple_files = 'v'
-  let g:ctrlp_custom_ignore = {
-        \ 'dir':  '\v[\/]\.(git|hg|svn)$',
-        \ 'file': '\v\.(log|jpg|png|jpeg|o|a|so|pyc|pyo)$',
-        \ }
+" fzf.vim {{{
+if has_key(g:plugs, 'fzf.vim')
+  " let g:fzf_layout = { 'down': '~40%'  }
+  " let g:fzf_command_prefix='Fzf'
+  " if executable('ag')
+    " let $FZF_DEFAULT_COMMAND = 'ag --hidden --path-to-ignore ' . s:ignore_file . ' -g ""'
+  " endif
+  " command! -bang -nargs=? -complete=dir Files
+  "   \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
+  function! s:Root() abort
+    let l:root = systemlist('git rev-parse --show-toplevel')[0]
+    if v:shell_error
+      let l:root = getcwd()
+    endif
+    return l:root
+  endfunction
+
+  let g:fzf_colors =  {
+    \ 'fg':      ['fg', 'Normal'],
+    \ 'bg':      ['bg', 'Normal'],
+    \ 'hl':      ['fg', 'Comment'],
+    \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+    \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+    \ 'hl+':     ['fg', 'Statement'],
+    \ 'info':    ['fg', 'PreProc'],
+    \ 'border':  ['fg', 'Ignore'],
+    \ 'prompt':  ['fg', 'Conditional'],
+    \ 'pointer': ['fg', 'Exception'],
+    \ 'marker':  ['fg', 'Keyword'],
+    \ 'spinner': ['fg', 'Label'],
+    \ 'header':  ['fg', 'Comment']
+    \ }
+  command! -bang -nargs=* Rg
+        \ call fzf#vim#grep('rg --column --no-heading --line-number --color=always '.shellescape(<q-args>),
+        \ 1,
+        \ fzf#vim#with_preview({'dir': s:Root()}),
+        \ <bang>0)
+
+  command! -bang -nargs=* Ag
+        \ call fzf#vim#grep('ag --nogroup --column --color '.shellescape(<q-args>),
+        \ 1,
+        \ fzf#vim#with_preview({'dir': s:Root()}),
+        \ <bang>0)
+
+  nnoremap <C-P> :<c-u>exe 'Files ' . <SID>Root()<CR>
+  nnoremap <silent> <Leader>ff :<c-u>exe 'Files ' . <SID>Root()<CR>
+  nnoremap <silent> <Leader>fb :Buffers<CR>
+  nnoremap <silent> <Leader>ag :Ag <C-R><C-W><CR>
+  " nnoremap <silent> <Leader>AG :Ag <C-R><C-A><CR>
+  " xnoremap <silent> <Leader>ag y:Ag <C-R>"<CR>
+  imap <c-x><c-k> <plug>(fzf-complete-word)
+  " imap <c-x><c-f> <plug>(fzf-complete-path)
+  imap <c-x><c-l> <plug>(fzf-complete-line)
 endif
-" }}}
-
-" ctrlsf {{{
-nmap \ <Plug>CtrlSFCwordPath<CR>
-" let g:ctrlsf_debug_mode = 1
-" let g:ctrlsf_position = 'below'
-" let g:ctrlsf_winsize = '30%'
-let g:ctrlsf_default_root = 'project+fw'
-let g:ctrlsf_ignore_dir = ['tests']
-let g:ctrlsf_auto_close = 1
-let g:ctrlsf_confirm_save = 0
-let g:ctrlsf_context = '-B 2 -A 2'
-let g:ctrlsf_mapping = {
-      \ 'open'  : 'o',
-      \ 'openb' : 'O',
-      \ 'tab'   : 't',
-      \ 'tabb'  : 'T',
-      \ 'prevw' : 'p',
-      \ 'quit'  : 'q',
-      \ 'next'  : '<C-J>',
-      \ 'prev'  : '<C-K>',
-      \ 'pquit' : 'q',
-      \ }
-" }}}
-
-" ctrlp-funky {{{
-nnoremap <Leader>fu :CtrlPFunky<Cr>
-" narrow the list down with a word under cursor
-nnoremap <Leader>fU :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
-let g:ctrlp_funky_syntax_highlight = 1
 " }}}
 
 " vim-airline {{{
@@ -204,16 +232,21 @@ if has('statusline')
   " let g:airline#extensions#tabline#buffer_nr_show  = 1
   let g:airline#extensions#tabline#left_sep = ' '
   let g:airline#extensions#tabline#left_alt_sep = '¦'
-  nmap <Leader>1 <Plug>AirlineSelectTab1
-  nmap <Leader>2 <Plug>AirlineSelectTab2
-  nmap <Leader>3 <Plug>AirlineSelectTab3
-  nmap <Leader>4 <Plug>AirlineSelectTab4
-  nmap <Leader>5 <Plug>AirlineSelectTab5
-  nmap <Leader>6 <Plug>AirlineSelectTab6
-  nmap <Leader>7 <Plug>AirlineSelectTab7
-  nmap <Leader>8 <Plug>AirlineSelectTab8
-  nmap <Leader>9 <Plug>AirlineSelectTab9
+
+  for s:i in range(1, 9)
+    execute 'nmap <Leader>' . s:i . ' <Plug>AirlineSelectTab' . s:i . '<CR>'
+  endfor
 endif
+" }}}
+
+" vim-buftabline {{{
+" let g:buftabline_numbers = 1
+" let g:buftabline_separators = 1
+" let g:buftabline_indicators = 1
+" hi! link BufTabLineFill StatusLine
+" hi! link BufTabLineCurrent User2
+" hi! link BufTabLineActive User2
+" hi! link BufTabLineHidden User5
 " }}}
 
 " molokai {{{
@@ -235,17 +268,19 @@ autocmd FileType xml,html,xhtml let b:delimitMate_matchpairs ="(:),[:],{:}"
 " }}}
 
 " ultisnips {{{
-let g:UltiSnipsSnippetsDir = '~/.vim/UltiSnips'
-let g:UltiSnipsExpandTrigger       = '<C-j>'
-let g:UltiSnipsJumpForwardTrigger  = '<C-j>'
-let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
-" map <leader>us :UltiSnipsEdit<CR>
+if has_key(g:plugs, 'ultisnips')
+  let g:UltiSnipsSnippetsDir = '~/.vim/UltiSnips'
+  let g:UltiSnipsExpandTrigger = '<C-j>'
+  let g:UltiSnipsJumpForwardTrigger = '<C-j>'
+  let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
+  " map <Leader>us :UltiSnipsEdit<CR>
+endif
 " }}}
 
 " tagbar {{{
-" nmap <Leader>t :TagbarToggle<CR>
-" let g:tagbar_ctags_bin = 'ctags'
-" let g:tagbar_width = 36
+nmap <silent> <Leader>t :TagbarToggle<CR>
+let g:tagbar_ctags_bin = 'ctags'
+let g:tagbar_width = 36
 " set tags=./tags
 " " Make tags placed in .git/tags file available in all levels of a repository
 " let g:gitroot = substitute(system('git rev-parse --show-toplevel'), '[\n\r]', '', 'g')
@@ -275,11 +310,12 @@ endif
 " ale {{{
 if has_key(g:plugs, 'ale')
   let g:ale_linters = {
+        \   'go': ['gometalinter', 'gofmt'],
         \   'python': ['flake8'],
         \   'sh': ['shellcheck'],
-        \   'vim': ['vint'],
+        \   'vim': ['vint']
         \}
-  let g:ale_python_flake8_args='--ignore=E225,E126'
+  let g:ale_python_flake8_options='--ignore=E225,E126'
   " let g:ale_set_loclist = 0
   " let g:ale_set_quickfix = 1
 
@@ -288,42 +324,84 @@ if has_key(g:plugs, 'ale')
   let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
   let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
   let g:ale_c_parse_makefile = 1
-  let g:ale_c_clang_options = '-std=gnu99 -Wall -I../include -I.'
-  let g:ale_c_gcc_options = '-std=gnu99 -Wall -I../include -I.'
+  let g:ale_c_gcc_options = '-std=gnu99 -Wall -Wextra -Werror -fexceptions -I../include -I.'
+  let g:ale_c_clang_options = '-std=gnu99 -Wall -Wextra -Werror -fexceptions -I../include -I. -DNDEBUG'
 
   " nmap <silent> <Leader>ep <Plug>(ale_previous_wrap)
   " nmap <silent> <Leader>en <Plug>(ale_next_wrap)
 
   nnoremap <silent> <Leader>ec :ALEToggle<CR>
+  nmap ]e <Plug>(ale_next_wrap)
+  nmap [e <Plug>(ale_previous_wrap)
 endif
+" }}}
+
+" deoplete.nvim {{{
+" if has_key(g:plugs, 'deoplete.nvim')
+"   let g:deoplete#enable_at_startup = 1
+"   let g:python_host_prog = '/home/tony/.pyenv/versions/2.7.10/envs/openstack/bin/python'
+"   let g:deoplete#sources#jedi#show_docstring = 1
+"   let g:deoplete#sources#jedi#enable_cache = 1
+"   let g:deoplete#sources#jedi#worker_threads = 2
+"
+"   inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<Tab>"
+"   inoremap <expr><Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+"   inoremap <expr><S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+"   inoremap <expr><BS> deoplete#smart_close_popup()."\<bs>"
+"   inoremap <expr><cr> pumvisible() ? "\<C-y>\<cr>" : "\<cr>"
+" endif
 " }}}
 
 " completor {{{
 if has_key(g:plugs, 'completor.vim')
-  inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-  inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-  inoremap <expr> <CR> pumvisible() ? "\<C-y>\<cr>" : "\<cr>"
+  let g:completor_python_binary = '/home/tony/.pyenv/versions/2.7.10/envs/openstack/bin/python'
+  noremap <silent> <Leader>jd :call completor#do('definition')<CR>
+  " noremap <silent> <leader>c :call completor#do('doc')<CR>
+  " noremap <silent> <leader>f :call completor#do('format')<CR>
 endif
 " }}}
 
 " YouCompleteMe {{{
 if has_key(g:plugs, 'YouCompleteMe')
+  " disable ycm's diagnostics first
+  let g:ycm_enable_diagnostic_signs = 1
+  let g:ycm_key_list_stop_completion = ['<CR>']
+  let g:ycm_key_detailed_diagnostics = '<leader>yd'
+
   let g:ycm_autoclose_preview_window_after_completion = 1
   " let g:ycm_goto_buffer_command = 'vertical-split'
   let g:ycm_global_ycm_extra_conf = '~/.vim/ycm_extra_conf.py'
   " let g:ycm_server_use_vim_stdout = 1
   " let g:ycm_server_log_level = 'debug'
-  let g:ycm_seed_identifiers_with_syntax=1
+  " 两个字符以后自动弹出的是基于符号的补全（当前所有 buffer 中收集到的符号），非基于语义的补全
+  " let g:ycm_min_num_of_chars_for_completion = 2
+  let g:ycm_seed_identifiers_with_syntax = 1
   let g:ycm_complete_in_comments = 1
   " let g:ycm_collect_identifiers_from_comments_and_strings = 1
-  let g:ycm_collect_identifiers_from_tags_files = 1
-  let g:ycm_confirm_extra_conf = 0
+  let g:ycm_collect_identifiers_from_tags_files = 0
   let g:ycm_server_log_level='debug'
-  let g:ycm_extra_conf_vim_data   = [ '&filetype' ]
-  let g:ycm_server_python_interpreter = 'python'
-
+  " let g:ycm_key_list_select_completion = ['<C-n>', '<C-j>']
+  " let g:ycm_key_list_previous_completion = ['<C-p>', '<C-k>']
+  " let g:ycm_key_invoke_completion = '<c-z>'
+  " noremap <c-z> <NOP>
+  " 语义补全两个字符触发
+  let g:ycm_semantic_triggers =  {
+        \ 'c,cpp,python,java,go,erlang,perl': ['re!\w{2}'],
+        \ 'cs,lua,javascript': ['re!\w{2}'],
+        \ }
+  " let g:ycm_filetype_whitelist = {
+  "       \ 'c': 1,
+  "       \ 'cpp': 1,
+  "       \ 'objc': 1,
+  "       \ 'sh': 1,
+  "       \ 'zsh': 1,
+  "       \ }
+  let g:ycm_confirm_extra_conf = 1
+  let g:ycm_extra_conf_vim_data  = [ '&filetype' ]
+  " let g:ycm_server_python_interpreter = 'python'
+  " let g:ycm_server_python_interpreter = '/home/tony/.pyenv/versions/2.7.10/envs/openstack/bin/python'
   " let g:ycm_python_binary_path = '/usr/bin/python'
-  " let g:ycm_python_binary_path = '/usr/bin/python3'
+  let g:ycm_global_ycm_extra_conf = '~/.vim/ycm_extra_conf.py'
 
   augroup VimYcm
     autocmd!
@@ -334,10 +412,15 @@ if has_key(g:plugs, 'YouCompleteMe')
     " autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
     " autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
     " autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
-    " autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
+    " TODO
+    autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
 
-    autocmd FileType c,cpp nnoremap <silent> <buffer> <leader>jd :YcmCompleter GoTo<CR>
+    autocmd FileType c,cpp,python nnoremap <silent> <Leader>jd :YcmCompleter GoTo<CR>
+    autocmd FileType python nnoremap <silent> <Leader>K :YcmCompleter GetDoc<CR>
+    " autocmd FileType c,cpp nnoremap <silent> <buffer> K  :YcmCompleter GetType<CR>
     autocmd FileType c,cpp nnoremap <buffer> K  :YcmCompleter GetType<CR>
+    autocmd FileType c,cpp,python,rust,javascript,typescript
+                \   nnoremap <Leader>gD :YcmCompleter GetDoc<CR>
   augroup END
 endif
 " }}}
@@ -354,6 +437,7 @@ if has_key(g:plugs, 'vim-go')
   " let g:go_list_type = 'quickfix'
   " let g:go_decls_mode = 'ctrlp.vim' " fzf
   " let g:go_fold_enable = ['block', 'import', 'varconst', 'package_comment']
+
   let g:go_highlight_types = 1
   let g:go_highlight_fields = 1
   let g:go_highlight_methods = 1
@@ -367,7 +451,7 @@ if has_key(g:plugs, 'vim-go')
     autocmd Filetype go command! -bang A call go#alternate#Switch(<bang>0, 'edit')
     " autocmd FileType go nnoremap <Leader>d :GoDecls<CR>
     " autocmd FileType go nnoremap <Leader>d :GoDef<CR>
-    " autocmd FileType go nnoremap <Leader>c :GoCallers<CR>
+    autocmd FileType go nnoremap <Leader>gc :GoCallers<CR>
     autocmd FileType go nmap <Leader>r <Plug>(go-run)
     " autocmd FileType go nmap <Leader>b <Plug>(go-build)
     " autocmd FileType go nmap <Leader>t <Plug>(go-test)
@@ -381,28 +465,9 @@ if has_key(g:plugs, 'vim-go')
     autocmd FileType go nmap <Leader>s <Plug>(go-implements)
     autocmd FileType go nmap <Leader>K <Plug>(go-info)
     " autocmd FileType go nnoremap <LocalLeader>i <Plug>(go-info)
-    " autocmd FileType go nnoremap <LocalLeader>e <Plug>(go-rename)
+    autocmd FileType go nmap <Leader>e <Plug>(go-rename)
   augroup END
 endif
-" }}}
-
-" jedi-vim {{{
-if has_key(g:plugs, 'jedi-vim')
-  let g:jedi#goto_command = 'gd'
-  " let g:jedi#goto_command = '<C-]>'
-  let g:jedi#completions_command = ''
-  let g:jedi#documentation_command = 'K'
-  " let g:jedi#goto_assignments_command = '<leader>g'
-  " let g:jedi#rename_command = '<Leader>r'
-  " let g:jedi#usages_command = '<Leader>n'
-endif
-" }}}
-
-" Ruby {{{
-  if count(g:x_plugin_groups, 'ruby')
-    let g:rubycomplete_buffer_loading = 1
-    let g:rubycomplete_classes_in_global = 1
-  endif
 " }}}
 
 " nerdcommenter {{{
@@ -423,7 +488,7 @@ let g:NERDCompactSexyComs = 1       " 多行注释时样子更好看
 
 " nerdtree {{{
 if has_key(g:plugs, 'nerdtree')
-  " :NERDtree        打开NERD_tree
+  " :NERDtree       打开NERD_tree
   " :NERDtreeClose  关闭NERD_tree
   " o 打开关闭文件或者目录
   " t 在标签页中打开
@@ -437,26 +502,29 @@ if has_key(g:plugs, 'nerdtree')
   " m 显示文件系统菜单 添加、删除、移动操作
   nmap <silent> <Leader>n :NERDTreeToggle<CR>
   " nmap <silent> <Leader>f :NERDTreeFind<CR>
-  let g:NERDSpaceDelims=1
-  let NERDTreeShowLineNumbers     = 1
-  let NERDTreeIgnore              = ['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
-  let NERDTreeWinpos              = 'left'
-  let NERDTreeQuitOnOpen          = 1     " 打开文件后, 关闭NERDTrre窗口
-  let NERDTreeWinSize             = 31    " 设置窗口大小
-  let NERDTreeHighlightCursorline = 1   " 高亮NERDTrre窗口的当前行
+  let g:NERDTreeShowLineNumbers     = 1
+  let g:NERDTreeIgnore              = ['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
+  " let g:NERDTreeQuitOnOpen          = 1   " 打开文件后, 关闭 NERDTrre 窗口
+  " let g:NERDTreeWinSize             = 31
+  " let g:NERDTreeWinPos              = 'right'
+  " let g:NERDTreeHighlightCursorline = 1   " 高亮 NERDTrre 窗口的当前行
 endif
 " }}}
 
 " indentLine {{{
-let g:indentLine_enabled = 0
-let g:indentLine_color_term = 239
-" let g:indentLine_color_gui = '#616161'
-" let g:indentLine_bgcolor_term = 202
-nnoremap <silent> <Leader>l :IndentLinesToggle<CR>
+if has_key(g:plugs, 'indentLine')
+  let g:indentLine_enabled = 0
+  let g:indentLine_color_term = 239
+  " let g:indentLine_color_gui = '#616161'
+  " let g:indentLine_bgcolor_term = 202
+  nnoremap <silent> <Leader>l :IndentLinesToggle<CR>
+endif
 " }}}
 
 " vim-gitgutter {{{
+if has_key(g:plugs, 'vim-gitgutter')
   nmap <silent> <Leader>gn :GitGutterSignsToggle<CR>
+endif
 " }}}
 
 " vim-markdown {{{
@@ -464,27 +532,16 @@ let g:vim_markdown_folding_disabled=1
 " }}}
 
 " vim-fugitive {{{
-" nnoremap <Leader>d :Gdiff<CR>
-" nnoremap <silent> <Leader>gs :Gstatus<CR>
-" nnoremap <silent> <Leader>gd :Gdiff<CR>
-" nnoremap <silent> <Leader>gc :Gcommit<CR>
-" nnoremap <silent> <Leader>gb :Gblame<CR>
-" nnoremap <silent> <Leader>gl :Glog<CR>
-" nnoremap <silent> <Leader>gp :Git push<CR>
-" nnoremap <silent> <Leader>gw :Gwrite<CR>:GitGutter<CR>
-" }}}
-
-" vim-multiple-cursors {{{
-" let g:multi_cursor_use_default_mapping=0
-" Default mapping
-" let g:multi_cursor_next_key='<C-m>'
-" let g:multi_cursor_prev_key='<C-p>'
-" let g:multi_cursor_skip_key='<C-x>'
-" let g:multi_cursor_quit_key='<Esc>'
-" }}}
-
-" gundo {{{
-" noremap <leader>h :GundoToggle<CR>
+" if has_key(g:plugs, 'vim-fugitive')
+  " nnoremap <Leader>d :Gdiff<CR>
+  " nnoremap <silent> <Leader>gs :Gstatus<CR>
+  " nnoremap <silent> <Leader>gd :Gdiff<CR>
+  " nnoremap <silent> <Leader>gc :Gcommit<CR>
+  " nnoremap <silent> <Leader>gb :Gblame<CR>
+  " nnoremap <silent> <Leader>gl :Glog<CR>
+  " nnoremap <silent> <Leader>gp :Git push<CR>
+  " nnoremap <silent> <Leader>gw :Gwrite<CR>:GitGutter<CR>
+" endif
 " }}}
 
 " DoxygenToolkit.vim {{{

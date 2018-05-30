@@ -15,8 +15,8 @@ curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 # For nvim
-mkdir -p ~/.config/nvim/autoload
-ln -sf ~/.vim/vimrc ~/.config/nvim/init.vim
-ln -sf ~/.vim/autoload/plug.vim ~/.config/nvim/autoload/
+# mkdir -p ~/.config/nvim/autoload
+# ln -sf ~/.vim/vimrc ~/.config/nvim/init.vim
+# ln -sf ~/.vim/autoload/plug.vim ~/.config/nvim/autoload/
 
 vim -u "$HOME"/.vimrc +PlugInstall! +PlugClean! +qall

@@ -28,8 +28,6 @@
 #
 # For more information, please refer to <http://unlicense.org/>
 
-from distutils.sysconfig import get_python_inc
-import platform
 import os
 import ycm_core
 
@@ -51,6 +49,8 @@ flags = [
     '/usr/include',
     '-isystem',
     '/usr/include/linux',
+    '-I.',
+    '-I../lib',
 ]
 
 # Set this to the absolute path to the folder (NOT the file!) containing the
@@ -122,3 +122,12 @@ def FlagsForFile(filename, **kwargs):
         compilation_info.compiler_working_dir_,
         'override_filename': filename
     }
+
+
+'''
+def Settings(**kwargs):
+    client_data = kwargs['client_data']
+    return {'interpreter_path': client_data['g:ycm_python_interpreter_path'],
+            'sys_path': client_data['g:ycm_python_sys_path']
+            }
+'''
