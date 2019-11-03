@@ -1,3 +1,15 @@
+snippet pdb "pdb"
+__import__('pdb').set_trace()
+endsnippet
+
 snippet ipdb "ipdb"
-import ipdb; ipdb.set_trace()
+__import__('ipdb').set_trace()
+endsnippet
+
+snippet remote_pdb "remote pdb"
+from remote_pdb import RemotePdb; RemotePdb('0.0.0.0', ${1:1111}).set_trace()  # socat readline tcp:127.1:$1
+endsnippet
+
+snippet debug "debug"
+LOG.debug("${1:pass}")
 endsnippet

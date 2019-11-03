@@ -1,0 +1,154 @@
+{
+  "coc.preferences.currentFunctionSymbolAutoUpdate": true,
+  "coc.preferences.extensionUpdateCheck": "never",
+  "coc.preferences.formatOnSave": false,
+  "coc.preferences.snippetStatusText": "\u24c8 ",
+  "diagnostic.enable": false,
+  "diagnostic.displayByAle": true,
+  "diagnostic.errorSign": "\u2716",
+  "diagnostic.highlightOffset": 9999999,
+  "diagnostic.hintSign": "\u0b90",
+  "diagnostic.infoSign": "\u10e6",
+  "diagnostic.refreshOnInsertMode": true,
+  "diagnostic.signOffset": 9999999,
+  "diagnostic.warningSign": "\u26a0",
+  "suggest.completionItemKindLabels": {
+    "class": "\uf0e8",
+    "color": "\ue22b",
+    "constant": "\uf8fe",
+    "default": "\uf29c",
+    "enum": "\uf435",
+    "enumMember": "\uf02b",
+    "event": "\ufacd",
+    "field": "\uf6a6",
+    "file": "\uf723",
+    "folder": "\uf114",
+    "function": "\u2a15",
+    "interface": "\uf417",
+    "keyword": "\uf1de",
+    "method": "\uf09a",
+    "module": "\uf530",
+    "operator": "\u03a8",
+    "property": "\ue624",
+    "reference": "\ufa46",
+    "snippet": "\ue60b",
+    "struct": "\ufb44",
+    "text": "\u2663",
+    "typeParameter": "\uf728",
+    "unit": "\uf475",
+    "value": "\uf89f",
+    "variable": "\ue79b"
+  },
+  "suggest.detailField": "abbr",
+  "suggest.echodocSupport": true,
+  "suggest.noselect": false,
+  "suggest.snippetIndicator": "\ud83c\udf1f",
+  "suggest.timeout": 500,
+  "suggest.triggerAfterInsertEnter": false,
+  "suggest.triggerCompletionWait": 100,
+
+  "snippets.ultisnips.directories": [
+    "~/.vim/bundle/vim-snippets/UltiSnips/",
+    "~/.vim/ultisnips"
+  ],
+  "snippets.userSnippetsDirectory": "~/.vim/ultisnips",
+
+  "prettier.eslintIntegration": true,
+  "prettier.statusItemText": "\u24df ",
+  "prettier.stylelintIntegration": true,
+  "prettier.tslintIntegration": true,
+  "explorer.width": 30,
+
+  "list.autoResize": false,
+  "list.insertMappings": {
+    "<C-t>": "action:tabe",
+    "<C-v>": "action:vsplit",
+    "<C-w>": "command:wincmd k"
+  },
+  "list.maxHeight": 10,
+  "list.normalMappings": {
+    "d": "expr:GetDeleteAction",
+    "s": "action:split",
+    "t": "action:tabe",
+    "v": "action:vsplit"
+  },
+
+  "git.enableGutters": false,
+
+  "pyright.enable": true,
+  // "python.pythonPath": "~/.pyenv/versions/py27/bin/python",
+  // "python.pythonPath": "/usr/local/Cellar/python@3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+  "python.formatting.provider": "ruff",
+  "python.linting.mypyEnabled": false,
+  "python.linting.ruffEnabled": true,
+  "python.linting.pycodestyleEnabled": false,
+  "python.analysis.autoImportCompletions": false,
+  "pyright.organizeimports.provider": "ruff",
+  "pyright.inlayHints.functionReturnTypes": false,
+  "pyright.inlayHints.variableTypes": false,
+  "pyright.testing.provider": "pytest",
+  "pyright.testing.pytestArgs": [],
+  "languageserver": {
+    "bash": {
+      "args": ["start"],
+      "command": "bash-language-server",
+      "filetypes": ["sh"],
+      "ignoredRootPaths": ["~"]
+    },
+    "ccls": {
+      "command": "ccls",
+      "filetypes": ["c", "cpp", "objc", "objcpp"],
+      "initializationOptions": {
+        "cache": {
+          "directory": "/tmp/ccls"
+        },
+        "capabilities": {
+          "foldingRangeProvider": false,
+          "workspace": {
+            "workspaceFolders": {
+              "supported": false
+            }
+          }
+        },
+        "clang": {
+          "extraArgs": ["--gcc-toolchain=/usr"]
+        },
+        "completion": {
+          "detailedLabel": true
+        },
+        "index": {
+          "initialNoLinkage": true,
+          "onChange": false,
+          "threads": 2
+        }
+      },
+      "rootPatterns": [
+        ".ccls",
+        "compile_commands.json",
+        ".vim/",
+        ".git/",
+        ".hg/"
+      ]
+    },
+    "golang": {
+      "command": "gopls",
+      "filetypes": ["go"],
+      "rootPatterns": ["go.mod", ".vim/", ".git/", ".hg/"]
+    }
+  },
+  "java.home": "~/.devenv/jdk-17.0.10.jdk/Contents/Home",
+  "java": {
+    "referencesCodeLens.enabled": true,
+    "java.configuration.runtimes": [
+    {
+      "name": "JavaSE-17",
+      "path": "~/.devenv/jdk-17.0.10.jdk/Contents/Home",
+      "default": false
+    },
+    {
+      "name": "JavaSE-1.8",
+      "path": "~/.devenv/jdk1.8.0_401.jdk/Contents/Home",
+      "default": true
+    }
+  ]
+}

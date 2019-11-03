@@ -14,11 +14,18 @@
 " Init {{{
 scriptencoding utf-8
 
-let g:mapleader = ','
+let g:xvim_version = '0.1'
 
-let g:xvim_colorscheme_default     = 'desert'
+let s:windows = has('win32') || has('win64')
+" let $v = $HOME.(s:windows ? '\vimfiles' : '/.vim')
+
+let g:mapleader = ','
+" let maplocalleader = ','
+
+let g:xvim_colorscheme_default = 'desert'
 let g:xvim_colorscheme = 'molokai'
 let g:xvim_background = 'dark'
+" }}}
 
 " Functions {{{
 func! EnsureExists(path)
@@ -28,6 +35,7 @@ func! EnsureExists(path)
 endfunc
 " }}}
 
+" General {{{
 if filereadable(expand('~/.vimrc.before'))
   source ~/.vimrc.before
 endif
@@ -39,11 +47,19 @@ endif
 let g:plugs = get(g:, 'plugs', {})
 
 filetype plugin indent on
-syntax on
-" set synmaxcol=256
-set redrawtime=10000
 
-set history=1000
+" Enable syntax highlighting by default.
+if has('syntax')
+  syntax on
+
+  " Reduce processing for syntax highlighting to make it less of a pain.
+  syntax sync minlines=2000
+  syntax sync maxlines=5000
+  set synmaxcol=400
+  set redrawtime=4000
+endif
+
+set history=50
 set number
 set shortmess=atI               " I不显启动时的信息
 " set showmode                    " 在插入、替换和可视模式里，在最后一行提供消息
@@ -93,7 +109,9 @@ set formatoptions+=mM
 
 set modeline
 set autoread
-set clipboard=unnamedplus,unnamed " share clipboar
+if has('clipboard')
+  set clipboard=unnamedplus,unnamed " share clipboar
+endif
 set hidden                      " 允许在有未保存的修改时切换缓冲区
 set ttyfast
 
@@ -108,6 +126,8 @@ set listchars=tab:›\ ,trail:•,extends:#,nbsp:.
 set fillchars=vert:\ ,stl:\ ,stlnc:\    " 在被分割的窗口间显示空白
 set completeopt=menu,menuone
 
+set mouse=
+
 set encoding=utf-8
 set fileencodings=utf-8,gb2312,gb18030,gbk,ucs-bom,cp936,latin1
 set termencoding=utf-8
@@ -118,7 +138,11 @@ set nobackup
 set noswapfile
 
 if has('persistent_undo')
-  set undodir=~/.vimundo
+  if has('nvim')
+    set undodir=~/.nvimundo
+  else
+    set undodir=~/.vimundo
+  endif
   call EnsureExists(&undodir)
   set undofile
   set undolevels=1000
@@ -126,11 +150,11 @@ if has('persistent_undo')
 endif
 " }}}
 
-" Autocmd {{{
+" VimBase {{{
 augroup VimBase
   " Coding style
   autocmd!
-  autocmd Filetype sh,zsh,vim,css,html,ruby,php,javascript,json,yaml setlocal ts=2 sts=2 sw=2 ex
+  autocmd Filetype sh,zsh,vim,css,html,ruby,php,lua,javascript,json,yaml setlocal ts=2 sts=2 sw=2 ex
   " autocmd Filetype markdown setlocal ts=4 sts=4 sw=4 noet
 
   " Always jump to the last cursor position
@@ -160,7 +184,7 @@ if &diff
 else
   if g:xvim_colorscheme !=# ''
     try
-        exec 'set background=' . g:xvim_background
+        " exec 'set background=' . g:xvim_background
         exec 'colorscheme ' . g:xvim_colorscheme
     catch
         exec 'colorscheme '. g:xvim_colorscheme_default
@@ -173,8 +197,8 @@ else
   endif
 endif
 
-set guicursor=           " prevent nvim from changing the cursor shape
 if has('gui_running')
+  set guicursor=           " prevent nvim from changing the cursor shape
   set guioptions-=m        " Disable menu bar
   set guioptions-=T        " Disable the toolbar
   set guioptions-=a        " Do not auto copy selection to clipboard
@@ -231,17 +255,15 @@ if has('statusline')
     hi User4 cterm=None ctermfg=246 ctermbg=237
     hi User5 cterm=None ctermfg=250 ctermbg=238
     hi User6 cterm=None ctermfg=249 ctermbg=240
+    hi StatusLine       ctermfg=238 ctermbg=253
+    hi StatusLineNC     ctermfg=244 ctermbg=232
   endif
 endif
 " }}}
 
 " Key (re)Mappings {{{
-cnoremap w!! %!sudo tee > /dev/null %
 " nnoremap ; :
 " nnoremap : ;
-vnoremap > >gv
-vnoremap < <gv
-
 nnoremap <silent> <Leader>fef ggVG=``
 " Don't use Ex mode, use Q for formatting.
 " map Q gq
@@ -249,7 +271,7 @@ nnoremap Q gqip
 
 " Fold
 set foldlevelstart=0
-nnoremap ,z zMzvzz
+nnoremap <Leader>z zMzvzz
 " Make zO recursively open whatever top level fold we're in, no matter where
 " the cursor happens to be.
 nnoremap zO zCzO
@@ -264,6 +286,7 @@ nnoremap <Leader>W :%s/\s\+$//<CR>:let @/=''<CR>
 " Buffers
 nnoremap <silent> <Tab> :bn<CR>
 nnoremap <silent> <S-Tab> :bp<CR>
+nnoremap <silent> <Leader>d :bd<CR>
 " <Leader>[1-9] move to buffer [1-9]
 " for s:i in range(1, 9)
   " execute 'nnoremap <Leader>' . s:i . ' :b' . s:i . '<CR>'
@@ -280,9 +303,17 @@ nnoremap ]l :lnext<CR>zz
 nnoremap [l :lprev<CR>zz
 " nnoremap <silent> <Leader>c :cclose<bar>lclose<CR>
 
-" Keep search pattern at the center of the screen.
+" Center screen after navigation shortcuts
 nnoremap <silent> n nzz
 nnoremap <silent> N Nzz
+
+nnoremap } }zvzz
+nnoremap { {zvzz
+
+nnoremap ]] ]]zvzz
+nnoremap [[ [[zvzz
+nnoremap [] []zvzz
+nnoremap ][ ][zvzz
 " nnoremap <silent> * *zz
 nnoremap <silent> # #zz
 nnoremap <silent> g* g*zz
@@ -314,6 +345,10 @@ nnoremap <F1> <ESC>
 inoremap <F1> <ESC>
 vnoremap <F1> <ESC>
 
+vnoremap > >gv
+vnoremap < <gv
+
+
 " emacs like
 cnoremap <C-A>      <Home>
 cnoremap <C-B>      <Left>
@@ -327,6 +362,23 @@ cnoremap <ESC><C-B> <S-Left>
 cnoremap <ESC>f     <S-Right>
 cnoremap <ESC><C-F> <S-Right>
 cnoremap <ESC><C-H> <C-W>
+
+" cnoremap w!! %!sudo tee > /dev/null %
+
+command!          FormatJSONPy2 %!python -m json.tool
+
+" Copy file basename only, file path, dirname
+command! -nargs=0 CopyFileName  let @+ = expand("%:t") | echo 'Copied to clipboard: ' . @+
+command! -nargs=0 CopyFilePath  let @+ = expand("%:p:~") | echo 'Copied to clipboard: ' . @+
+command! -nargs=0 CopyFileDir   let @+ = expand("%:p:~:h") | echo 'Copied to clipboard: ' . @+
+command! -nargs=0 Save          :call     s:save()
+
+function! s:save()
+  let file = $HOME.'/.tmp.log'
+  let content = getline(1, '$')
+  call writefile(content, file)
+endfunction
+
 " }}}
 
 " co? : Toggle options {{{
@@ -388,10 +440,9 @@ endif
 " }}}
 
 " Self Documenting Vim Key Mappings {{{
-nnoremap <Leader>a? :map <Leader>a<CR>
-" nnoremap <Leader>a? :map <Leader>a<CR>
 " Show all keymappings
 nnoremap <Leader>? :map <Leader><CR>
+nnoremap <Leader>a? :map <Leader>a<CR>
 nnoremap ]? :map ]<CR>
 nnoremap [? :map [<CR>
 " }}}
