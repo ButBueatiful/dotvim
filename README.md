@@ -11,8 +11,8 @@
 * [Requirements](#requirements)
 * [Installation](#installation)
     * [Dependency](#dependency)
-    * [安装 node](#安装-node)
-    * [安装 x-vim](#安装-x-vim)
+    * [Install node](#install-node)
+    * [Install x-vim](#install-x-vim)
     * [Programing Language [Option]](#programing-language-option)
         * [Python](#python)
         * [C/C++](#cc)
@@ -50,7 +50,7 @@ sudo apt install -y git fzf ctags silversearcher-ag
 brew install git fzf ag bat cscope ctags
 ```
 
-### 安装 node
+### Install node
 
 ```bash
 git clone https://github.com/nvm-sh/nvm.git ~/.nvm
@@ -71,7 +71,7 @@ nvm alias default v18.19.0
 npm config set registry https://registry.npm.taobao.org
 ```
 
-### 安装 x-vim
+### Install x-vim
 
 ```bash
 git clone https://github.com/hhktony/x-vim.git ~/.vim
@@ -121,9 +121,10 @@ Command
 :CocInstall coc-omni
 :CocInstall coc-omni@1.0.0
 :CocUninstall coc-omni
-:CocList extensions  " 查看当前buffer已加载的插件
-:CocList marketplace " 浏览插件市场
-:CocList maps        " 查看所有的 keymap
+:CocList extensions
+:CocList marketplace
+:CocList maps
+:CocCommand explorer
 ```
 
 Debug
@@ -134,8 +135,10 @@ export NVIM_COC_LOG_LEVEL=debug && export NVIM_COC_LOG_FILE=/tmp/coc.log
 
 ## Other
 
+View currently loaded plug-ins
+
 ```vim
-echo keys(g:plugs)  " 查看当前 buffer 已加载的插件
+echo keys(g:plugs)
 ```
 
 ## More

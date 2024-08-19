@@ -23,6 +23,7 @@ call plug#begin('~/.vim/bundle')
 Plug 'mhinz/vim-startify'
 Plug 'hhktony/molokai'
 Plug 'NLKNguyen/papercolor-theme'
+Plug 'dracula/vim'
 Plug 'acarapetis/vim-colors-github'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'Yggdroot/indentLine'
@@ -30,6 +31,7 @@ Plug 'tpope/vim-repeat' | Plug 'tpope/vim-surround'
 
 Plug 'schickling/vim-bufonly'
 Plug 'vim-airline/vim-airline'
+" Plug 'vim-airline/vim-airline-themes'
 Plug 'google/vim-searchindex'
 " set shortmess-=S
 " Plug 'romainl/vim-cool'
@@ -47,6 +49,7 @@ Plug 'honza/vim-snippets'
 
 if v:version >= 800
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
+  " Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
   Plug 'w0rp/ale'
   Plug 'ludovicchabant/vim-gutentags'
   Plug 'vim-scripts/gtags.vim', { 'for': [ 'c', 'cpp' ] }

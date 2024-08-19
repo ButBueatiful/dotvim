@@ -138,10 +138,9 @@ set nobackup
 set noswapfile
 
 if has('persistent_undo')
+  set undodir=~/.vimundo
   if has('nvim')
     set undodir=~/.nvimundo
-  else
-    set undodir=~/.vimundo
   endif
   call EnsureExists(&undodir)
   set undofile
@@ -150,7 +149,7 @@ if has('persistent_undo')
 endif
 " }}}
 
-" VimBase {{{
+" Autocmd {{{
 augroup VimBase
   " Coding style
   autocmd!
